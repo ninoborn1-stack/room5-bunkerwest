@@ -15,6 +15,12 @@ export function daysAhead(dateStr, today = new Date()) {
   return Math.round((parseYmd(dateStr) - t) / 86400000);
 }
 
+/** Sessions, die heute schon begonnen haben (nicht mehr buchbar). */
+export function startedSlots(dateStr, now = new Date()) {
+  if (daysAhead(dateStr, now) !== 0) return [];
+  return SLOT_IDS.filter((id) => SLOTS[id].from <= now.getHours());
+}
+
 /** Gewählte Sessions in fester Reihenfolge. */
 export const sessionSlots = (s) => SLOT_IDS.filter((id) => s.slots?.includes(id));
 
@@ -47,6 +53,7 @@ export function validateSession(s, { booked = [], isMember = false, today = new 
   const extra = Number(s.extra || 0);
   if (extra < 0 || extra > EXTENSION.maxHours) return 'Ungültige Verlängerung.';
   if (extra && !sl.includes('night')) return 'Verlängerung nur mit Night Session.';
+  if (sl.some((id) => startedSlots(s.date, today).includes(id))) return 'Diese Session hat heute schon begonnen.';
   if (sl.some((id) => booked.includes(id))) return 'Session ist bereits belegt.';
   return null;
 }

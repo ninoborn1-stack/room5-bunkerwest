@@ -1,7 +1,7 @@
 import { gsap, $, $$, icons, toast, formError, esc, successSvg, userReady, scrollToEl } from './app.js';
 import { SLOTS, SLOT_PRICE, EXTENSION, STAFF, SERVICES, UPGRADES, MEMBER, STUDIO } from './config.js';
 import { api } from './api.js';
-import { ymd, parseYmd, euro, hourLabel, daysAhead, sessionRange, sessionSlots, sessionHours, sessionLabel, validateSession, priceSession, priceCart, pad, SLOT_IDS } from './pricing.js';
+import { ymd, parseYmd, euro, hourLabel, daysAhead, sessionRange, sessionSlots, sessionHours, sessionLabel, validateSession, priceSession, priceCart, pad, SLOT_IDS, startedSlots } from './pricing.js';
 
 const CART_KEY = 'room5.cart.v2';
 const MONTHS = ['Januar', 'Februar', 'März', 'April', 'Mai', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'Dezember'];
@@ -30,7 +30,7 @@ const windowDays = () => (isMember() ? MEMBER.windowMember : MEMBER.windowPublic
 const saveCart = () => { try { localStorage.setItem(CART_KEY, JSON.stringify(state.cart)); } catch {} };
 
 // Belegte Sessions eines Tages (Server + eigene Auswahl, optional ohne bestimmten Eintrag)
-const bookedSet = (date) => new Set(state.booked[date] || []);
+const bookedSet = (date) => new Set([...(state.booked[date] || []), ...startedSlots(date)]);
 function cartSet(date, exceptUid = null) {
   const set = new Set();
   for (const c of state.cart) if (c.date === date && c.uid !== exceptUid) sessionSlots(c).forEach((x) => set.add(x));
@@ -103,6 +103,7 @@ function openEditor(date, item = null) {
   $('[data-repeat-row]').hidden = !!item;
   renderCalendar();
   renderEditor();
+  syncCartbar();
   if (wasHidden) gsap.fromTo(ed, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'power3.out', clearProps: 'transform' });
   requestAnimationFrame(() => scrollTo(ed));
 }
@@ -111,6 +112,7 @@ function closeEditor() {
   state.selected = null; state.editing = null;
   $('[data-editor]').hidden = true;
   renderCalendar();
+  syncCartbar();
 }
 $('[data-editor-close]').addEventListener('click', closeEditor);
 
@@ -200,8 +202,22 @@ $('[data-add]').addEventListener('click', () => {
   toast(state.editing ? 'Buchung aktualisiert' : `${toAdd.length} Termin${toAdd.length > 1 ? 'e' : ''} hinzugefügt${skipped.length ? ` · nicht verfügbar: ${skipped.join(', ')}` : ''}`, 'calendar-check');
   closeEditor();
   renderCart(true);
-  scrollTo('.booking-layout', -110);
+  scrollTo(innerWidth <= 1100 ? '.cart' : '.booking-layout', -90);
 });
+
+// ---------------- Mobile Warenkorb-Leiste ----------------
+const cartbar = $('[data-cartbar]');
+let cartInView = false;
+new IntersectionObserver(([e]) => { cartInView = e.isIntersecting; syncCartbar(); }, { threshold: 0.15 }).observe($('.cart'));
+function syncCartbar() {
+  const n = state.cart.length;
+  const show = n > 0 && $('[data-editor]').hidden && !$('[data-step="1"]').hidden && !cartInView;
+  cartbar.classList.toggle('is-visible', show);
+  document.body.classList.toggle('has-cartbar', show);
+  if (!n) return;
+  $('[data-cartbar-total]').textContent = euro(priceCart(state.cart, isMember()).total);
+  $('[data-cartbar-count]').textContent = `${n} Termin${n === 1 ? '' : 'e'} ausgewählt`;
+}
 
 // ---------------- Warenkorb ----------------
 function renderCart(pulse = false) {
@@ -210,7 +226,7 @@ function renderCart(pulse = false) {
   $('[data-cart-count]').textContent = `${n} Termin${n === 1 ? '' : 'e'}`;
   if (!n) {
     box.innerHTML = `<div class="cart-empty"><i data-lucide="calendar-plus-2"></i><p>Noch nichts ausgewählt.<br>Wähle einen Tag im Kalender.</p></div>`;
-    icons(box); syncStepButtons(); return;
+    icons(box); syncStepButtons(); syncCartbar(); return;
   }
   const member = isMember();
   const sum = priceCart(state.cart, member);
@@ -236,6 +252,7 @@ function renderCart(pulse = false) {
   icons(box);
   if (pulse) gsap.fromTo('[data-total]', { color: '#ff4a1c' }, { color: '#efe7da', duration: 0.8 });
   syncStepButtons();
+  syncCartbar();
 }
 
 $('[data-cart]').addEventListener('click', (e) => {

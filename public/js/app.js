@@ -99,7 +99,7 @@ function shell() {
     toggle.innerHTML = `<i data-lucide="${open ? 'x' : 'menu'}"></i>`;
     icons(toggle);
     document.documentElement.style.overflow = open ? 'hidden' : '';
-    if (open) gsap.fromTo(menu.querySelectorAll('a'), { y: 60, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.06, duration: 0.9, ease: 'expo.out', delay: 0.15 });
+    if (open) gsap.fromTo(menu.querySelectorAll(':scope > a'), { y: 60, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.06, duration: 0.9, ease: 'expo.out', delay: 0.15 });
   });
 
   // Header ein-/ausblenden
