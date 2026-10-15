@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kontakt · Room 5 Bunkerwest</title>
+  <meta name="description" content="Kontakt zu Room 5 im Bunkerwest – Fragen, Kooperationen, Presse und Booking-Anfragen.">
+  <meta name="theme-color" content="#070605">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__r5)document.documentElement.classList.remove('js')},4000);try{if(sessionStorage.getItem('r5-transition')){document.documentElement.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}</script>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lucide.min.js" defer></script>
+  <script type="module" src="js/contact.js"></script>
+</head>
+<body data-page="kontakt">
+<div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
+<main>
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumbs mono"><a href="./">Room 5</a><i data-lucide="chevron-right" style="width:14px"></i><span>Kontakt</span></div>
+      <h1 class="display" style="margin-top:28px" data-split>Sag<br><span class="outline">Hallo.</span></h1>
+      <div class="ph-row">
+        <p class="lead muted">Fragen zum Raum, Ideen für eine Kooperation, Presse oder ein Projekt, das nicht in den Kalender passt – schreib uns.</p>
+        <svg class="signal" viewBox="0 0 220 220" width="200" height="200" aria-hidden="true" data-signal>
+          <g fill="none" stroke="#ff4a1c">
+            <circle cx="110" cy="110" r="20" class="pulse" stroke-opacity=".9"/>
+            <circle cx="110" cy="110" r="20" class="pulse" stroke-opacity=".9"/>
+            <circle cx="110" cy="110" r="20" class="pulse" stroke-opacity=".9"/>
+          </g>
+          <g stroke="rgba(239,231,218,.15)" fill="none"><circle cx="110" cy="110" r="100"/><circle cx="110" cy="110" r="66"/><path d="M10 110h200M110 10v200"/></g>
+          <line x1="110" y1="110" x2="110" y2="12" stroke="url(#sweep)" stroke-width="2" class="sweep"/>
+          <defs><linearGradient id="sweep" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ff4a1c" stop-opacity="0"/><stop offset="1" stop-color="#ff4a1c"/></linearGradient></defs>
+          <circle cx="110" cy="110" r="6" fill="#ff4a1c"/>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm" style="padding-top:0">
+    <div class="wrap contact-layout">
+      <div>
+        <div class="contact-info" data-contact-info data-stagger></div>
+        <div class="card card-pad" style="margin-top:30px" data-reveal>
+          <i data-lucide="handshake" style="color:var(--amber);width:26px;height:26px"></i>
+          <h3 class="h4" style="margin:16px 0 8px">Kooperationen</h3>
+          <p class="muted" style="font-size:15px;margin:0">Labels, Brands, Kollektive, Workshops oder Content-Produktionen: Wir sind offen für Projekte, die zum Bunkerwest passen. Wähle im Formular „Kooperation“ – je konkreter, desto besser.</p>
+        </div>
+      </div>
+
+      <div class="card card-pad" data-contact-wrap>
+        <form class="form" data-contact novalidate>
+          <div class="field"><span class="label">Worum geht's?</span>
+            <div class="chips" style="margin-top:4px">
+              <label class="chip"><input type="radio" name="type" value="allgemein" checked><span><i data-lucide="message-circle"></i>Allgemein</span></label>
+              <label class="chip"><input type="radio" name="type" value="kooperation"><span><i data-lucide="handshake"></i>Kooperation</span></label>
+              <label class="chip"><input type="radio" name="type" value="booking"><span><i data-lucide="calendar-range"></i>Booking-Frage</span></label>
+              <label class="chip"><input type="radio" name="type" value="presse"><span><i data-lucide="newspaper"></i>Presse</span></label>
+            </div>
+          </div>
+          <div class="form-grid">
+            <div class="field"><label for="k-name">Name *</label><input id="k-name" name="name" autocomplete="name" required></div>
+            <div class="field"><label for="k-email">E-Mail *</label><input id="k-email" name="email" type="email" autocomplete="email" required></div>
+            <div class="field" data-company><label for="k-company">Firma / Projekt</label><input id="k-company" name="company" autocomplete="organization"></div>
+            <div class="field"><label for="k-subject">Betreff</label><input id="k-subject" name="subject"></div>
+            <div class="field full"><label for="k-msg">Nachricht *</label><textarea id="k-msg" name="message" required placeholder="Erzähl uns mehr …"></textarea></div>
+          </div>
+          <label class="check"><input type="checkbox" name="privacy" required><span>Ich bin einverstanden, dass meine Angaben zur Beantwortung gespeichert werden.</span></label>
+          <div class="alert err" data-contact-error hidden></div>
+          <div><button type="submit" class="btn btn-primary" data-magnetic>Nachricht senden <i data-lucide="send"></i></button></div>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

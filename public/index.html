@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Room 5 · Bunkerwest – Studio buchen</title>
+  <meta name="description" content="Room 5 im Bunkerwest: Recording- und Produktionsraum stundenweise oder tageweise buchen – mit Engineer, Produzent und Equipment-Upgrades.">
+  <meta name="theme-color" content="#070605">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="vendor/fonts/unbounded-900.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__r5)document.documentElement.classList.remove('js')},4000);try{if(sessionStorage.getItem('r5-transition')){document.documentElement.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}</script>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lucide.min.js" defer></script>
+  <script type="module" src="js/home.js"></script>
+</head>
+<body data-page="home">
+<div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
+
+<main>
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-label="Room 5">
+    <div class="hero-media"><img src="img/room-depth.jpg" alt="Blick durch Room 5 im Bunkerwest: Ledersofa, Diffusor-Wand und Regie-Tisch im warmen Licht" fetchpriority="high"></div>
+    <div class="wrap hero-inner">
+      <div class="eyebrow" data-hero-fade>Bunkerwest · Recording & Produktion</div>
+      <h1 class="hero-title" aria-label="Room 5"><span class="line"><span>Room</span></span> <span class="line"><span class="five">5</span></span></h1>
+      <div class="hero-bottom">
+        <div data-hero-fade>
+          <p class="hero-sub">Ein Studio unter Beton. Zwei Sessions am Tag, sechs Stunden Ruhe für deinen Sound – direkt online buchen.</p>
+          <div class="row">
+            <a href="buchen.html" class="btn btn-primary" data-magnetic>Session buchen <i data-lucide="arrow-right"></i></a>
+            <a href="#studio" class="btn btn-ghost">Den Raum sehen</a>
+          </div>
+        </div>
+        <svg class="hero-mic" viewBox="0 0 260 340" aria-hidden="true" data-hero-fade>
+          <defs><clipPath id="capsule"><rect x="95" y="34" width="70" height="128" rx="35"/></clipPath></defs>
+          <g class="mic-waves" fill="none" stroke-linecap="round">
+            <path class="w w1" d="M72 62 a62 62 0 0 0 0 92"/><path class="w w1" d="M188 62 a62 62 0 0 1 0 92"/>
+            <path class="w w2" d="M50 44 a90 90 0 0 0 0 128"/><path class="w w2" d="M210 44 a90 90 0 0 1 0 128"/>
+            <path class="w w3" d="M28 26 a118 118 0 0 0 0 164"/><path class="w w3" d="M232 26 a118 118 0 0 1 0 164"/>
+          </g>
+          <g class="mic-body" fill="none" stroke-linecap="round" stroke-linejoin="round">
+            <rect class="draw" x="95" y="34" width="70" height="128" rx="35"/>
+            <g clip-path="url(#capsule)" class="grille">
+              <path d="M95 52h70M95 62h70M95 72h70M95 82h70M95 92h70M95 102h70"/>
+              <path d="M105 34v80M115 34v80M125 34v80M135 34v80M145 34v80M155 34v80"/>
+            </g>
+            <rect class="band" x="95" y="112" width="70" height="10"/>
+            <path class="draw" d="M78 128 v22 a52 52 0 0 0 104 0 v-22"/>
+            <path class="draw" d="M130 202 v80"/>
+            <path class="draw" d="M96 282 h68"/>
+            <path class="draw cable" d="M130 282 q0 26 -30 30 t-40 22"/>
+          </g>
+          <circle class="mic-rec" cx="214" cy="292" r="5"/>
+          <text x="194" y="296" class="mic-rec-label" text-anchor="end">REC</text>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MANIFEST ============ -->
+  <section class="section" id="studio">
+    <div class="wrap">
+      <div class="eyebrow" data-reveal>Der Raum</div>
+      <p class="manifest" style="margin-top:40px" data-manifest>
+        Room 5 ist ein Raum unter Beton, gebaut für <span class="script">Nächte,</span> in denen Ideen lauter sind als die Stadt. Holz trifft Beton, analog trifft digital – und du triffst den <span class="script">Take,</span> der bleibt.
+      </p>
+      <div class="manifest-aside">
+        <div class="stats" data-stagger>
+          <div class="stat"><b data-count="28">0</b><span>m² Produktionsfläche</span></div>
+          <div class="stat"><b data-count="2">0</b><span>Sessions pro Tag</span></div>
+          <div class="stat"><b data-count="6">0</b><span>Stunden pro Session</span></div>
+        </div>
+        <a href="ueber-uns.html" class="link-arrow">Die Geschichte dahinter <i data-lucide="arrow-up-right"></i></a>
+      </div>
+    </div>
+  </section>
+
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track" data-marquee>
+      <span>Recording</span><i data-lucide="asterisk"></i><span class="o">Produktion</span><i data-lucide="disc-3"></i><span>Vocals</span><i data-lucide="asterisk"></i><span class="o">Mixing</span><i data-lucide="audio-waveform"></i><span>Beats</span><i data-lucide="asterisk"></i><span class="o">Songwriting</span><i data-lucide="disc-3"></i><span>Podcasts</span><i data-lucide="asterisk"></i>
+    </div>
+  </div>
+
+  <!-- ============ FEATURES ============ -->
+  <section class="section">
+    <div class="wrap">
+      <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:60px;gap:30px">
+        <h2 class="display h2" data-split>Was dich<br>erwartet</h2>
+        <p class="lead muted" data-reveal style="max-width:38ch">Ein akustisch optimierter Raum, ein durchdachtes Setup und alles, was du für eine konzentrierte Session brauchst.</p>
+      </div>
+      <div class="features" data-stagger>
+        <article class="feature">
+          <div class="f-img"><img src="img/diffusor-sm.jpg" alt="Diffusor-Wand aus Holz" loading="lazy"></div>
+          <div class="f-body"><span class="ico"><i data-lucide="audio-lines"></i></span><span class="num">01</span></div>
+          <h3 class="h4">Akustik</h3><p>Diffusor-Wand, Deckensegel und Breitband-Absorber. Trockener Klang, ehrliches Monitoring.</p>
+        </article>
+        <article class="feature">
+          <div class="f-img"><img src="img/buddha-monitor-sm.jpg" alt="Studiomonitor neben einer warm leuchtenden Lampe" loading="lazy"></div>
+          <div class="f-body"><span class="ico"><i data-lucide="laptop"></i></span><span class="num">02</span></div>
+          <h3 class="h4">Plug & Play</h3><p>Bring nur deinen Laptop mit. Monitore, Interface und Kopfhörer stehen bereit – anstecken, loslegen.</p>
+        </article>
+        <article class="feature">
+          <div class="f-img"><img src="img/vocal-booth-sm.jpg" alt="Vocal-Ecke mit Mikrofon" loading="lazy"></div>
+          <div class="f-body"><span class="ico"><i data-lucide="mic-vocal"></i></span><span class="num">03</span></div>
+          <h3 class="h4">Vocal-Ecke</h3><p>Großmembran-Mikro, Popschutz, Absorber im Rücken. Für Takes, die direkt sitzen.</p>
+        </article>
+        <article class="feature">
+          <div class="f-img"><img src="img/room-lounge-sm.jpg" alt="Lounge mit Ledersofas, Blick durch den Raum" loading="lazy"></div>
+          <div class="f-body"><span class="ico"><i data-lucide="sofa"></i></span><span class="num">04</span></div>
+          <h3 class="h4">Lounge</h3><p>Ledersofas für Pausen, Feedback-Runden und die beste Abhör-Position im Raum.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABLAUF ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="eyebrow" data-reveal>So läuft's</div>
+      <h2 class="display h2" style="margin:24px 0 70px" data-split>In drei Takten<br>zur Session.</h2>
+      <div class="steps" data-stagger>
+        <div class="step"><div class="dot"></div><b class="n">Takt 01</b><h3 class="h4">Termin wählen</h3><p>Day Session (12–18), Night Session (18–24) oder beides. Auch mehrere Tage oder wöchentliche Serien auf einmal.</p></div>
+        <div class="step"><div class="dot"></div><b class="n">Takt 02</b><h3 class="h4">Extras dazu</h3><p>Verlängerung nach 0 Uhr, Premium-Equipment, Engineer, Produzent, Mixing oder Mastering – pro Session zubuchbar.</p></div>
+        <div class="step"><div class="dot"></div><b class="n">Takt 03</b><h3 class="h4">Buchen oder anfragen</h3><p>Direkt verbindlich buchen oder unverbindlich anfragen. Mit oder ohne Profil – die Bestätigung kommt sofort.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MEMBERSHIP ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap">
+      <div class="member-block" data-reveal>
+        <div class="mb-media"><img src="img/team-color.jpg" alt="Zwei Artists im Room 5 vor der Diffusor-Wand" loading="lazy"></div>
+        <div class="mb-body">
+          <span class="lock-badge"><i data-lucide="lock-keyhole"></i>Nur auf Anfrage</span>
+          <h2 class="display h3" style="margin:26px 0 14px" data-split>Bunkerwest<br>Community</h2>
+          <p class="muted">Ein kleiner Kreis von Artists, Produzent:innen und Engineers. Membership kann nicht gekauft werden – nur angefragt.</p>
+          <ul class="benefits">
+            <li><i data-lucide="calendar-clock"></i><div><b>Priorität im Kalender</b><span>Bis zu 90 Tage im Voraus buchen statt 30.</span></div></li>
+            <li><i data-lucide="badge-percent"></i><div><b>15 % auf alle Sessions</b><span>Automatisch bei jeder Buchung.</span></div></li>
+            <li><i data-lucide="users-round"></i><div><b>Sessions & Netzwerk</b><span>Listening-Abende, Features, Kollabos im Haus.</span></div></li>
+          </ul>
+          <div class="row"><a href="membership.html#anfrage" class="btn btn-primary" data-magnetic>Mitgliedschaft anfragen <i data-lucide="arrow-right"></i></a><a href="membership.html" class="btn btn-ghost">Mehr erfahren</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PREISE ============ -->
+  <section class="section" style="padding-top:0" id="preise">
+    <div class="wrap">
+      <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:60px;gap:30px">
+        <div>
+          <div class="eyebrow" data-reveal>Preise</div>
+          <h2 class="display h2" style="margin-top:24px" data-split>Deine Zeit.<br><span class="outline">Dein Takt.</span></h2>
+        </div>
+        <p class="lead muted" data-reveal style="max-width:36ch">Ein Preis für jede Session. Premium-Equipment und Verlängerung nach Bedarf. Members sparen 15 %.</p>
+      </div>
+      <div class="price-grid" data-price-grid></div>
+      <div class="extras" data-reveal data-extras></div>
+      <div class="included" data-reveal>
+        <div class="included-head">
+          <span class="ico"><i data-lucide="package-check"></i></span>
+          <div><h3 class="h4">Grundausstattung inklusive</h3><p class="muted" style="margin:6px 0 0;font-size:15px">In jeder Session dabei, ohne Aufpreis.</p></div>
+        </div>
+        <div class="gear-list" data-gear></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BIG CTA ============ -->
+  <section class="big-cta">
+    <div class="row-h huge" data-cta-row="-1"><span>Book the&nbsp;</span><span class="o">room</span></div>
+    <div class="row-h huge" data-cta-row="1"><span class="o">Room&nbsp;</span><span>5 —&nbsp;</span><span class="o">now</span></div>
+    <div style="margin-top:50px"><a href="buchen.html" class="btn btn-primary" data-magnetic style="--h:64px;padding:0 36px;font-size:16px">Kalender öffnen <i data-lucide="calendar-range"></i></a></div>
+  </section>
+</main>
+</body>
+</html>

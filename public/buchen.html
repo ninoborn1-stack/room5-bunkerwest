@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Buchen · Room 5 Bunkerwest</title>
+  <meta name="description" content="Room 5 stundenweise, halbtags oder tageweise buchen – mehrere Termine auf einmal, mit Engineer, Produzent und Equipment-Upgrades.">
+  <meta name="theme-color" content="#070605">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__r5)document.documentElement.classList.remove('js')},4000);try{if(sessionStorage.getItem('r5-transition')){document.documentElement.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}</script>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lucide.min.js" defer></script>
+  <script type="module" src="js/booking.js"></script>
+</head>
+<body data-page="buchen">
+<div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
+<main>
+  <section class="page-hero" style="padding-bottom:50px">
+    <div class="ph-bg"><img src="img/desk-wide.jpg" alt="" data-parallax="20"></div>
+    <div class="wrap">
+      <div class="crumbs mono"><a href="./">Room 5</a><i data-lucide="chevron-right" style="width:14px"></i><span>Buchen</span></div>
+      <h1 class="display" style="margin-top:28px" data-split>Session<br><span class="outline">buchen</span></h1>
+      <div class="ph-row">
+        <p class="lead muted">Zwei Sessions pro Tag, je 6 Stunden, je 150 €. Wähle einen oder mehrere Tage, pack Extras dazu und buche direkt – oder frag unverbindlich an.</p>
+        <div class="row" data-stagger>
+          <span class="chip"><span><i data-lucide="clock-3"></i>12–18 & 18–24 Uhr</span></span>
+          <span class="chip"><span><i data-lucide="layers"></i>Mehrfachbuchung</span></span>
+          <span class="chip"><span><i data-lucide="badge-percent"></i>Members −15 %</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm" style="padding-top:0">
+    <div class="wrap">
+      <div class="booking-layout">
+        <div>
+          <div class="booking-steps" role="tablist" aria-label="Buchungsschritte">
+            <button class="is-active" data-goto="1"><b>01</b>Termine & Extras</button>
+            <button data-goto="2"><b>02</b>Deine Daten</button>
+            <button data-goto="3" disabled><b>03</b>Bestätigung</button>
+          </div>
+
+          <!-- Schritt 1 -->
+          <div class="card card-pad" data-step="1">
+            <div class="cal-head">
+              <div>
+                <span class="label">Kalender</span>
+                <h3 class="display h3" data-month-label style="margin-top:8px">—</h3>
+              </div>
+              <div class="cal-nav">
+                <button class="icon-btn" data-month="-1" aria-label="Vorheriger Monat"><i data-lucide="arrow-left"></i></button>
+                <button class="icon-btn" data-month="1" aria-label="Nächster Monat"><i data-lucide="arrow-right"></i></button>
+              </div>
+            </div>
+            <div class="cal-grid" data-cal aria-label="Tage auswählen"></div>
+            <div class="cal-legend">
+              <span><i></i>frei</span><span><i class="b"></i>belegt</span><span><i class="s"></i>in deiner Auswahl</span><span class="mono" style="font-size:11px">Balken: Day | Night</span><span><i data-lucide="lock-keyhole"></i>Member-Fenster</span>
+            </div>
+
+            <div class="day-editor" data-editor hidden>
+              <hr class="divider" style="margin-bottom:28px">
+              <div class="row" style="justify-content:space-between;margin-bottom:18px">
+                <div>
+                  <span class="label" data-editor-mode>Neue Session</span>
+                  <h3 class="h4" data-editor-date style="font-size:26px;margin-top:6px">—</h3>
+                </div>
+                <button class="btn btn-ghost btn-sm" data-editor-close><i data-lucide="x"></i>Schließen</button>
+              </div>
+
+              <span class="label">Session wählen · auch beide möglich</span>
+              <div class="slot-cards" data-slots></div>
+              <div data-extension></div>
+
+              <div class="addon-group">
+                <span class="label">Personal · pro Stunde</span>
+                <div class="addons" data-staff></div>
+              </div>
+              <div class="addon-group">
+                <span class="label">Services · pro Track</span>
+                <div class="addons" data-services></div>
+              </div>
+              <div class="addon-group">
+                <span class="label">Premium-Equipment · pro Session · Grundausstattung ist inklusive</span>
+                <div class="addons" data-upgrades></div>
+              </div>
+
+              <div class="repeat-row" data-repeat-row>
+                <i data-lucide="repeat-2"></i>
+                <div style="flex:1;min-width:200px"><b>Wöchentlich wiederholen</b><div class="muted" style="font-size:14px">Gleiche Session an den folgenden Wochen mitbuchen.</div></div>
+                <div class="stepper"><button data-repeat="-1" aria-label="weniger"><i data-lucide="minus"></i></button><output data-repeat-val>1×</output><button data-repeat="1" aria-label="mehr"><i data-lucide="plus"></i></button></div>
+              </div>
+
+              <div class="alert err" data-editor-error hidden></div>
+              <div class="editor-foot">
+                <div><span class="label">Diese Session</span><div class="sum" data-draft-sum>0 €</div></div>
+                <button class="btn btn-primary" data-add data-magnetic><i data-lucide="plus"></i><span>Zur Auswahl hinzufügen</span></button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Schritt 2 -->
+          <div class="card card-pad" data-step="2" hidden>
+            <form class="form" data-checkout novalidate>
+              <div>
+                <span class="label">Art der Buchung</span>
+                <div class="mode-toggle" style="margin-top:12px">
+                  <button type="button" class="mode-opt is-active" data-mode="book"><i data-lucide="zap"></i><b>Direkt buchen</b><small>Sofort verbindlich bestätigt.</small></button>
+                  <button type="button" class="mode-opt" data-mode="request"><i data-lucide="message-square-dashed"></i><b>Unverbindlich anfragen</b><small>Wir melden uns innerhalb von 24 h.</small></button>
+                </div>
+              </div>
+              <div class="form-grid">
+                <div class="field"><label for="c-name">Name *</label><input id="c-name" name="name" autocomplete="name" required></div>
+                <div class="field"><label for="c-email">E-Mail *</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
+                <div class="field"><label for="c-phone">Telefon</label><input id="c-phone" name="phone" type="tel" autocomplete="tel"></div>
+                <div class="field"><label for="c-project">Artist / Projekt</label><input id="c-project" name="project" placeholder="z. B. EP-Recording"></div>
+                <div class="field full"><label for="c-notes">Notizen</label><textarea id="c-notes" name="notes" placeholder="Was habt ihr vor? Wie viele Personen? Besondere Wünsche?"></textarea></div>
+              </div>
+              <label class="check"><input type="checkbox" name="terms" required><span>Ich akzeptiere die <a href="kontakt.html">Studioregeln & Stornobedingungen</a>. Schäden an Premium-Equipment werden berechnet. Kostenlose Stornierung bis 48 h vorher.</span></label>
+              <div class="alert err" data-checkout-error hidden></div>
+              <div class="form-nav">
+                <button type="button" class="btn btn-ghost" data-goto="1"><i data-lucide="arrow-left"></i>Zurück</button>
+                <button type="submit" class="btn btn-primary" data-submit data-magnetic><span>Jetzt verbindlich buchen</span><i data-lucide="arrow-right"></i></button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Schritt 3 -->
+          <div class="card" data-step="3" hidden>
+            <div class="success" data-success></div>
+          </div>
+        </div>
+
+        <!-- Warenkorb -->
+        <aside class="cart card card-pad" aria-label="Deine Auswahl">
+          <div class="cart-head"><h3 class="h4">Deine Auswahl</h3><span class="mono muted" data-cart-count>0 Sessions</span></div>
+          <div data-cart></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

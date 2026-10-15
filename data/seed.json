@@ -1,0 +1,7 @@
+{
+  "_hinweis": "Test-Zugänge NUR für die lokale Entwicklung. Werden beim ersten Start in data/db.json übernommen (Passwörter gehasht). db.json löschen = alles zurücksetzen.",
+  "users": [
+    { "email": "admin@room5.test",  "name": "Studio Admin", "role": "admin",  "password": "room5-admin-test" },
+    { "email": "member@room5.test", "name": "Demo Member",  "role": "member", "tier": "member", "password": "room5-member-test" }
+  ]
+}

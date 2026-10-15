@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Login & Profil · Room 5 Bunkerwest</title>
+  <meta name="theme-color" content="#070605">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__r5)document.documentElement.classList.remove('js')},4000);try{if(sessionStorage.getItem('r5-transition')){document.documentElement.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}</script>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lucide.min.js" defer></script>
+  <script type="module" src="js/login.js"></script>
+</head>
+<body data-page="login" data-no-footer>
+<div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
+<main class="auth-wrap">
+  <div class="auth-media">
+    <img src="img/vocal-booth.jpg" alt="Vocal-Ecke mit Mikrofon in Room 5" data-parallax="10">
+    <div class="am-text">
+      <span class="lock-badge"><i data-lucide="user-round"></i>Profil & Members</span>
+      <p class="display h3" style="margin-top:20px">Willkommen<br>zurück im Bunker.</p>
+    </div>
+  </div>
+  <div class="auth-body">
+    <div class="auth-box">
+      <div class="eyebrow">Dein Profil</div>
+      <h1 class="display h2" style="margin:22px 0 14px" data-auth-title>Einloggen</h1>
+      <div class="auth-tabs" role="tablist">
+        <button class="is-active" data-tab="login" role="tab">Einloggen</button>
+        <button data-tab="register" role="tab">Profil anlegen</button>
+      </div>
+
+      <form class="form" data-login novalidate>
+        <div class="field"><label for="l-email">E-Mail</label><input id="l-email" name="email" type="email" autocomplete="username" required></div>
+        <div class="field"><label for="l-pw">Passwort</label><input id="l-pw" name="password" type="password" autocomplete="current-password" required></div>
+        <div class="alert err" data-login-error hidden></div>
+        <button class="btn btn-primary btn-block" type="submit">Einloggen <i data-lucide="arrow-right"></i></button>
+      </form>
+
+      <form class="form" data-register novalidate hidden>
+        <p class="muted" style="margin:0;font-size:15px">Kostenlos und für alle: deine Buchungen im Überblick, Daten beim Buchen schon ausgefüllt.</p>
+        <div class="field"><label for="r-name">Name</label><input id="r-name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="r-email">E-Mail</label><input id="r-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="r-pw">Passwort</label><input id="r-pw" name="password" type="password" autocomplete="new-password" minlength="8" required><span class="hint">Mindestens 8 Zeichen.</span></div>
+        <div class="alert err" data-register-error hidden></div>
+        <button class="btn btn-primary btn-block" type="submit">Profil anlegen <i data-lucide="arrow-right"></i></button>
+      </form>
+
+      <div class="card card-pad" style="margin-top:30px">
+        <div class="row" style="align-items:flex-start;flex-wrap:nowrap;gap:16px">
+          <i data-lucide="key-round" style="color:var(--amber);width:22px;flex:none;margin-top:2px"></i>
+          <div>
+            <b>Profil ist nicht gleich Membership</b>
+            <p class="muted" style="font-size:15px;margin:6px 0 14px">Die Bunkerwest Community (Rabatt, längeres Buchungsfenster, Events) gibt es nur auf Anfrage – mit oder ohne bestehendes Profil.</p>
+            <a href="membership.html#anfrage" class="link-arrow">Mitgliedschaft anfragen <i data-lucide="arrow-up-right"></i></a>
+          </div>
+        </div>
+      </div>
+      <p class="muted" style="font-size:14px;margin-top:24px">Nur buchen? Geht auch ganz ohne Profil: <a href="buchen.html" style="text-decoration:underline">zur Buchung</a>.</p>
+    </div>
+  </div>
+</main>
+</body>
+</html>

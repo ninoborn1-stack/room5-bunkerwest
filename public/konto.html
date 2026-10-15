@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mein Profil · Room 5 Bunkerwest</title>
+  <meta name="theme-color" content="#070605">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__r5)document.documentElement.classList.remove('js')},4000);try{if(sessionStorage.getItem('r5-transition')){document.documentElement.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}</script>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lucide.min.js" defer></script>
+  <script type="module" src="js/account.js"></script>
+</head>
+<body data-page="konto">
+<div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
+<main>
+  <section class="page-hero" style="padding-bottom:40px">
+    <div class="wrap">
+      <div class="eyebrow" data-account-tier>Profil</div>
+      <h1 class="display h1" style="margin-top:24px" data-account-hello>Hallo.</h1>
+    </div>
+  </section>
+  <section class="section-sm" style="padding-top:0">
+    <div class="wrap account-grid">
+      <aside class="card card-pad">
+        <span data-account-badge></span>
+        <h3 class="h4" style="margin:22px 0 4px" data-account-name>—</h3>
+        <p class="muted mono" style="font-size:13px" data-account-email>—</p>
+        <ul class="benefits" style="margin:20px 0" data-account-benefits></ul>
+        <div class="row">
+          <a href="buchen.html" class="btn btn-primary btn-sm">Session buchen <i data-lucide="arrow-right"></i></a>
+          <button class="btn btn-ghost btn-sm" data-logout><i data-lucide="log-out"></i>Logout</button>
+        </div>
+      </aside>
+      <div class="card card-pad">
+        <div class="row" style="justify-content:space-between"><h3 class="h4">Meine Buchungen</h3><span class="mono muted" data-booking-count></span></div>
+        <div data-bookings style="margin-top:10px"></div>
+      </div>
+      <div data-membership-card style="grid-column:1 / -1"></div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

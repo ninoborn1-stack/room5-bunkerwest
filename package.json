@@ -1,0 +1,24 @@
+{
+  "name": "room5-bunkerwest",
+  "version": "1.0.0",
+  "description": "Room 5 im Bunkerwest – Buchungsseite (lokal)",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js",
+    "grade": "python3 tools/grade.py",
+    "postinstall": "node tools/vendor.js",
+    "vendor": "node tools/vendor.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@fontsource-variable/inter-tight": "^5.3.0",
+    "@fontsource/great-vibes": "^5.3.0",
+    "@fontsource/jetbrains-mono": "^5.3.0",
+    "@fontsource/unbounded": "^5.3.0",
+    "gsap": "^3.15.0",
+    "lucide": "^1.57.0"
+  },
+  "type": "module"
+}
