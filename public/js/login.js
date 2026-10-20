@@ -1,5 +1,5 @@
 import { $, $$, formError, userReady, t, lang, captcha } from './app.js';
-import { api, backendMode } from './api.js';
+import { api, backendMode, resetDemo } from './api.js';
 import { verifiedBadge, icons } from './app.js';
 
 const params = new URLSearchParams(location.search);
@@ -76,12 +76,19 @@ $('[data-reset]').addEventListener('submit', async (e) => {
   $('.demo-grid', box).innerHTML = order.map((role) => seed.users.find((u) => u.role === role)).filter(Boolean).map((u) => `
     <button type="button" class="demo-login" data-demo="${u.role}">${u.role === 'admin' ? '<i data-lucide="shield-check"></i>' : verifiedBadge(u.role, 20)}
       <span><b>${t(`auth.demo.${u.role}`)}</b><small>${u.email}</small></span><i data-lucide="arrow-right"></i></button>`).join('');
+  if (mode === 'demo') $('.demo-grid', box).insertAdjacentHTML('afterend', `<button type="button" class="link-arrow demo-reset" data-demo-reset><i data-lucide="rotate-ccw"></i>${t('auth.demoReset')}</button>`);
   box.hidden = false; icons(box);
+  box.querySelector('[data-demo-reset]')?.addEventListener('click', () => { resetDemo(); location.reload(); });
   box.addEventListener('click', async (e) => {
     const b = e.target.closest('[data-demo]'); if (!b) return;
     const u = seed.users.find((x) => x.role === b.dataset.demo);
     b.disabled = true;
-    try { await api.logout().catch(() => {}); const { user } = await api.login({ email: u.email, password: u.password }); location.href = target(user); }
-    catch (ex) { formError($('[data-login-error]'), ex.message); b.disabled = false; }
+    const go = async () => { await api.logout().catch(() => {}); const { user } = await api.login({ email: u.email, password: u.password }); location.href = target(user); };
+    try { await go(); }
+    catch (ex) {
+      // Selbstheilung: alte Demo-Daten im Browser (z. B. von früheren Versionen) zurücksetzen und erneut versuchen
+      if (mode === 'demo') { resetDemo(); try { await go(); return; } catch {} }
+      formError($('[data-login-error]'), ex.message); b.disabled = false;
+    }
   });
 })();

@@ -228,4 +228,7 @@ export const DE = {
   "auth.loggedAs": "Eingeloggt als {name} ({email})",
   "auth.toProfile": "Zum Profil",
   "acc.logout": "Logout",
+  "auth.demoReset": "Demo zurücksetzen (frische Testdaten)",
+  "demo.guest": "nicht eingeloggt",
+  "demo.switch": "Zugang wechseln",
 };

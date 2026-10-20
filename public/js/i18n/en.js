@@ -462,4 +462,7 @@ export const EN = {
   "wp.allEvents": "All events",
   "auth.loggedAs": "Logged in as {name} ({email})",
   "auth.toProfile": "Go to profile",
+  "auth.demoReset": "Reset demo (fresh test data)",
+  "demo.guest": "not logged in",
+  "demo.switch": "Switch account",
 };

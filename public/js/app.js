@@ -173,13 +173,18 @@ async function authUi() {
   });
   // Artist-Member sehen "Jetzt buchen", alle anderen "Anfragen"
   if (isArtist(u)) $$('[data-cta]').forEach((b) => { b.href = 'buchen.html'; b.innerHTML = `${t('nav.bookNow')} <i data-lucide="arrow-right"></i>`; });
-  icons();
   const mode = await backendMode();
+  // Demo-Leiste: zeigt den aktiven Test-Zugang, Wechsel mit einem Klick
+  if (mode === 'demo' && page !== 'login') {
+    const build = document.querySelector('meta[name=build]')?.content;
+    document.body.insertAdjacentHTML('beforeend', `<a class="demo-pill" href="login.html">${u ? verifiedBadge(u.role, 14) : '<i data-lucide="flask-conical"></i>'}<span>Demo · ${u ? esc(u.name) : t('demo.guest')}</span><b>${t('demo.switch')}</b>${build ? `<small>v${build}</small>` : ''}</a>`);
+  }
   const badge = $('[data-mode-badge]');
   if (badge) {
     badge.classList.toggle('local', mode !== 'server');
     badge.querySelector('span').textContent = mode === 'server' ? t('ui.modeServer') : t('ui.modeDemo');
   }
+  icons();
 }
 
 // ---------------- Scrollen ----------------

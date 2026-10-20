@@ -52,6 +52,12 @@ async function demo() {
   demoBackend = createBackend({ store, env: { PBKDF2_ITER: 20000 } });
   return demoBackend;
 }
+/** Demo-Daten im Browser komplett zurücksetzen (frische Test-Zugänge & Beispieldaten) */
+export function resetDemo() {
+  try { localStorage.removeItem(DB_KEY); localStorage.removeItem(TOKEN_KEY); Object.keys(localStorage).filter((k) => k.startsWith('r5.demo.')).forEach((k) => localStorage.removeItem(k)); } catch {}
+  demoBackend = null; demoStore = null;
+}
+
 async function local(method, path, body) {
   const be = await demo();
   let token = null; try { token = localStorage.getItem(TOKEN_KEY); } catch {}

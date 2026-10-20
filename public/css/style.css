@@ -1006,3 +1006,12 @@ a.wl { text-decoration: none; color: inherit; }
 .logged-bar { margin: 4px 0 18px; flex-wrap: wrap; align-items: center; }
 .logged-bar span { flex: 1; min-width: 180px; }
 .logged-bar a, .logged-bar button { text-decoration: underline; text-underline-offset: 3px; font-size: 14px; }
+/* Demo-Leiste (nur im Demo-Modus) */
+.demo-pill { position: fixed; left: 12px; bottom: calc(12px + env(safe-area-inset-bottom)); z-index: 75; display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 99px; background: var(--surface); border: 1px dashed color-mix(in srgb, var(--accent) 55%, transparent); font-size: 12px; box-shadow: 0 10px 30px rgba(0,0,0,.35); max-width: calc(100vw - 24px); }
+.demo-pill svg.lucide { width: 14px; height: 14px; color: var(--accent); }
+.demo-pill span { color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.demo-pill b { color: var(--accent); font-weight: 600; white-space: nowrap; }
+.demo-pill small { font-family: var(--font-mono); font-size: 10px; color: var(--dim); }
+body.has-cartbar .demo-pill { bottom: 92px; }
+.demo-reset { margin-top: 12px; font-size: 13px; }
+.demo-reset svg { width: 14px; height: 14px; }
