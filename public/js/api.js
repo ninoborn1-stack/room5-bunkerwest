@@ -7,7 +7,7 @@ import { createObjectStore, seedIfEmpty } from './backend/store.js';
 
 const LANG = document.documentElement.lang === 'en' ? 'en' : 'de';
 const SITE = new URL('.', location.href).href.replace(/\/$/, '');
-const DB_KEY = 'r5.demo.db.v3';
+const DB_KEY = 'r5.demo.db.v4';
 const TOKEN_KEY = 'r5.demo.token';
 
 // ?demo=1 erzwingt den Demo-Modus (zum Testen lokal), ?demo=0 hebt das wieder auf
@@ -98,6 +98,7 @@ export const api = {
   demoPay: (kind, ref) => call('POST', '/payments/demo-confirm', { kind, ref }),
   events: (from = '') => call('GET', `/events?from=${from}`),
   claimTicket: (id, qty = 1) => call('POST', `/events/${id}/ticket`, { qty }),
+  spaces: (from = '', days = 42) => call('GET', `/spaces/availability?from=${from}&days=${days}`),
   admin: {
     overview: () => call('GET', '/admin/overview'),
     request: (id, d) => call('POST', `/admin/requests/${id}`, d),
@@ -109,6 +110,9 @@ export const api = {
     deleteEvent: (id) => call('POST', `/admin/events/${id}/delete`),
     notifyEvent: (id) => call('POST', `/admin/events/${id}/notify`),
     settings: (d) => call('POST', '/admin/settings', d),
+    spaceRequest: (id, action) => call('POST', `/admin/requests/${id}/space`, { action }),
+    saveOccupancy: (d) => call('POST', '/admin/occupancy', d),
+    deleteOccupancy: (id) => call('POST', `/admin/occupancy/${id}/delete`),
     newsletter: () => call('GET', '/admin/newsletter.csv'),
   },
 };

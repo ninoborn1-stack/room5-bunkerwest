@@ -296,3 +296,12 @@ Phase 1 kann sofort starten. Phasen 2–6 bauen aufeinander auf. Vor Phase 7 bra
 - **Zukunft – Uni-Kooperationen:** Musik- und Kunsthochschulen als Partner. Studierende bekommen Vorteile
   (nicht so weitreichend wie Artist-Member), z. B. Rabatt auf Sessions, Location-Shootings oder auf die
   Artist-Membership selbst. Umsetzung später: Partner-Code bei Registrierung/Bewerbung + eigene Rabattstufe.
+
+## 16. Bunker-West-Startseite & Rechtliches (20.10.2026)
+- `index.html` ist jetzt die Bunker-West-Startseite, Room 5 liegt auf `room5.html` (Nav: Räume · Room 5 · Events · Membership · Über uns · Kontakt; Buchen über Room 5).
+- Interaktiver Grundriss aus dem alten Prototyp (`~/Documents/BunkerWest`), Bereiche in `config.js → SPACES` (Polygone auf `img/bunker/plan-*.jpg`). Nichts direkt buchbar – nur anfragen.
+- Verfügbarkeitskalender: frei · angefragt/reserviert · gebucht. Quelle: Anfragen mit Bereichen (automatisch „angefragt“) + Admin-Tab „Belegung“ (reserviert/gebucht, manuell oder aus Anfrage). Öffentlich nie Namen/Titel.
+- Admin: Bereichs-Anfrage → Reservieren / Fest buchen / Absagen (jeweils E-Mail `space_answered`), Doppelbuchung wird blockiert.
+- Fotos: `tools/grade_bunker.py` (gleicher dunkler Look wie Room 5).
+- Rechtliches: Impressum mit Daten von bunkerwest.net/blank (`config.js → LEGAL`), Datenschutz & AGB passend zum echten Stack (Cloudflare, Stripe, Resend, Turnstile, kein Tracking). **Vor Livegang anwaltlich prüfen lassen.**
+- Offen: Schreibweise „Rabaev/Rabev“, zwei verschiedene Telefonnummern (Impressum vs. Kontakt), Bildrechte Fashion-/Dinner-Fotos, ggf. Google/Apple-Kalender-Sync für die Belegung.

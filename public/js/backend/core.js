@@ -5,7 +5,7 @@
 // Die Umgebung liefert nur einen "store" (Datenablage) und "env" (Schlüssel wie Stripe/Resend).
 //
 // Rollen: community (kostenlos, frei registrieren) · artist (kuratiert, Platz 40 zahlend + 10 frei) · admin
-import { SLOTS, ADDONS, MEMBERSHIP, REQUEST_TYPES, EVENT_CATEGORIES } from '../config.js';
+import { SLOTS, ADDONS, MEMBERSHIP, REQUEST_TYPES, EVENT_CATEGORIES, SPACES, SPACE_EXTRAS, SPACE_REQUEST_TYPES } from '../config.js';
 import { cleanSession, validateSession, priceCart, sessionSlots, sessionRange, sessionLabel, timeLabel, euro, ymd, parseYmd } from '../pricing.js';
 import { hashPassword, verifyPassword, randomToken, shortId, sha256, hmacSha256Hex } from './crypto.js';
 import { renderEmail } from './emails.js';
@@ -29,6 +29,7 @@ const MSG = {
     motivation_short: 'Erzähl uns etwas mehr über dich (mind. 20 Zeichen).', full_free: 'Alle Freiplätze sind vergeben.',
     token_invalid: 'Der Link ist ungültig oder abgelaufen.', wrong_password: 'Aktuelles Passwort stimmt nicht.',
     no_tickets: 'Die Free-Tickets sind leider schon weg.', ticket_have: 'Du hast schon ein Ticket.', captcha: 'Spam-Schutz fehlgeschlagen. Bitte neu laden.',
+    space_dates: 'Bitte einen gültigen Zeitraum wählen (max. 30 Tage).', space_taken: 'Mindestens ein Bereich ist in diesem Zeitraum schon gebucht.',
     not_invited: 'Für dich ist keine Aktivierung offen.', payments_live: 'Testzahlungen sind nur ohne Stripe möglich.', too_many: 'Zu viele Versuche. Bitte kurz warten.',
   },
   en: {
@@ -43,6 +44,7 @@ const MSG = {
     motivation_short: 'Tell us a bit more about you (min. 20 characters).', full_free: 'All free spots are taken.',
     token_invalid: 'This link is invalid or has expired.', wrong_password: 'Current password is incorrect.',
     no_tickets: 'The free tickets are already gone.', ticket_have: 'You already have a ticket.', captcha: 'Spam protection failed. Please reload.',
+    space_dates: 'Please choose a valid period (max. 30 days).', space_taken: 'At least one space is already booked in this period.',
     not_invited: 'There is no pending activation for you.', payments_live: 'Test payments are only available without Stripe.', too_many: 'Too many attempts. Please wait a moment.',
   },
 };
@@ -51,6 +53,17 @@ class ApiError extends Error { constructor(status, code) { super(code); this.sta
 const fail = (status, code) => { throw new ApiError(status, code); };
 
 // ---------------------------------------------------------------- Hilfen
+const SPACE_IDS = SPACES.map((x) => x.id);
+const spaceNames = (ids, lang) => ids.map((id) => SPACES.find((x) => x.id === id)?.name[lang] || id).join(', ');
+const extraNames = (ids, lang) => ids.map((id) => SPACE_EXTRAS.find((x) => x.id === id)?.label[lang] || id).join(', ');
+const isYmd = (v) => /^\d{4}-\d{2}-\d{2}$/.test(String(v || '')) && !Number.isNaN(parseYmd(v).getTime());
+const daysOf = (from, to) => { const out = []; const d = parseYmd(from); const end = parseYmd(to); while (d <= end && out.length < 400) { out.push(ymd(d)); d.setDate(d.getDate() + 1); } return out; };
+const overlaps = (a, b) => a.dateFrom <= b.dateTo && b.dateFrom <= a.dateTo;
+const spaceSummary = (r, lang) => r.spaces?.length ? [
+  [lang === 'en' ? 'Spaces' : 'Bereiche', spaceNames(r.spaces, lang)],
+  [lang === 'en' ? 'Date' : 'Zeitraum', r.dateFrom === r.dateTo ? fmtDay(r.dateFrom, lang) : `${fmtDay(r.dateFrom, lang)} – ${fmtDay(r.dateTo, lang)}`],
+  ...(r.extras?.length ? [[lang === 'en' ? 'Extras' : 'Extras', extraNames(r.extras, lang)]] : []),
+] : [];
 export const publicUser = (u) => u && {
   id: u.id, name: u.name, email: u.email, role: u.role, lang: u.lang || 'de',
   newsletter: !!u.newsletter, notifyEvents: !!u.notifyEvents,
@@ -235,6 +248,32 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
   }
 
   // ---------------------------------------------------------------- Routen
+  /** { 'YYYY-MM-DD': { spaceId: 'held' | 'booked' } } – gebucht schlägt angefragt/reserviert */
+  async function spaceMap(from, to, { exceptRequest = null } = {}) {
+    const out = {};
+    const mark = (entry, state) => {
+      if (entry.dateTo < from || entry.dateFrom > to) return;
+      for (const d of daysOf(entry.dateFrom < from ? from : entry.dateFrom, entry.dateTo > to ? to : entry.dateTo)) {
+        out[d] ||= {};
+        for (const sp of entry.spaces) if (out[d][sp] !== 'booked') out[d][sp] = state;
+      }
+    };
+    const occ = await store.all('occupancy');
+    const linked = new Set(occ.map((o) => o.requestId).filter(Boolean));
+    for (const r of await store.all('requests')) {
+      if (r.id === exceptRequest || !r.spaces?.length || !r.dateFrom || linked.has(r.id) || !['new', 'progress'].includes(r.status)) continue;
+      mark(r, 'held');
+    }
+    for (const o of occ) if (o.requestId !== exceptRequest || o.status === 'booked') mark(o, o.status === 'booked' ? 'booked' : 'held');
+    return out;
+  }
+  async function assertSpacesFree(entry, ignoreId) {
+    for (const o of await store.all('occupancy')) {
+      if (o.id === ignoreId || o.status !== 'booked' || !overlaps(o, entry)) continue;
+      if (o.spaces.some((sp) => entry.spaces.includes(sp))) fail(409, 'space_taken');
+    }
+  }
+
   async function route(req, ctx) {
     const { method, path } = req;
     const body = req.body || {};
@@ -405,12 +444,31 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
       const message = str(body.message, 5000);
       if (!sessions.length && message.length < 10) fail(400, 'message_short');
       const total = sessions.length ? priceCart(sessions, false).total : null;
-      const r = { id: shortId('A'), type, status: 'new', name, email, phone: str(body.phone, 60), company: str(body.company, 160), message, fields, sessions, total, userId: user?.id || null, lang, createdAt: nowIso(now) };
+      // Bereiche im Bunker (Grundriss) – nur anfragbar
+      let spaces = [], dateFrom = null, dateTo = null, extras = [];
+      if (SPACE_REQUEST_TYPES.includes(type) && Array.isArray(body.spaces) && body.spaces.length) {
+        spaces = [...new Set(body.spaces.filter((x) => SPACE_IDS.includes(x)))];
+        extras = [...new Set((Array.isArray(body.extras) ? body.extras : []).filter((x) => SPACE_EXTRAS.some((e) => e.id === x)))];
+        dateFrom = body.dateFrom; dateTo = body.dateTo || body.dateFrom;
+        if (spaces.length) {
+          if (!isYmd(dateFrom) || !isYmd(dateTo) || dateTo < dateFrom || daysOf(dateFrom, dateTo).length > 30) fail(400, 'space_dates');
+          if (dateFrom < ymd(new Date(now))) fail(400, 'past');
+        } else { dateFrom = dateTo = null; }
+      }
+      const r = { id: shortId('A'), type, status: 'new', name, email, phone: str(body.phone, 60), company: str(body.company, 160), message, fields, sessions, total, spaces, dateFrom, dateTo, extras, userId: user?.id || null, lang, createdAt: nowIso(now) };
       await store.put('requests', r);
-      const summary = [...sessionSummary(sessions, lang), ...Object.entries(fields).filter(([, v]) => v)];
+      const summary = [...sessionSummary(sessions, lang), ...spaceSummary(r, lang), ...Object.entries(fields).filter(([, v]) => v)];
       await mail(email, 'request_received', { name, typeLabel: typeLabel(type, lang), summary }, lang);
-      await teamMail('team_request', { name, email, typeLabel: typeLabel(type, 'de'), summary: [...sessionSummary(sessions, 'de'), ...Object.entries(fields).filter(([, v]) => v)], message, link: `${site}/admin.html?tab=requests` });
+      await teamMail('team_request', { name, email, typeLabel: typeLabel(type, 'de'), summary: [...sessionSummary(sessions, 'de'), ...spaceSummary(r, 'de'), ...Object.entries(fields).filter(([, v]) => v)], message, link: `${site}/admin.html?tab=requests` });
       return { status: 201, body: { request: { id: r.id } } };
+    }
+
+    // ----- Belegung der Bunker-Bereiche (öffentlich: nur frei / angefragt·reserviert / gebucht, keine Namen)
+    if (path === '/spaces/availability') {
+      const from = isYmd(req.query.from) ? req.query.from : ymd(new Date(now));
+      const days = Math.min(Math.max(Number(req.query.days) || 42, 1), 120);
+      const to = ymd(new Date(parseYmd(from).getTime() + (days - 1) * DAY + 3600000));
+      return { body: { from, to, days: await spaceMap(from, to) } };
     }
 
     // ----- Artist-Bewerbung (legt bei Bedarf gleich ein Community-Profil an)
@@ -532,6 +590,7 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
           users: users.map(publicUser),
           events: (await store.all('events')).sort((a, b) => (a.date + a.start).localeCompare(b.date + b.start)),
           tickets: await store.all('tickets'),
+          occupancy: (await store.all('occupancy')).sort((a, b) => a.dateFrom.localeCompare(b.dateFrom)),
           outbox: (await store.all('outbox')).sort((a, b) => b.createdAt.localeCompare(a.createdAt)).slice(0, 200),
           capacity: await capacity(store), settings: await settings(store), payments: stripeOn ? 'stripe' : 'demo', mail: env.RESEND_API_KEY ? 'resend' : 'outbox',
         } };
@@ -556,6 +615,37 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
         await mail(r.email, 'request_answered', { accepted: accept, summary: sessionSummary(r.sessions, r.lang) }, r.lang);
         return { body: { request: r } };
       }
+      // Bereichs-Anfrage: reservieren (vorgemerkt) · fest buchen · absagen
+      if ((m = path.match(/^\/admin\/requests\/([\w-]+)\/space$/)) && method === 'POST') {
+        const r = await store.get('requests', m[1]); if (!r || !r.spaces?.length) fail(404, 'not_found');
+        const action = body.action;
+        const occ = (await store.all('occupancy')).find((o) => o.requestId === r.id);
+        if (action === 'decline') {
+          if (occ) await store.del('occupancy', occ.id);
+          r.status = 'declined';
+          await mail(r.email, 'space_answered', { state: 'declined', summary: spaceSummary(r, r.lang) }, r.lang);
+        } else if (action === 'reserve' || action === 'book') {
+          const status = action === 'book' ? 'booked' : 'reserved';
+          if (status === 'booked') await assertSpacesFree(r, occ?.id);
+          await store.put('occupancy', { ...(occ || { id: shortId('B'), createdAt: nowIso(now) }), spaces: r.spaces, dateFrom: r.dateFrom, dateTo: r.dateTo, status, title: r.company || r.name, requestId: r.id });
+          r.status = status === 'booked' ? 'done' : 'progress';
+          await mail(r.email, 'space_answered', { state: status, summary: spaceSummary(r, r.lang) }, r.lang);
+        } else fail(400, 'type_invalid');
+        await store.put('requests', r);
+        return { body: { request: r } };
+      }
+      // Belegung manuell pflegen (z. B. Termine aus Alberts Kalender)
+      if (path === '/admin/occupancy' && method === 'POST') {
+        const spaces = [...new Set((Array.isArray(body.spaces) ? body.spaces : []).filter((x) => SPACE_IDS.includes(x)))];
+        const dateFrom = body.dateFrom, dateTo = body.dateTo || body.dateFrom;
+        if (!spaces.length || !isYmd(dateFrom) || !isYmd(dateTo) || dateTo < dateFrom || daysOf(dateFrom, dateTo).length > 120) fail(400, 'space_dates');
+        const old = body.id ? await store.get('occupancy', body.id) : null;
+        const o = { ...(old || { id: shortId('B'), createdAt: nowIso(now) }), spaces, dateFrom, dateTo, status: body.status === 'reserved' ? 'reserved' : 'booked', title: str(body.title, 160) };
+        if (o.status === 'booked') await assertSpacesFree(o, o.id);
+        await store.put('occupancy', o);
+        return { body: { occupancy: o } };
+      }
+      if ((m = path.match(/^\/admin\/occupancy\/([\w-]+)\/delete$/)) && method === 'POST') { await store.del('occupancy', m[1]); return { body: { ok: true } }; }
       if ((m = path.match(/^\/admin\/bookings\/([\w-]+)$/)) && method === 'POST') {
         const b = await store.get('bookings', m[1]); if (!b) fail(404, 'not_found');
         if (['confirmed', 'cancelled'].includes(body.status)) b.status = body.status;

@@ -1,6 +1,6 @@
 // Admin-Bereich (intern, Deutsch)
 import { $, $$, icons, esc, toast, userReady, verifiedBadge } from './app.js';
-import { REQUEST_TYPES, EVENT_CATEGORIES, MEMBERSHIP } from './config.js';
+import { REQUEST_TYPES, EVENT_CATEGORIES, MEMBERSHIP, SPACES, SPACE_EXTRAS } from './config.js';
 import { api } from './api.js';
 import { parseYmd, sessionRange, sessionLabel, timeLabel, euro } from './pricing.js';
 
@@ -12,6 +12,11 @@ const when = (iso) => (iso ? new Date(iso).toLocaleString('de-DE', { dateStyle: 
 const typeLabel = (id) => REQUEST_TYPES.find((r) => r.id === id)?.label.de || id;
 const STATUS = { new: 'Neu', progress: 'In Bearbeitung', done: 'Erledigt', declined: 'Abgelehnt', confirmed: 'Bestätigt', awaiting_payment: 'Wartet auf Zahlung', cancelled: 'Storniert', expired: 'Abgelaufen', pending: 'Offen', invited: 'Eingeladen', waitlist: 'Warteliste', active: 'Aktiv', rejected: 'Abgelehnt' };
 const status = (s) => `<span class="status ${s}">${STATUS[s] || s}</span>`;
+const spaceName = (id) => SPACES.find((x) => x.id === id)?.name.de || id;
+const range = (a, b) => (a === b ? fmt(a) : `${fmt(a)} – ${fmt(b)}`);
+const OCC = { reserved: 'Reserviert', booked: 'Gebucht' };
+const spaceInfo = (r) => (r.spaces?.length ? `<div class="meta space-meta"><b>${r.spaces.map(spaceName).join(' · ')}</b> · ${range(r.dateFrom, r.dateTo)}${r.extras?.length ? ' · Extras: ' + r.extras.map((x) => SPACE_EXTRAS.find((e) => e.id === x)?.label.de || x).join(', ') : ''}</div>` : '');
+let editOcc = null;
 const sessions = (list = []) => list.map((s) => { const [a, z] = sessionRange(s); const ex = Object.entries(s.addons || {}).filter(([, v]) => v).map(([k, v]) => `${k} ${v}`); return `<div style="margin-top:6px">${fmt(s.date)} <span class="mono muted" style="font-size:13px">${timeLabel(a)}–${timeLabel(z)} · ${sessionLabel(s)}${ex.length ? ' · ' + esc(ex.join(', ')) : ''}</span></div>`; }).join('');
 
 let data = null;
@@ -23,6 +28,7 @@ const TABS = [
   ['requests', 'Anfragen', (d) => d.requests.filter((r) => r.status === 'new').length],
   ['bookings', 'Buchungen', (d) => d.bookings.filter((b) => b.status === 'confirmed').length],
   ['applications', 'Bewerbungen & Mitglieder', (d) => d.applications.filter((a) => a.status === 'pending').length],
+  ['occupancy', 'Belegung', (d) => d.occupancy.filter((o) => o.dateTo >= new Date().toISOString().slice(0, 10)).length],
   ['events', 'Events', (d) => d.events.length],
   ['settings', 'Einstellungen', () => ''],
   ['outbox', 'E-Mails', (d) => d.outbox.length],
@@ -42,11 +48,12 @@ function render() {
       (list.length ? list.map((r) => `<div class="admin-item"><div>
         <div class="row" style="gap:10px"><b>${esc(r.name)}</b><span class="tag-soft">${typeLabel(r.type)}</span>${status(r.status)}<span class="mono muted" style="font-size:12px">${r.id}</span></div>
         <div class="meta"><a href="mailto:${esc(r.email)}">${esc(r.email)}</a>${r.phone ? ' · ' + esc(r.phone) : ''}${r.company ? ' · ' + esc(r.company) : ''} · ${when(r.createdAt)}</div>
-        ${sessions(r.sessions)}${r.total ? `<div class="meta">Normalpreis: ${euro(r.total)}</div>` : ''}
+        ${sessions(r.sessions)}${spaceInfo(r)}${r.total ? `<div class="meta">Normalpreis: ${euro(r.total)}</div>` : ''}
         ${Object.keys(r.fields || {}).length ? `<div class="meta">${Object.entries(r.fields).map(([k, v]) => `${esc(k)}: ${esc(v)}`).join(' · ')}</div>` : ''}
         ${r.message ? `<pre>${esc(r.message)}</pre>` : ''}</div>
         <div class="row" style="justify-content:flex-end">
           ${r.type === 'studio' && r.sessions?.length && ['new', 'progress'].includes(r.status) ? `<button class="btn btn-primary btn-sm" data-studio="${r.id}" data-act="accept">Termin bestätigen</button><button class="btn btn-ghost btn-sm" data-studio="${r.id}" data-act="decline">Absagen</button>` : ''}
+          ${r.spaces?.length && ['new', 'progress'].includes(r.status) ? (() => { const o = data.occupancy.find((x) => x.requestId === r.id); return `${o ? status(o.status === 'booked' ? 'confirmed' : 'pending') : ''}${o?.status !== 'reserved' ? `<button class="btn btn-ghost btn-sm" data-space-req="${r.id}" data-act="reserve">Reservieren</button>` : ''}<button class="btn btn-primary btn-sm" data-space-req="${r.id}" data-act="book">Fest buchen</button><button class="btn btn-ghost btn-sm" data-space-req="${r.id}" data-act="decline">Absagen</button>`; })() : ''}
           <select data-req-status="${r.id}">${['new', 'progress', 'done', 'declined'].map((s) => `<option value="${s}" ${r.status === s ? 'selected' : ''}>${STATUS[s]}</option>`).join('')}</select>
         </div></div>`).join('') : empty('Keine Anfragen.'));
   }
@@ -71,6 +78,28 @@ function render() {
       `<h3 class="h4 admin-sub">Artist-Member (${members.length})</h3>` + (members.length ? members.map((u) => `<div class="admin-item"><div><div class="row" style="gap:10px"><b class="name-line">${esc(u.name)} ${verifiedBadge(u.role, 16)}</b>${status(u.membership?.status || 'active')}<span class="mono muted" style="font-size:12px">${u.membership?.kind === 'free' ? 'Freiplatz' : 'zahlend'}</span></div><div class="meta">${esc(u.email)} · seit ${when(u.membership?.since)}</div></div>
       <div><button class="btn btn-ghost btn-sm" data-revoke="${u.id}">Membership beenden</button></div></div>`).join('') : empty('Noch keine Artist-Member.')) +
       `<h3 class="h4 admin-sub">Community (${data.users.filter((u) => u.role === 'community').length})</h3><div class="admin-item"><div class="meta">${data.users.filter((u) => u.role === 'community').map((u) => esc(u.name)).join(' · ') || '–'}</div><div><button class="btn btn-ghost btn-sm" data-newsletter>Newsletter-Liste (CSV)</button></div></div>`;
+  }
+
+  if (tab === 'occupancy') {
+    const o = editOcc || {};
+    const today = new Date().toISOString().slice(0, 10);
+    const upcoming = data.occupancy.filter((x) => x.dateTo >= today);
+    p.innerHTML = `<form class="form admin-form" data-occ-form>
+      <h3 class="h4">${o.id ? 'Belegung bearbeiten' : 'Belegung eintragen'}</h3>
+      <p class="muted" style="margin:0;font-size:14px">Steuert den Kalender im Grundriss auf der Startseite. Öffentlich sichtbar ist nur frei / angefragt·reserviert / gebucht – nie Titel oder Namen. Anfragen mit Bereichen erscheinen automatisch als „angefragt“.</p>
+      <div class="chips">${SPACES.filter((x) => !x.own).map((x) => `<label class="chip"><input type="checkbox" name="spaces" value="${x.id}" ${o.spaces?.includes(x.id) ? 'checked' : ''}><span>${x.name.de}</span></label>`).join('')}</div>
+      <div class="form-grid">
+        <div class="field"><label>Von</label><input name="dateFrom" type="date" required value="${o.dateFrom || ''}"></div>
+        <div class="field"><label>Bis</label><input name="dateTo" type="date" value="${o.dateTo || ''}"></div>
+        <div class="field"><label>Status</label><select name="status"><option value="booked" ${o.status !== 'reserved' ? 'selected' : ''}>Gebucht</option><option value="reserved" ${o.status === 'reserved' ? 'selected' : ''}>Reserviert / vorgemerkt</option></select></div>
+        <div class="field"><label>Titel (intern)</label><input name="title" value="${esc(o.title || '')}" placeholder="z. B. Firmenfeier Müller"></div>
+      </div>
+      <div class="row"><button class="btn btn-primary btn-sm" type="submit">${o.id ? 'Speichern' : 'Eintragen'}</button>${o.id ? '<button class="btn btn-ghost btn-sm" type="button" data-occ-new>Neu</button>' : ''}</div>
+    </form>
+    <h3 class="h4 admin-sub">Kommende Belegung (${upcoming.length})</h3>` + (upcoming.length ? upcoming.map((x) => `<div class="admin-item"><div>
+      <div class="row" style="gap:10px"><b>${esc(x.title || 'Ohne Titel')}</b>${status(x.status === 'booked' ? 'confirmed' : 'pending').replace(/>[^<]*<\/span>$/, `>${OCC[x.status]}</span>`)}${x.requestId ? `<span class="mono muted" style="font-size:12px">aus Anfrage ${x.requestId}</span>` : ''}</div>
+      <div class="meta">${range(x.dateFrom, x.dateTo)} · ${x.spaces.map(spaceName).join(' · ')}</div></div>
+      <div class="row" style="justify-content:flex-end"><button class="btn btn-ghost btn-sm" data-occ-edit="${x.id}">Bearbeiten</button><button class="btn btn-ghost btn-sm" data-occ-del="${x.id}">Löschen</button></div></div>`).join('') : empty('Noch nichts eingetragen.'));
   }
 
   if (tab === 'events') {
@@ -133,6 +162,10 @@ document.addEventListener('click', async (e) => {
     if (ds.tab) { tab = ds.tab; history.replaceState(null, '', `?tab=${tab}`); return render(); }
     if (ds.filter) { filter = ds.filter; return render(); }
     if (ds.studio) { await api.admin.studio(ds.studio, ds.act); toast(ds.act === 'accept' ? 'Termin bestätigt – E-Mail raus' : 'Abgesagt – E-Mail raus'); }
+    else if (ds.spaceReq) { if (ds.act === 'decline' && !confirm('Anfrage absagen? Der Kunde bekommt eine E-Mail.')) return; await api.admin.spaceRequest(ds.spaceReq, ds.act); toast(ds.act === 'book' ? 'Fest gebucht – E-Mail raus' : ds.act === 'reserve' ? 'Reserviert – E-Mail raus' : 'Abgesagt – E-Mail raus'); }
+    else if (ds.occEdit) { editOcc = data.occupancy.find((x) => x.id === ds.occEdit); render(); scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    else if (ds.occNew !== undefined) { editOcc = null; render(); return; }
+    else if (ds.occDel) { if (!confirm('Eintrag löschen?')) return; await api.admin.deleteOccupancy(ds.occDel); toast('Gelöscht'); }
     else if (ds.booking) { if (!confirm('Buchung wirklich stornieren?')) return; await api.admin.booking(ds.booking, ds.status); toast('Buchung storniert'); }
     else if (ds.app) { const r = await api.admin.application(ds.app, ds.act, ds.kind); toast(r.application.status === 'invited' ? 'Eingeladen – Zahlungslink per E-Mail' : r.application.status === 'waitlist' ? 'Plätze voll – auf Warteliste gesetzt' : r.application.status === 'active' ? 'Freiplatz vergeben' : 'Abgelehnt'); }
     else if (ds.revoke) { if (!confirm('Membership wirklich beenden?')) return; await api.admin.revoke(ds.revoke); toast('Membership beendet – Warteliste rückt nach'); }
@@ -156,6 +189,11 @@ document.addEventListener('submit', async (e) => {
     e.preventDefault();
     const d = Object.fromEntries(new FormData(e.target));
     try { await api.admin.saveEvent({ ...d, id: editEvent?.id, plusOne: !!d.plusOne, membersOnly: !!d.membersOnly }); editEvent = null; toast('Event gespeichert'); load(); } catch (ex) { toast(ex.message, 'circle-alert'); }
+  }
+  if (e.target.matches('[data-occ-form]')) {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    try { await api.admin.saveOccupancy({ id: editOcc?.id, spaces: f.getAll('spaces'), dateFrom: f.get('dateFrom'), dateTo: f.get('dateTo') || f.get('dateFrom'), status: f.get('status'), title: f.get('title') }); editOcc = null; toast('Belegung gespeichert'); load(); } catch (ex) { toast(ex.message, 'circle-alert'); }
   }
   if (e.target.matches('[data-settings-form]')) {
     e.preventDefault();

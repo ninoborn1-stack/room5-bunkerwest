@@ -51,6 +51,14 @@ export const TEMPLATES = {
       intro: d.accepted ? (l === 'en' ? 'We confirmed your studio session. Payment on site or by invoice.' : 'Wir haben deine Studio-Session bestätigt. Bezahlung vor Ort oder per Rechnung.') : (l === 'en' ? 'The requested time is not available. Feel free to request another date.' : 'Der gewünschte Termin ist leider nicht frei. Frag gern einen anderen Tag an.'),
       body: list(d.summary || []) }),
   }),
+  space_answered: (d, l) => {
+    const T = {
+      reserved: { de: ['Wir haben deine Bereiche vorgemerkt', 'Dein Termin ist für dich reserviert. Wir melden uns mit allen Details und einem Angebot.'], en: ['We reserved your spaces', 'Your date is reserved for you. We will follow up with details and an offer.'] },
+      booked: { de: ['Dein Termin im Bunker steht', 'Wir haben deine Anfrage fest eingetragen. Details und Rechnung bekommst du separat.'], en: ['Your date at the Bunker is confirmed', 'We have confirmed your request. Details and invoice follow separately.'] },
+      declined: { de: ['Diesmal leider nicht', 'Der gewünschte Zeitraum ist leider nicht frei. Frag gern einen anderen Termin an.'], en: ['Unfortunately not this time', 'The requested period is not available. Feel free to request another date.'] },
+    }[d.state][l === 'en' ? 'en' : 'de'];
+    return { subject: l === 'en' ? `Bunker West: ${T[0]}` : `Bunker West: ${T[0]}`, html: layout({ lang: l, title: T[0], intro: T[1], body: list(d.summary || []) }) };
+  },
   booking_paid: (d, l) => ({
     subject: l === 'en' ? `Booking confirmed · ${d.id}` : `Buchung bestätigt · ${d.id}`,
     html: layout({ lang: l, title: l === 'en' ? 'The session is yours' : 'Die Session gehört dir',

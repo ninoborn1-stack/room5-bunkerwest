@@ -99,4 +99,32 @@ console.log('today day session (depends on time):', started.status, started.body
   ok('login rate limit', last.status === 429, last.body);
 }
 
+// Bunker-Bereiche: anfragen -> angefragt, reservieren, buchen, Konflikt
+{
+  const d = (n) => ymd(new Date(Date.now() + n * 864e5));
+  let r = await call('g', 'POST', '/requests', { type: 'event', name: 'Firma X', email: 'x@room5.test', message: 'Sommerfest für 120 Gäste.', spaces: ['halle1', 'foyer', 'quatsch'], dateFrom: d(50), dateTo: d(51), extras: ['bar'] });
+  ok('space request', r.status === 201, r.body);
+  const reqId = r.body.request.id;
+  r = await call('g', 'GET', '/spaces/availability', null, { query: { from: d(50), days: 3 } });
+  ok('space held after request', r.body.days[d(50)]?.halle1 === 'held' && r.body.days[d(51)]?.foyer === 'held' && !r.body.days[d(52)], r.body);
+  ok('no personal data public', !JSON.stringify(r.body).includes('Firma'));
+  r = await call('g', 'POST', '/requests', { type: 'event', name: 'Y', email: 'y@room5.test', message: 'Zu lang angefragt hier.', spaces: ['halle1'], dateFrom: d(1), dateTo: d(40) });
+  ok('space range max 30 days', r.status === 400 && r.body.code === 'space_dates', r.body);
+  r = await call('g', 'POST', '/requests', { type: 'event', name: 'Y', email: 'y@room5.test', message: 'Vergangenheit geht nicht.', spaces: ['halle1'], dateFrom: d(-2), dateTo: d(-2) });
+  ok('space past blocked', r.status === 400, r.body);
+  const admin = await call('adm', 'POST', '/auth/login', { email: em('admin'), password: pw('admin') });
+  r = await call('adm', 'POST', `/admin/requests/${reqId}/space`, { action: 'reserve' });
+  ok('space reserve', r.status === 200 && r.body.request.status === 'progress', r.body);
+  r = await call('adm', 'POST', `/admin/requests/${reqId}/space`, { action: 'book' });
+  r = await call('g', 'GET', '/spaces/availability', null, { query: { from: d(50), days: 2 } });
+  ok('space booked', r.body.days[d(51)]?.halle1 === 'booked', r.body);
+  r = await call('adm', 'POST', '/admin/occupancy', { spaces: ['halle1'], dateFrom: d(51), dateTo: d(52), status: 'booked', title: 'Doppelt' });
+  ok('space conflict blocked', r.status === 409 && r.body.code === 'space_taken', r.body);
+  r = await call('adm', 'POST', '/admin/occupancy', { spaces: ['history'], dateFrom: d(51), dateTo: d(52), status: 'reserved', title: 'Workshop' });
+  ok('manual occupancy', r.status === 200, r.body);
+  r = await call('c', 'POST', '/admin/occupancy', { spaces: ['history'], dateFrom: d(51) });
+  ok('occupancy admin only', r.status === 403);
+  ok('space mail sent', (await store.all('outbox')).some((m) => m.template === 'space_answered'));
+}
+
 if (failed) { console.error(`\n${failed} Test(s) fehlgeschlagen`); process.exit(1); } else console.log('\nAlle Tests bestanden.');

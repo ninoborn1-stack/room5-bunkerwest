@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Impressum, Datenschutz & AGB · Bunker West</title>
-  <meta name="description" content="Impressum, Datenschutzerklärung und AGB von Bunker West / Room 5.">
+  <meta name="description" content="Impressum, Datenschutzerklärung und AGB von Bunker West, Hohenzollerndamm 120, 14199 Berlin.">
   <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
@@ -13,26 +13,166 @@
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lucide.min.js" defer></script>
-  <script type="module" src="js/app.js"></script>
+  <script type="module" src="js/legal.js"></script>
 </head>
 <body data-page="legal">
-<div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
+<div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Bunker West</div></div>
 <main>
   <section class="page-hero" style="padding-bottom:30px">
     <div class="wrap">
-      <h1 class="display h2 long" data-i18n="legal.title">Rechtliches</h1>
-      <div class="alert info" style="margin-top:24px;max-width:70ch"><i data-lucide="info"></i><span data-i18n="legal.note">Platzhalter: Impressum, Datenschutzerklärung und AGB werden von der aktuellen Bunker-West-Website übernommen.</span></div>
+      <div class="eyebrow" data-i18n="legal.eyebrow">Stand: Oktober 2026</div>
+      <h1 class="display h2 long" style="margin-top:28px" data-split data-i18n="legal.title">Rechtliches</h1>
+      <nav class="legal-tabs" aria-label="Rechtliches" data-i18n-attr="aria-label:legal.title">
+        <a href="#impressum" data-i18n="footer.imprint">Impressum</a><a href="#datenschutz" data-i18n="footer.privacy">Datenschutz</a><a href="#agb" data-i18n="footer.terms">AGB</a>
+      </nav>
     </div>
   </section>
+
   <section class="section-sm legal" style="padding-top:0">
-    <div class="wrap" style="max-width:820px">
-      <article id="impressum"><h2 class="h3 display" data-i18n="footer.imprint">Impressum</h2><p class="muted">Bunker West · Room 5<br>[Anschrift]<br>[Vertretungsberechtigte Person]<br>[E-Mail · Telefon]<br>[Registereintrag / USt-IdNr.]</p></article>
-      <article id="datenschutz"><h2 class="h3 display" data-i18n="footer.privacy">Datenschutz</h2>
-        <p class="muted" data-i18n="legal.privacy1">Wir speichern nur die Daten, die du uns über Formulare, dein Profil oder Buchungen gibst, und nutzen sie, um deine Anfrage, Buchung oder Mitgliedschaft abzuwickeln. Zahlungen laufen über Stripe, E-Mails über unseren Mail-Dienst. Für Login, Sprache und Darstellung speichern wir technisch notwendige Angaben in deinem Browser.</p>
-        <p class="muted">[Vollständige Datenschutzerklärung folgt]</p></article>
-      <article id="agb"><h2 class="h3 display" data-i18n="footer.terms">AGB</h2>
-        <p class="muted" data-i18n="legal.terms1">Studio-Sessions: Day Session 12:00–18:00 Uhr, Night Session 18:30–00:30 Uhr. Grundausstattung ist inklusive. Kostenlose Stornierung bis 48 Stunden vor Beginn. Schäden am Equipment werden berechnet.</p>
-        <p class="muted">[Vollständige AGB folgen]</p></article>
+    <div class="wrap legal-wrap">
+
+      <!-- ======================= IMPRESSUM ======================= -->
+      <article id="impressum">
+        <h2 class="h3 display" data-i18n="footer.imprint">Impressum</h2>
+        <div class="lang-de">
+          <h3>Angaben gemäß § 5 DDG</h3>
+          <p><span data-legal="company"></span><br>Inhaber: <span data-legal="owner"></span><br><span data-legal="street"></span><br><span data-legal="city"></span></p>
+          <h3>Kontakt</h3>
+          <p>Telefon: <a data-legal="phone"></a><br>E-Mail: <a data-legal="email"></a></p>
+          <h3>Steuernummer</h3>
+          <p data-legal="taxNo"></p>
+          <h3>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h3>
+          <p><span data-legal="owner"></span>, <span data-legal="street"></span>, <span data-legal="city"></span></p>
+          <h3>Verbraucherstreitbeilegung</h3>
+          <p>Wir sind nicht bereit und nicht verpflichtet, an Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen.</p>
+          <h3>Haftung für Links</h3>
+          <p>Diese Website enthält Links zu externen Seiten. Für deren Inhalte sind ausschließlich die jeweiligen Betreiber verantwortlich. Zum Zeitpunkt der Verlinkung waren keine Rechtsverstöße erkennbar; bei Bekanntwerden entfernen wir solche Links umgehend.</p>
+          <h3>Urheberrecht</h3>
+          <p>Texte, Bilder und Grafiken auf dieser Website sind urheberrechtlich geschützt. Eine Verwendung, insbesondere eine kommerzielle, ist nur nach vorheriger Absprache erlaubt. Ziel der Website ist die Darstellung des Angebots von Bunker West.</p>
+          <h3>Bildnachweis</h3>
+          <p>Fotos: Bunker West · Fashion-Event: Alexander Shelegov (Marlon Ferry AW25) · Dinner: Pese Oetken (@pese.oetken)</p>
+        </div>
+        <div class="lang-en">
+          <h3>Information pursuant to § 5 DDG (German Digital Services Act)</h3>
+          <p><span data-legal="company"></span><br>Owner: <span data-legal="owner"></span><br><span data-legal="street"></span><br><span data-legal="city"></span>, Germany</p>
+          <h3>Contact</h3>
+          <p>Phone: <a data-legal="phone"></a><br>Email: <a data-legal="email"></a></p>
+          <h3>Tax number</h3>
+          <p data-legal="taxNo"></p>
+          <h3>Responsible for content pursuant to § 18 (2) MStV</h3>
+          <p><span data-legal="owner"></span>, <span data-legal="street"></span>, <span data-legal="city"></span></p>
+          <h3>Consumer dispute resolution</h3>
+          <p>We are neither willing nor obliged to take part in dispute resolution proceedings before a consumer arbitration board.</p>
+          <h3>Liability for links</h3>
+          <p>This website contains links to external sites. Their operators alone are responsible for their content. No legal violations were apparent when the links were set; we remove such links as soon as we become aware of any.</p>
+          <h3>Copyright</h3>
+          <p>Texts, images and graphics on this website are protected by copyright. Any use, in particular commercial use, requires prior agreement.</p>
+          <h3>Image credits</h3>
+          <p>Photos: Bunker West · Fashion event: Alexander Shelegov (Marlon Ferry AW25) · Dinner: Pese Oetken (@pese.oetken)</p>
+        </div>
+      </article>
+
+      <!-- ======================= DATENSCHUTZ ======================= -->
+      <article id="datenschutz">
+        <h2 class="h3 display" data-i18n="footer.privacy">Datenschutz</h2>
+        <div class="lang-de">
+          <p class="lead-sm">Wir verarbeiten nur die Daten, die wir für Anfragen, Buchungen, dein Profil und den Betrieb der Website wirklich brauchen. Kein Tracking, keine Werbe-Cookies, keine Analyse-Tools.</p>
+          <h3>1. Verantwortlicher</h3>
+          <p><span data-legal="company"></span>, Inhaber <span data-legal="owner"></span>, <span data-legal="street"></span>, <span data-legal="city"></span> · E-Mail: <a data-legal="email"></a> · Telefon: <a data-legal="phone"></a></p>
+          <h3>2. Hosting und Server-Logfiles</h3>
+          <p>Die Website wird bei Cloudflare, Inc. (101 Townsend St, San Francisco, USA) betrieben; die Datenbank für Profile, Anfragen und Buchungen liegt ebenfalls dort (Cloudflare D1). Bis zum Livegang läuft eine Vorschau über GitHub Pages (GitHub, Inc., USA). Beim Aufruf werden technisch notwendige Daten verarbeitet (IP-Adresse, Datum und Uhrzeit, aufgerufene Seite, Browser), um die Seite auszuliefern und vor Missbrauch zu schützen. Rechtsgrundlage ist unser berechtigtes Interesse an einem sicheren Betrieb (Art. 6 Abs. 1 lit. f DSGVO). Beide Anbieter sind nach dem EU-US Data Privacy Framework zertifiziert; zusätzlich bestehen Standardvertragsklauseln.</p>
+          <h3>3. Speicherung im Browser</h3>
+          <p>Wir setzen keine Tracking-Cookies. Im Speicher deines Browsers (localStorage/sessionStorage) legen wir nur ab, was für die Funktion nötig ist: Hell/Dunkel, Sprache, deine Raumauswahl im Grundriss und – wenn du eingeloggt bist – ein Sitzungs-Token. Das ist für den von dir gewünschten Dienst unbedingt erforderlich (§ 25 Abs. 2 Nr. 2 TDDDG). Schriften und Skripte liefern wir selbst aus; es werden keine Inhalte von Google Fonts oder ähnlichen Diensten nachgeladen.</p>
+          <h3>4. Kontaktformular und Raumanfragen</h3>
+          <p>Wenn du uns über das Formular schreibst, verarbeiten wir Name, E-Mail, optional Telefon und Firma, deine Nachricht sowie gewählte Bereiche, Termine und Extras, um deine Anfrage zu beantworten und ein Angebot zu erstellen (Art. 6 Abs. 1 lit. b DSGVO). Im öffentlichen Belegungskalender erscheint nur, dass ein Bereich an einem Tag angefragt, reserviert oder gebucht ist – niemals dein Name oder andere Angaben. Anfragen löschen wir, wenn sie erledigt sind und keine Aufbewahrungspflichten mehr bestehen, spätestens nach drei Jahren.</p>
+          <h3>5. Profil, Community und Artist-Bewerbung</h3>
+          <p>Für ein Profil speichern wir Name, E-Mail, ein verschlüsseltes Passwort (PBKDF2), Sprache und deine Einstellungen; bei einer Artist-Bewerbung zusätzlich die Angaben aus der Bewerbung (z. B. Genres, Links, Motivation). Zweck ist die Mitgliedschaft und die Teilnahme an Events (Art. 6 Abs. 1 lit. b DSGVO). Du kannst dein Profil jederzeit in den Einstellungen löschen. Buchungsdaten bewahren wir wegen gesetzlicher Pflichten weiter auf.</p>
+          <h3>6. Buchungen und Zahlungen</h3>
+          <p>Bezahlte Buchungen und die Artist-Membership werden über Stripe Payments Europe, Ltd. (1 Grand Canal Street Lower, Dublin, Irland) abgewickelt. Deine Zahlungsdaten gibst du direkt bei Stripe ein; wir erhalten nur den Zahlungsstatus. Rechtsgrundlage ist die Vertragserfüllung (Art. 6 Abs. 1 lit. b DSGVO). Rechnungs- und Buchungsdaten bewahren wir gemäß § 147 AO und § 257 HGB bis zu zehn Jahre auf.</p>
+          <h3>7. E-Mails, Event-Benachrichtigungen und Newsletter</h3>
+          <p>Bestätigungen und Antworten versenden wir über Resend (Resend, Inc., USA; zertifiziert nach dem EU-US Data Privacy Framework). Event-Benachrichtigungen und gelegentliche Newsletter schicken wir nur, wenn du sie im Profil aktiviert hast (Art. 6 Abs. 1 lit. a DSGVO). Du kannst das jederzeit in den Einstellungen oder per E-Mail an uns widerrufen.</p>
+          <h3>8. Spam-Schutz</h3>
+          <p>Formulare können mit Cloudflare Turnstile vor Bots geschützt werden. Dabei werden technische Merkmale deines Browsers geprüft, ohne Cookies für Werbung oder Tracking. Rechtsgrundlage ist unser berechtigtes Interesse am Schutz vor Missbrauch (Art. 6 Abs. 1 lit. f DSGVO).</p>
+          <h3>9. Externe Links</h3>
+          <p>Links zu Instagram und Google Maps sind einfache Links. Erst wenn du sie anklickst, verlässt du unsere Seite; dann gelten die Datenschutzhinweise des jeweiligen Anbieters.</p>
+          <h3>10. Deine Rechte</h3>
+          <p>Du hast das Recht auf Auskunft (Art. 15), Berichtigung (Art. 16), Löschung (Art. 17), Einschränkung der Verarbeitung (Art. 18), Datenübertragbarkeit (Art. 20) und Widerspruch gegen Verarbeitungen auf Grundlage berechtigter Interessen (Art. 21 DSGVO). Eine Einwilligung kannst du jederzeit mit Wirkung für die Zukunft widerrufen. Schreib uns einfach an <a data-legal="email"></a>. Außerdem kannst du dich bei einer Aufsichtsbehörde beschweren, zum Beispiel bei der Berliner Beauftragten für Datenschutz und Informationsfreiheit.</p>
+        </div>
+        <div class="lang-en">
+          <p class="lead-sm">We only process the data we really need for requests, bookings, your profile and running the website. No tracking, no advertising cookies, no analytics tools. <em>The German version is legally binding.</em></p>
+          <h3>1. Controller</h3>
+          <p><span data-legal="company"></span>, owner <span data-legal="owner"></span>, <span data-legal="street"></span>, <span data-legal="city"></span>, Germany · Email: <a data-legal="email"></a> · Phone: <a data-legal="phone"></a></p>
+          <h3>2. Hosting and server logs</h3>
+          <p>The website runs on Cloudflare, Inc. (San Francisco, USA), including the database for profiles, requests and bookings (Cloudflare D1). Until launch, a preview runs on GitHub Pages (GitHub, Inc., USA). When you visit, technically necessary data (IP address, date and time, page, browser) is processed to deliver the site and prevent abuse – based on our legitimate interest in secure operation (Art. 6(1)(f) GDPR). Both providers are certified under the EU-US Data Privacy Framework; standard contractual clauses also apply.</p>
+          <h3>3. Browser storage</h3>
+          <p>We do not use tracking cookies. In your browser's storage we only keep what is required: light/dark mode, language, your floor-plan selection and – when logged in – a session token (strictly necessary, § 25(2) no. 2 TDDDG). Fonts and scripts are self-hosted; nothing is loaded from Google Fonts or similar services.</p>
+          <h3>4. Contact form and space requests</h3>
+          <p>When you contact us, we process your name, email, optionally phone and company, your message and the spaces, dates and extras you chose, to answer your request and prepare an offer (Art. 6(1)(b) GDPR). The public availability calendar only shows that a space is requested, reserved or booked on a day – never your name or other details. We delete requests once they are settled and no retention duties apply, at the latest after three years.</p>
+          <h3>5. Profile, community and artist application</h3>
+          <p>For a profile we store your name, email, an encrypted password (PBKDF2), language and settings; for an artist application also the information you provide (e.g. genres, links, motivation). The purpose is membership and event participation (Art. 6(1)(b) GDPR). You can delete your profile at any time in your settings; booking records are kept as required by law.</p>
+          <h3>6. Bookings and payments</h3>
+          <p>Paid bookings and the Artist membership are processed by Stripe Payments Europe, Ltd. (Dublin, Ireland). You enter payment details directly with Stripe; we only receive the payment status (Art. 6(1)(b) GDPR). Invoice and booking data is kept for up to ten years under German tax and commercial law.</p>
+          <h3>7. Emails, event notifications and newsletter</h3>
+          <p>Confirmations and replies are sent via Resend (Resend, Inc., USA; certified under the EU-US Data Privacy Framework). Event notifications and the occasional newsletter are only sent if you enabled them (Art. 6(1)(a) GDPR); you can withdraw at any time in your settings or by email.</p>
+          <h3>8. Spam protection</h3>
+          <p>Forms may be protected against bots by Cloudflare Turnstile, which checks technical browser characteristics without advertising or tracking cookies (Art. 6(1)(f) GDPR).</p>
+          <h3>9. External links</h3>
+          <p>Links to Instagram and Google Maps are plain links. Only when you click them do you leave our site; the provider's privacy policy then applies.</p>
+          <h3>10. Your rights</h3>
+          <p>You have the right of access, rectification, erasure, restriction, data portability and objection (Art. 15–21 GDPR), and you can withdraw consent at any time with future effect. Just write to <a data-legal="email"></a>. You may also lodge a complaint with a supervisory authority, e.g. the Berlin Commissioner for Data Protection and Freedom of Information.</p>
+        </div>
+      </article>
+
+      <!-- ======================= AGB ======================= -->
+      <article id="agb">
+        <h2 class="h3 display" data-i18n="footer.terms">AGB</h2>
+        <div class="lang-de">
+          <p class="lead-sm">Allgemeine Geschäftsbedingungen von Bunker West für Raumanfragen, Studio-Sessions in Room 5 und die Membership.</p>
+          <h3>§ 1 Geltungsbereich</h3>
+          <p>Diese Bedingungen gelten für alle Verträge zwischen Bunker West (Inhaber <span data-legal="owner"></span>) und Kund:innen über die Nutzung von Räumen im Bunker West, Studio-Sessions in Room 5 und Mitgliedschaften. Abweichende Bedingungen gelten nur, wenn wir ihnen schriftlich zustimmen.</p>
+          <h3>§ 2 Raumanfragen im Bunker</h3>
+          <p>Die Bereiche im Grundriss (z. B. Foyer, Halle 1, Halle 2, History Room, Studio Room 6, Lager) sind nicht direkt buchbar. Eine Anfrage ist unverbindlich. Eine Reservierung ist eine Vormerkung ohne Zahlungspflicht. Ein Vertrag kommt erst zustande, wenn du unser schriftliches Angebot annimmst. Umfang, Preis, Zeiten, Extras und Stornobedingungen ergeben sich aus dem jeweiligen Angebot.</p>
+          <h3>§ 3 Studio-Sessions in Room 5</h3>
+          <p>Day Session: 12:00–18:00 Uhr, Night Session: 18:30–00:30 Uhr. Die Grundausstattung ist inklusive; Engineer, Produzent, Mixing und Mastering sind zubuchbar. Artist-Member können direkt buchen; der Vertrag kommt mit Abschluss der Zahlung zustande. Alle anderen senden eine Anfrage; der Vertrag kommt mit unserer Bestätigung per E-Mail zustande. Nicht bezahlte Direktbuchungen werden nach 30 Minuten freigegeben.</p>
+          <h3>§ 4 Preise und Zahlung</h3>
+          <p>Es gelten die zum Zeitpunkt der Buchung angezeigten bzw. angebotenen Preise. Direktbuchungen werden vorab über Stripe bezahlt. Bei bestätigten Anfragen erfolgt die Zahlung vor Ort oder per Rechnung.</p>
+          <h3>§ 5 Stornierung</h3>
+          <p>Studio-Sessions kannst du bis 48 Stunden vor Beginn kostenlos stornieren. Bei späterer Stornierung oder Nichterscheinen wird der volle Preis fällig. Für Räume im Bunker gelten die Stornobedingungen aus dem Angebot. Müssen wir einen Termin absagen (z. B. wegen technischer Störungen), erstatten wir bereits gezahlte Beträge vollständig.</p>
+          <h3>§ 6 Nutzung und Hausregeln</h3>
+          <p>Räume und Equipment sind sorgfältig zu behandeln und in dem Zustand zu verlassen, in dem sie übernommen wurden. Schäden sind sofort zu melden; schuldhaft verursachte Schäden werden berechnet. Rauchen ist in allen Räumen untersagt. Den Anweisungen unseres Teams ist Folge zu leisten. Bei Events bist du für Genehmigungen und Anmeldungen (z. B. GEMA) selbst verantwortlich, soweit im Angebot nichts anderes vereinbart ist.</p>
+          <h3>§ 7 Membership</h3>
+          <p>Die Community-Mitgliedschaft ist kostenlos und kann jederzeit durch Löschen des Profils beendet werden. Die Artist-Membership wird nur nach Bewerbung und Zusage vergeben. Sie läuft monatlich und kann jederzeit zum Ende des laufenden Abrechnungsmonats gekündigt werden. Mitgliedsvorteile wie Rabatte, Free-Tickets und der Membersday sind persönlich und nicht übertragbar. Free-Tickets gibt es nur, solange das Kontingent eines Events reicht; ein Anspruch besteht nicht. Bei groben Verstößen gegen die Hausregeln können wir eine Mitgliedschaft beenden.</p>
+          <h3>§ 8 Widerrufsrecht</h3>
+          <p>Verbraucher:innen haben bei Verträgen, die online geschlossen werden, grundsätzlich ein Widerrufsrecht von 14 Tagen. Das gilt auch für die Artist-Membership. Für Studio-Sessions und Raumnutzungen zu einem festen Termin besteht nach § 312g Abs. 2 Nr. 9 BGB kein Widerrufsrecht.</p>
+          <h3>§ 9 Haftung</h3>
+          <p>Wir haften unbeschränkt bei Vorsatz und grober Fahrlässigkeit sowie bei Verletzung von Leben, Körper oder Gesundheit. Bei leichter Fahrlässigkeit haften wir nur für die Verletzung wesentlicher Vertragspflichten und begrenzt auf den vorhersehbaren, typischen Schaden. Für mitgebrachte Gegenstände und Daten übernehmen wir keine Haftung; bitte sichere deine Aufnahmen selbst.</p>
+          <h3>§ 10 Schlussbestimmungen</h3>
+          <p>Es gilt deutsches Recht. Sollte eine Bestimmung unwirksam sein, bleiben die übrigen Bestimmungen davon unberührt.</p>
+        </div>
+        <div class="lang-en">
+          <p class="lead-sm">General terms of Bunker West for space requests, studio sessions in Room 5 and membership. <em>The German version is legally binding.</em></p>
+          <h3>§ 1 Scope</h3>
+          <p>These terms apply to all contracts between Bunker West (owner <span data-legal="owner"></span>) and customers regarding the use of spaces at Bunker West, studio sessions in Room 5 and memberships.</p>
+          <h3>§ 2 Space requests</h3>
+          <p>The spaces on the floor plan cannot be booked directly. A request is non-binding and a reservation is a hold without payment obligation. A contract is only concluded when you accept our written offer, which sets out scope, price, times, extras and cancellation terms.</p>
+          <h3>§ 3 Studio sessions in Room 5</h3>
+          <p>Day Session 12:00–18:00, Night Session 18:30–00:30, basic equipment included; engineer, producer, mixing and mastering can be added. Artist Members book directly and the contract is concluded on payment. Everyone else sends a request and the contract is concluded with our email confirmation. Unpaid direct bookings are released after 30 minutes.</p>
+          <h3>§ 4 Prices and payment</h3>
+          <p>The prices shown or offered at the time of booking apply. Direct bookings are paid in advance via Stripe; confirmed requests are paid on site or by invoice.</p>
+          <h3>§ 5 Cancellation</h3>
+          <p>Studio sessions can be cancelled free of charge up to 48 hours before the start; later cancellations or no-shows are charged in full. For Bunker spaces, the cancellation terms of the offer apply. If we have to cancel, we refund all payments in full.</p>
+          <h3>§ 6 Use and house rules</h3>
+          <p>Treat rooms and equipment with care and leave them as you found them. Report damage immediately; culpably caused damage will be charged. No smoking. Follow our team's instructions. For events you are responsible for permits and registrations (e.g. GEMA) unless agreed otherwise.</p>
+          <h3>§ 7 Membership</h3>
+          <p>Community membership is free and ends when you delete your profile. Artist membership is granted by application only, runs monthly and can be cancelled at any time effective at the end of the current billing month. Member benefits such as discounts, free tickets and Members day are personal and non-transferable; free tickets are subject to availability.</p>
+          <h3>§ 8 Right of withdrawal</h3>
+          <p>Consumers generally have a 14-day right of withdrawal for contracts concluded online, including the Artist membership. There is no right of withdrawal for studio sessions and space use on a fixed date (§ 312g (2) no. 9 BGB).</p>
+          <h3>§ 9 Liability</h3>
+          <p>We are fully liable for intent and gross negligence and for injury to life, body or health. For slight negligence we are only liable for breaches of essential contractual obligations, limited to typical foreseeable damage. We accept no liability for items or data you bring; please back up your recordings.</p>
+          <h3>§ 10 Final provisions</h3>
+          <p>German law applies. Should a provision be invalid, the remaining provisions remain unaffected.</p>
+        </div>
+      </article>
     </div>
   </section>
 </main>

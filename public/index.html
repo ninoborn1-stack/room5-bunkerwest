@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Room 5 · Bunker West – Recording-Studio</title>
-  <meta name="description" content="Room 5 im Bunker West: Recording- und Produktionsraum – Day Session 12–18 Uhr, Night Session 18:30–00:30 Uhr. Anfragen oder als Artist-Member direkt buchen.">
+  <title>Bunker West · Eventlocation Berlin – Create your own space</title>
+  <meta name="description" content="Bunker West: historische Bunkeranlage in Berlin-Wilmersdorf. 600 m², acht Räume, Bühne, Bar und Galerie – für Events, Ausstellungen, Shootings und Studio. Räume im Grundriss wählen und anfragen.">
   <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
   <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
@@ -14,170 +14,213 @@
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lucide.min.js" defer></script>
-  <script type="module" src="js/home.js"></script>
+  <script type="module" src="js/bunker.js"></script>
 </head>
 <body data-page="home">
-<div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
+<div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Bunker West</div></div>
 
 <main>
   <!-- ============ HERO ============ -->
-  <section class="hero" aria-label="Room 5" data-theme="dark">
-    <div class="hero-media"><img src="img/room-depth.jpg" alt="Blick durch Room 5 im Bunker West" data-i18n-attr="alt:home.hero.alt" fetchpriority="high"></div>
+  <section class="hero" aria-label="Bunker West" data-theme="dark">
+    <div class="hero-media"><img src="img/bunker/hero.jpg" alt="Ausstellung in der Halle des Bunker West" data-i18n-attr="alt:bw.hero.alt" fetchpriority="high"></div>
     <div class="wrap hero-inner">
-      <div class="eyebrow" data-hero-fade data-i18n="home.hero.eyebrow">Bunker West · Recording & Produktion</div>
-      <h1 class="hero-title" aria-label="Room 5"><span class="line"><span>Room</span></span> <span class="line"><span class="five">5</span></span></h1>
+      <div class="eyebrow" data-hero-fade data-i18n="bw.hero.eyebrow">Eventlocation Berlin · Hohenzollerndamm 120</div>
+      <h1 class="hero-title is-bunker" aria-label="Bunker West"><span class="line"><span>Bunker</span></span><br><span class="line"><span class="five">West</span></span></h1>
       <div class="hero-bottom">
         <div data-hero-fade>
-          <p class="hero-sub" data-i18n="home.hero.sub">Ein Studio unter Beton. Zwei Sessions am Tag, sechs Stunden Ruhe für deinen Sound.</p>
+          <p class="hero-sub" data-i18n="bw.hero.sub">600 m² unter Beton – Bühne, Bar und Galerie. Für Events, Ausstellungen, Shootings und alles, was noch keinen Namen hat.</p>
           <div class="row">
-            <a href="buchen.html" class="btn btn-primary" data-magnetic><span data-i18n="home.hero.cta">Session anfragen</span> <i data-lucide="arrow-right"></i></a>
-            <a href="#studio" class="btn btn-ghost" data-i18n="home.hero.cta2">Den Raum sehen</a>
+            <a href="#raeume" class="btn btn-primary" data-magnetic><span data-i18n="bw.hero.cta">Raum wählen</span> <i data-lucide="arrow-down"></i></a>
+            <a href="kontakt.html?typ=event" class="btn btn-ghost" data-cta-static>Create your own space</a>
           </div>
         </div>
-        <svg class="hero-mic" viewBox="0 0 260 340" aria-hidden="true" data-hero-fade>
-          <defs><clipPath id="capsule"><rect x="95" y="34" width="70" height="128" rx="35"/></clipPath></defs>
-          <g class="mic-waves" fill="none" stroke-linecap="round">
-            <path class="w w1" d="M72 62 a62 62 0 0 0 0 92"/><path class="w w1" d="M188 62 a62 62 0 0 1 0 92"/>
-            <path class="w w2" d="M50 44 a90 90 0 0 0 0 128"/><path class="w w2" d="M210 44 a90 90 0 0 1 0 128"/>
-            <path class="w w3" d="M28 26 a118 118 0 0 0 0 164"/><path class="w w3" d="M232 26 a118 118 0 0 1 0 164"/>
+        <svg class="hero-plan" viewBox="0 0 1360 1737" aria-hidden="true" data-hero-fade>
+          <path class="hp-outline" d="M30 500 L455 22 L1335 478 L1335 1520 L1300 1520 L1300 1725 L1088 1725 L1088 1490 L888 1490 L888 828 L430 828 L430 1400 L30 1400 Z"/>
+          <path class="hp-inner" d="M150 812 L888 812 M470 232 L470 812 M490 600 L572 518 L822 518 L822 582 L1230 582 L1230 815 M66 898 L312 898 L312 1176 L66 1176 M66 1048 L312 1048 M922 834 L1186 834 L1186 1266 L922 1266 M922 1148 L1186 1148"/>
+          <g class="hp-dots">
+            <circle cx="300" cy="620" r="16"/><circle cx="880" cy="380" r="16"/><circle cx="860" cy="700" r="16"/>
+            <circle cx="190" cy="972" r="16"/><circle cx="1054" cy="990" r="16"/><circle cx="1054" cy="1208" r="16"/>
           </g>
-          <g class="mic-body" fill="none" stroke-linecap="round" stroke-linejoin="round">
-            <rect class="draw" x="95" y="34" width="70" height="128" rx="35"/>
-            <g clip-path="url(#capsule)" class="grille">
-              <path d="M95 52h70M95 62h70M95 72h70M95 82h70M95 92h70M95 102h70"/>
-              <path d="M105 34v80M115 34v80M125 34v80M135 34v80M145 34v80M155 34v80"/>
-            </g>
-            <rect class="band" x="95" y="112" width="70" height="10"/>
-            <path class="draw" d="M78 128 v22 a52 52 0 0 0 104 0 v-22"/>
-            <path class="draw" d="M130 202 v80"/>
-            <path class="draw" d="M96 282 h68"/>
-            <path class="draw cable" d="M130 282 q0 26 -30 30 t-40 22"/>
-          </g>
-          <circle class="mic-rec" cx="214" cy="292" r="5"/>
-          <text x="194" y="296" class="mic-rec-label" text-anchor="end">REC</text>
+          <circle class="hp-ping" cx="860" cy="700" r="16"/>
+          <text x="1335" y="1840" class="hp-label" text-anchor="end">BUNKER WEST · 600 M²</text>
         </svg>
       </div>
     </div>
   </section>
 
-  <!-- ============ DER RAUM ============ -->
-  <section class="section" id="studio">
+  <!-- ============ MANIFEST ============ -->
+  <section class="section" id="bunker">
     <div class="wrap">
-      <div class="eyebrow" data-reveal data-i18n="home.room.eyebrow">Der Raum</div>
-      <p class="manifest" style="margin-top:40px" data-manifest data-i18n-html="home.room.text">
-        Room 5 ist ein Raum unter Beton, gebaut für <span class="script">Nächte,</span> in denen Ideen lauter sind als die Stadt. Holz trifft Beton, analog trifft digital – und du triffst den <span class="script">Take,</span> der bleibt.
+      <div class="eyebrow" data-reveal data-i18n="bw.intro.eyebrow">Der Bunker</div>
+      <p class="manifest" style="margin-top:40px" data-manifest data-i18n-html="bw.intro.text">
+        Eine historische Bunkeranlage, die heute <span class="script">Raum</span> gibt: roher Beton, warmes Licht und acht Räume, die sich jedem Vorhaben anpassen – vom Dinner bis zum <span class="script">Konzert.</span>
       </p>
-      <div class="manifest-aside">
-        <a href="ueber-uns.html" class="link-arrow"><span data-i18n="home.room.story">Die Geschichte dahinter</span> <i data-lucide="arrow-up-right"></i></a>
+      <div class="manifest-aside bw-facts" data-stagger>
+        <div><b>600 m²</b><span data-i18n="bw.fact1">Fläche unter Beton</span></div>
+        <div><b>8</b><span data-i18n="bw.fact2">flexible Räume</span></div>
+        <div><b>1</b><span data-i18n="bw.fact3">Bühne, Bar & Galerie</span></div>
       </div>
     </div>
   </section>
 
   <div class="marquee" aria-hidden="true">
     <div class="marquee-track" data-marquee>
-      <span>Recording</span><i data-lucide="asterisk"></i><span class="o">Produktion</span><i data-lucide="disc-3"></i><span>Vocals</span><i data-lucide="asterisk"></i><span class="o">Mixing</span><i data-lucide="audio-waveform"></i><span>Beats</span><i data-lucide="asterisk"></i><span class="o">Songwriting</span><i data-lucide="disc-3"></i><span>Podcasts</span><i data-lucide="asterisk"></i>
+      <span>Events</span><i data-lucide="asterisk"></i><span class="o">Ausstellungen</span><i data-lucide="frame"></i><span>Konzerte</span><i data-lucide="asterisk"></i><span class="o">Shootings</span><i data-lucide="aperture"></i><span>Releases</span><i data-lucide="asterisk"></i><span class="o">Dinner</span><i data-lucide="wine"></i><span>Workshops</span><i data-lucide="asterisk"></i>
     </div>
   </div>
 
-  <!-- ============ WAS DICH ERWARTET ============ -->
+  <!-- ============ WAS HIER PASSIERT ============ -->
   <section class="section">
     <div class="wrap">
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:60px;gap:30px">
-        <h2 class="display h2" data-split data-i18n-html="home.features.title">Was dich<br>erwartet</h2>
-        <p class="lead muted" data-reveal style="max-width:38ch" data-i18n="home.features.lead">Ein akustisch optimierter Raum, ein durchdachtes Setup und eine Atmosphäre, die es so nur im Bunker gibt.</p>
+        <h2 class="display h2" data-split data-i18n-html="bw.uses.title">Was hier<br>passiert</h2>
+        <p class="lead muted" data-reveal style="max-width:40ch" data-i18n="bw.uses.lead">Jedes Event soll so einzigartig sein wie die Menschen dahinter. Wir sind Location und Mitgestalter – mit Kreativen, Künstler:innen und Musiker:innen.</p>
       </div>
       <div class="features" data-stagger>
-        <article class="feature">
-          <div class="f-img"><img src="img/buddha-monitor-sm.jpg" alt="" loading="lazy"></div>
-          <div class="f-body"><span class="ico"><i data-lucide="laptop"></i></span><span class="num">01</span></div>
-          <h3 class="h4">Plug & Play</h3><p data-i18n="home.f1.text">Bring nur deinen Laptop mit. Monitore, Interface und Kopfhörer stehen bereit – anstecken, loslegen.</p>
-        </article>
-        <article class="feature">
-          <div class="f-img"><img src="img/diffusor-sm.jpg" alt="" loading="lazy"></div>
-          <div class="f-body"><span class="ico"><i data-lucide="audio-lines"></i></span><span class="num">02</span></div>
-          <h3 class="h4" data-i18n="home.f2.title">Akustik</h3><p data-i18n="home.f2.text">Diffusor-Wand, Deckensegel und Breitband-Absorber. Trockener Klang, ehrliches Monitoring.</p>
-        </article>
-        <article class="feature">
-          <div class="f-img"><img src="img/vocal-booth-sm.jpg" alt="" loading="lazy"></div>
-          <div class="f-body"><span class="ico"><i data-lucide="mic-vocal"></i></span><span class="num">03</span></div>
-          <h3 class="h4">Equipment</h3><p><span data-i18n="home.f3.text">Neumann-Mikro, Apollo Twin, ADAM-Monitore – professioneller Standard, in jeder Session inklusive.</span> <a href="#equipment" class="inline-link" data-i18n="home.f3.link">Zur Liste</a></p>
-        </article>
-        <article class="feature">
-          <div class="f-img"><img src="img/room-lounge-sm.jpg" alt="" loading="lazy"></div>
-          <div class="f-body"><span class="ico"><i data-lucide="sparkles"></i></span><span class="num">04</span></div>
-          <h3 class="h4">Unique Creator Space</h3><p data-i18n="home.f4.text">Beton, warmes Licht und Bunker-Vibe: ein Raum, in dem Songs entstehen, die woanders nicht entstehen würden.</p>
-        </article>
+        <a class="feature" href="kontakt.html?typ=event">
+          <div class="f-img"><img src="img/bunker/dinner-sm.jpg" alt="" loading="lazy"></div>
+          <div class="f-body"><span class="ico"><i data-lucide="party-popper"></i></span><span class="num">01</span></div>
+          <h3 class="h4" data-i18n="bw.u1.title">Events & Feiern</h3><p data-i18n="bw.u1.text">Firmenevents, private Feiern, Dinner und Release-Partys – mit Bar, Bühne und Technik.</p>
+        </a>
+        <a class="feature" href="kontakt.html?typ=event">
+          <div class="f-img"><img src="img/bunker/exhibition-sm.jpg" alt="" loading="lazy"></div>
+          <div class="f-body"><span class="ico"><i data-lucide="frame"></i></span><span class="num">02</span></div>
+          <h3 class="h4" data-i18n="bw.u2.title">Kunst & Ausstellung</h3><p data-i18n="bw.u2.text">Lange Wände, Strahler und Beton: Galerie-Gefühl für Vernissagen und Installationen.</p>
+        </a>
+        <a class="feature" href="kontakt.html?typ=location">
+          <div class="f-img"><img src="img/bunker/fashion-sm.jpg" alt="" loading="lazy"></div>
+          <div class="f-body"><span class="ico"><i data-lucide="clapperboard"></i></span><span class="num">03</span></div>
+          <h3 class="h4" data-i18n="bw.u3.title">Shooting & Video</h3><p data-i18n="bw.u3.text">Fashion, Musikvideo, Content: Räume mit Charakter und ohne Tageslicht-Stress.</p>
+        </a>
+        <a class="feature" href="room5.html">
+          <div class="f-img"><img src="img/room-full-sm.jpg" alt="" loading="lazy"></div>
+          <div class="f-body"><span class="ico"><i data-lucide="mic-vocal"></i></span><span class="num">04</span></div>
+          <h3 class="h4" data-i18n="bw.u4.title">Studio Room 5</h3><p data-i18n="bw.u4.text">Unser Tonstudio im Bunker – Day und Night Sessions, Artists buchen direkt.</p>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- ============ IN 3 TAKTEN ============ -->
-  <section class="section" style="padding-top:0">
+  <!-- ============ GRUNDRISS & VERFÜGBARKEIT ============ -->
+  <section class="section plan-section" id="raeume" style="padding-top:0">
     <div class="wrap">
-      <div class="eyebrow" data-reveal data-i18n="home.steps.eyebrow">So läuft's</div>
-      <h2 class="display h2" style="margin:24px 0 70px" data-split data-i18n-html="home.steps.title">In drei Takten<br>zur Session.</h2>
-      <div class="steps" data-stagger>
-        <div class="step"><div class="dot"></div><b class="n" data-i18n="home.steps.n1">Takt 01</b><h3 class="h4" data-i18n="home.steps.t1">Termin wählen</h3><p data-i18n="home.steps.p1">Day Session (12–18 Uhr), Night Session (18:30–00:30 Uhr) oder beides – auch mehrere Tage auf einmal.</p></div>
-        <div class="step"><div class="dot"></div><b class="n" data-i18n="home.steps.n2">Takt 02</b><h3 class="h4" data-i18n="home.steps.t2">Extras dazu</h3><p data-i18n="home.steps.p2">Recording Engineer, Produzent, Mixing oder Mastering – pro Session zubuchbar.</p></div>
-        <div class="step"><div class="dot"></div><b class="n" data-i18n="home.steps.n3">Takt 03</b><h3 class="h4" data-i18n="home.steps.t3">Anfragen</h3><p data-i18n="home.steps.p3">Anfrage abschicken, wir melden uns mit der Bestätigung.</p>
-          <div class="gold-teaser"><span class="strike-gold" data-i18n="home.steps.direct">Direkt buchen & bezahlen</span><small data-i18n="home.steps.directNote">nur für Artist-Member – und 30 % günstiger</small></div>
+      <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:50px;gap:30px">
+        <div>
+          <div class="eyebrow" data-reveal data-i18n="bw.plan.eyebrow">Räume & Verfügbarkeit</div>
+          <h2 class="display h2" style="margin-top:24px" data-split data-i18n-html="bw.plan.title">Wähle<br><span class="outline">deinen Raum.</span></h2>
         </div>
+        <p class="lead muted" data-reveal style="max-width:42ch" data-i18n="bw.plan.lead">Tippe Bereiche im Grundriss an, wähle deinen Termin und sieh sofort, was frei ist. Alles ist nur anfragbar – wir melden uns mit Angebot.</p>
+      </div>
+
+      <div class="plan-layout" data-plan-app>
+        <div class="plan-stage card" data-reveal>
+          <div class="plan-top">
+            <div class="plan-date" data-plan-date><i data-lucide="calendar-days"></i><span></span></div>
+            <div class="plan-legend">
+              <span><i class="lg-free"></i><span data-i18n="bw.st.free">Frei</span></span>
+              <span><i class="lg-held"></i><span data-i18n="bw.st.held">Angefragt / reserviert</span></span>
+              <span><i class="lg-booked"></i><span data-i18n="bw.st.booked">Gebucht</span></span>
+            </div>
+          </div>
+          <div class="plan-body">
+            <div class="plan-figure" data-plan></div>
+            <div class="space-card" data-space-card></div>
+          </div>
+          <div class="plan-spaces" data-space-list></div>
+        </div>
+
+        <aside class="plan-panel">
+          <div class="card card-pad plan-cal" data-reveal>
+            <div class="cal-head">
+              <div><span class="label" data-i18n="bw.cal.label">Verfügbarkeit</span><h3 class="h4" data-month></h3></div>
+              <div class="cal-nav">
+                <button class="icon-btn" data-month-nav="-1" aria-label="Vorheriger Monat" data-i18n-attr="aria-label:book.prev"><i data-lucide="arrow-left"></i></button>
+                <button class="icon-btn" data-month-nav="1" aria-label="Nächster Monat" data-i18n-attr="aria-label:book.next"><i data-lucide="arrow-right"></i></button>
+              </div>
+            </div>
+            <div class="cal-grid mini-cal" data-cal></div>
+            <p class="cal-hint muted" data-cal-hint></p>
+          </div>
+
+
+          <div class="card card-pad selection" data-selection data-reveal>
+            <div class="sel-head"><span class="label" data-i18n="bw.sel.title">Deine Anfrage</span><button type="button" class="link-arrow" data-sel-clear hidden data-i18n="bw.sel.clear">Leeren</button></div>
+            <div class="sel-list" data-sel-list></div>
+            <div class="sel-combos" data-combos></div>
+            <details class="sel-extras"><summary data-i18n="bw.sel.extras">Extras auf Anfrage</summary><div class="chips" data-extras></div></details>
+            <a href="kontakt.html?typ=event" class="btn btn-primary btn-block" data-sel-send><span data-i18n="bw.sel.send">Bereiche anfragen</span> <i data-lucide="arrow-right"></i></a>
+            <p class="muted sel-note" data-i18n="bw.sel.note">Unverbindlich. Wir prüfen den Termin und melden uns mit einem Angebot.</p>
+          </div>
+        </aside>
       </div>
     </div>
   </section>
 
-  <!-- ============ COMMUNITY ============ -->
+  <!-- ============ ROOM 5 ============ -->
   <section class="section" style="padding-top:0">
     <div class="wrap">
       <div class="member-block" data-reveal>
-        <div class="mb-media" data-gallery aria-roledescription="carousel" aria-label="Artists im Bunker" data-i18n-attr="aria-label:home.community.gallery">
-          <div class="gallery-track">
-            <figure><img src="img/team-color.jpg" alt="Artists im Room 5" loading="lazy"></figure>
-            <figure><img src="img/team-bw.jpg" alt="Artists am Control Desk" loading="lazy"></figure>
-          </div>
-          <div class="gallery-dots" role="tablist"></div>
-        </div>
+        <div class="mb-media"><img src="img/room-depth.jpg" alt="Room 5 im Bunker West" loading="lazy" data-i18n-attr="alt:home.hero.alt"></div>
         <div class="mb-body">
-          <span class="lock-badge"><i data-lucide="lock-keyhole"></i><span data-i18n="home.community.badge">Club for Artists</span></span>
-          <h2 class="display h3" style="margin:26px 0 14px" data-split data-i18n-html="home.community.title">Bunker West<br>Community</h2>
-          <p class="muted" data-i18n="home.community.lead">Zwei Stufen: Community-Member werden kostenlos – Artist-Member ist ein kuratierter Club mit 50 Plätzen, nur per Bewerbung.</p>
-          <div class="tier-legend">
-            <span><svg class="verified is-community" width="18" height="18" viewBox="0 0 24 24"><path class="v-shape" d="M12 1.6l2.5 1.9 3.1-.3 1.2 2.9 2.9 1.2-.3 3.1 1.9 2.5-1.9 2.5.3 3.1-2.9 1.2-1.2 2.9-3.1-.3L12 22.4l-2.5-1.9-3.1.3-1.2-2.9-2.9-1.2.3-3.1L.7 12l1.9-2.5-.3-3.1 2.9-1.2 1.2-2.9 3.1.3z"/><path class="v-check" d="M7.6 12.3l3 3 5.8-6.2" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Community</span>
-            <span><svg class="verified is-artist" width="18" height="18" viewBox="0 0 24 24"><path class="v-shape" d="M12 1.6l2.5 1.9 3.1-.3 1.2 2.9 2.9 1.2-.3 3.1 1.9 2.5-1.9 2.5.3 3.1-2.9 1.2-1.2 2.9-3.1-.3L12 22.4l-2.5-1.9-3.1.3-1.2-2.9-2.9-1.2.3-3.1L.7 12l1.9-2.5-.3-3.1 2.9-1.2 1.2-2.9 3.1.3z"/><path class="v-check" d="M7.6 12.3l3 3 5.8-6.2" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg> Artist</span>
-          </div>
+          <span class="lock-badge"><i data-lucide="mic-vocal"></i><span data-i18n="bw.r5.badge">Studio im Bunker</span></span>
+          <h2 class="display h3" style="margin:26px 0 14px" data-split>Room 5</h2>
+          <p class="muted" data-i18n="bw.r5.lead">Ein Recording-Studio unter Beton: Day Session 12–18 Uhr, Night Session 18:30–00:30 Uhr. Neumann, Apollo Twin, ADAM – Laptop mitbringen, loslegen.</p>
           <ul class="benefits">
-            <li><i data-lucide="calendar-check"></i><div><b data-i18n="home.community.b1">Nur Member können direkt buchen</b><span data-i18n="home.community.b1s">Alle anderen fragen an – Artists buchen und bezahlen sofort.</span></div></li>
-            <li><i data-lucide="badge-percent"></i><div><b data-i18n="home.community.b2">30 % auf alle Sessions</b><span data-i18n="home.community.b2s">Plus 30 % im Café, an der Bar, bei Events und Yoga.</span></div></li>
-            <li><i data-lucide="users-round"></i><div><b data-i18n="home.community.b3">Sessions & Netzwerk</b><span data-i18n="home.community.b3s">Creative Coworking, Listening-Abende, Features, Kollabos im Haus.</span></div></li>
+            <li><i data-lucide="calendar-check"></i><div><b data-i18n="bw.r5.b1">Eigener Kalender</b><span data-i18n="bw.r5.b1s">Artist-Member buchen direkt, alle anderen fragen an.</span></div></li>
+            <li><i data-lucide="users-round"></i><div><b data-i18n="bw.r5.b2">Community & Membership</b><span data-i18n="bw.r5.b2s">Free-Tickets, Membersday und 30 % auf Sessions.</span></div></li>
           </ul>
-          <div class="row"><a href="membership.html#artist" class="btn btn-primary" data-magnetic><span data-i18n="home.community.apply">Als Artist bewerben</span> <i data-lucide="arrow-right"></i></a><a href="login.html?tab=register" class="btn btn-ghost" data-i18n="home.community.join">Community beitreten</a></div>
+          <div class="row"><a href="room5.html" class="btn btn-primary" data-magnetic><span data-i18n="bw.r5.cta">Room 5 entdecken</span> <i data-lucide="arrow-right"></i></a><a href="membership.html" class="btn btn-ghost">Membership</a></div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ PREISE ============ -->
-  <section class="section" style="padding-top:0" id="preise">
+  <!-- ============ EVENTS ============ -->
+  <section class="section" style="padding-top:0">
     <div class="wrap">
-      <div class="eyebrow" data-reveal data-i18n="home.prices.eyebrow">Preise</div>
-      <h2 class="display h2" style="margin:24px 0 60px" data-split data-i18n-html="home.prices.title">Deine Zeit.<br><span class="outline">Dein Takt.</span></h2>
-      <div class="price-grid" data-price-grid></div>
-      <div class="extras" data-reveal data-extras></div>
-      <div class="included" data-reveal id="equipment">
-        <div class="included-head">
-          <span class="ico"><i data-lucide="package-check"></i></span>
-          <div><h3 class="h4" data-i18n="home.prices.included">Grundausstattung inklusive</h3><p class="muted" style="margin:6px 0 0;font-size:15px" data-i18n="home.prices.includedSub">Professioneller Standard – in jeder Session dabei, ohne Aufpreis.</p></div>
+      <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:40px;gap:30px">
+        <div>
+          <div class="eyebrow" data-reveal data-i18n="bw.ev.eyebrow">What's next?</div>
+          <h2 class="display h2" style="margin-top:24px" data-split data-i18n-html="bw.ev.title">Nächste<br><span class="outline">Events.</span></h2>
         </div>
-        <div class="gear-list" data-gear></div>
+        <a href="events.html" class="link-arrow" data-reveal><span data-i18n="bw.ev.all">Alle Events & Wochenplan</span> <i data-lucide="arrow-up-right"></i></a>
       </div>
+      <div class="event-list" data-events></div>
+    </div>
+  </section>
+
+  <!-- ============ GALERIE ============ -->
+  <section class="section" style="padding-top:0" aria-label="Galerie" data-i18n-attr="aria-label:bw.gallery">
+    <div class="wrap"><div class="eyebrow" data-reveal data-i18n="bw.gallery">Galerie</div></div>
+    <div class="strip" data-strip tabindex="0">
+      <figure><img src="img/bunker/gallery-wide.jpg" alt="Großformatige Kunst in der Halle" loading="lazy"><figcaption data-i18n="bw.g1">Ausstellung</figcaption></figure>
+      <figure class="tall"><img src="img/bunker/fashion.jpg" alt="Fashion-Event im Bunker" loading="lazy"><figcaption>Fashion Week</figcaption></figure>
+      <figure><img src="img/bunker/dinner.jpg" alt="Gedeckte Tafel für ein Dinner" loading="lazy"><figcaption>Dinner</figcaption></figure>
+      <figure><img src="img/bunker/bar.jpg" alt="Die Bar im Foyer" loading="lazy"><figcaption data-i18n="bw.g4">Bar & Foyer</figcaption></figure>
+      <figure class="tall"><img src="img/bunker/dinner-detail.jpg" alt="Tischdetail mit Tulpen und Gläsern" loading="lazy"><figcaption>Details</figcaption></figure>
+      <figure><img src="img/bunker/halle12.jpg" alt="Blick durch Halle 1 und 2" loading="lazy"><figcaption data-i18n="bw.g6">Halle 1 & 2</figcaption></figure>
+      <figure><img src="img/bunker/exhibition-2.jpg" alt="Kunstwerke an der Betonwand" loading="lazy"><figcaption data-i18n="bw.g7">Galerie</figcaption></figure>
+    </div>
+  </section>
+
+  <!-- ============ ANFAHRT ============ -->
+  <section class="section" style="padding-top:0">
+    <div class="wrap visit" data-reveal>
+      <div>
+        <div class="eyebrow" data-i18n="bw.visit.eyebrow">So findest du uns</div>
+        <h2 class="display h3" style="margin:22px 0 18px" data-visit-street></h2>
+        <p class="muted" data-i18n="bw.visit.text">Berlin-Schmargendorf. Besichtigungen nach Absprache – schreib uns einfach.</p>
+        <div class="row" style="margin-top:22px"><a href="#" class="btn btn-ghost" data-maps target="_blank" rel="noopener"><i data-lucide="map-pin"></i> <span data-i18n="bw.visit.maps">Route planen</span></a><a href="kontakt.html?typ=event" class="btn btn-primary" data-cta-static>Create your own space <i data-lucide="arrow-right"></i></a></div>
+      </div>
+      <div class="contact-info" data-visit-info></div>
     </div>
   </section>
 
   <!-- ============ CTA ============ -->
   <section class="big-cta">
-    <div class="row-h huge" data-cta-row="-1"><span>Book the&nbsp;</span><span class="o">room</span></div>
-    <div class="row-h huge" data-cta-row="1"><span class="o">Room&nbsp;</span><span>5 —&nbsp;</span><span class="o">now</span></div>
-    <div style="margin-top:50px"><a href="buchen.html" class="btn btn-primary" data-magnetic style="--h:64px;padding:0 36px;font-size:16px"><span data-i18n="home.cta">Kalender öffnen</span> <i data-lucide="calendar-range"></i></a></div>
+    <div class="row-h huge" data-cta-row="-1"><span>Create&nbsp;</span><span class="o">your</span></div>
+    <div class="row-h huge" data-cta-row="1"><span class="o">own&nbsp;</span><span>space</span></div>
+    <div style="margin-top:50px"><a href="#raeume" class="btn btn-primary" data-magnetic style="--h:64px;padding:0 36px;font-size:16px"><span data-i18n="bw.cta">Zum Grundriss</span> <i data-lucide="layout-dashboard"></i></a></div>
   </section>
 </main>
 </body>

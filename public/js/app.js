@@ -41,8 +41,8 @@ export function verifiedBadge(role, size = 18) {
 }
 
 const NAV = [
-  { href: './', label: t('nav.studio'), key: 'home' },
-  { href: 'buchen.html', label: t('nav.book'), key: 'buchen' },
+  { href: './#raeume', label: t('nav.rooms'), key: 'home' },
+  { href: 'room5.html', label: 'Room 5', key: 'room5' },
   { href: 'events.html', label: t('nav.events'), key: 'events' },
   { href: 'membership.html', label: t('nav.membership'), key: 'membership' },
   { href: 'ueber-uns.html', label: t('nav.about'), key: 'about' },
@@ -66,9 +66,9 @@ function shell() {
   const header = document.createElement('header');
   header.className = 'site-header';
   header.innerHTML = `
-    <a href="./" class="brand" aria-label="Room 5">${brandMark}<span>ROOM 5<small>BUNKER WEST</small></span></a>
+    <a href="./" class="brand" aria-label="Bunker West">${brandMark}<span>BUNKER WEST<small>BERLIN · ROOM 5</small></span></a>
     <nav class="nav" aria-label="${t('ui.mainnav')}">
-      ${NAV.map((n) => `<a class="nav-link ${n.key === page ? 'is-active' : ''}" href="${n.href}">${n.label}</a>`).join('')}
+      ${NAV.map((n) => `<a class="nav-link ${n.key === page || (n.key === 'room5' && page === 'buchen') ? 'is-active' : ''}" href="${n.href}">${n.label}</a>`).join('')}
     </nav>
     <div class="nav-actions">
       ${toggles()}
@@ -81,7 +81,7 @@ function shell() {
   const menu = document.createElement('div');
   menu.className = 'menu-panel';
   menu.innerHTML = `${NAV.map((n, i) => `<a href="${n.href}"><span>0${i + 1}</span>${n.label}</a>`).join('')}
-    <a href="login.html" data-auth-link><span>07</span>${t('nav.login')}</a>
+    <a href="login.html" data-auth-link><span>0${NAV.length + 1}</span>${t('nav.login')}</a>
     <a href="kontakt.html" class="btn btn-primary menu-cta" data-cta>${t('slogan')} <i data-lucide="arrow-right"></i></a>
     <div class="menu-toggles">${toggles()}</div>
     <div class="menu-foot"><a href="mailto:${STUDIO.email}">${STUDIO.email}</a><span>${STUDIO.house} · ${STUDIO.name}</span></div>`;
@@ -93,12 +93,12 @@ function shell() {
     <div class="wrap">
       <div class="footer-grid">
         <div>
-          <a href="./" class="brand">${brandMark}<span>ROOM 5<small>BUNKER WEST</small></span></a>
+          <a href="./" class="brand">${brandMark}<span>BUNKER WEST<small>BERLIN · ROOM 5</small></span></a>
           <p class="muted" style="max-width:34ch;margin-top:22px">${t('footer.claim')}</p>
           <a href="kontakt.html" class="link-arrow" style="margin-top:10px">${t('slogan')} <i data-lucide="arrow-up-right"></i></a>
         </div>
-        <div><h5>Studio</h5><ul>
-          <li><a href="./">Room 5</a></li><li><a href="buchen.html">${t('footer.prices')}</a></li><li><a href="events.html">${t('nav.events')}</a></li><li><a href="ueber-uns.html">${t('nav.about')}</a></li>
+        <div><h5>Bunker West</h5><ul>
+          <li><a href="./#raeume">${t('footer.rooms')}</a></li><li><a href="room5.html">Room 5</a></li><li><a href="buchen.html">${t('footer.prices')}</a></li><li><a href="events.html">${t('nav.events')}</a></li><li><a href="ueber-uns.html">${t('nav.about')}</a></li>
         </ul></div>
         <div><h5>${t('nav.contact')}</h5><ul>
           <li><a href="kontakt.html">${t('footer.form')}</a></li><li><a href="kontakt.html?typ=kooperation">${t('footer.coop')}</a></li><li><a href="mailto:${STUDIO.email}">${STUDIO.email}</a></li><li><a href="${STUDIO.instagram}" target="_blank" rel="noopener">Instagram</a></li>
@@ -170,7 +170,7 @@ async function authUi() {
     a.href = u.role === 'admin' ? 'admin.html' : 'konto.html';
     a.setAttribute('aria-label', t('footer.profile'));
     if (a.classList.contains('icon-btn')) a.innerHTML = `<i data-lucide="user-round-check"></i>${verifiedBadge(u.role, 16)}`;
-    else a.innerHTML = `<span>07</span>${t('footer.profile')}`;
+    else a.innerHTML = `<span>0${NAV.length + 1}</span>${t('footer.profile')}`;
   });
   // Artist-Member sehen "Jetzt buchen", alle anderen "Anfragen"
   if (isArtist(u)) $$('[data-cta]').forEach((b) => { b.href = 'buchen.html'; b.innerHTML = `${t('nav.bookNow')} <i data-lucide="arrow-right"></i>`; });

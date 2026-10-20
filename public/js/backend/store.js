@@ -43,6 +43,16 @@ export async function seedIfEmpty(store, seed, { now = Date.now(), iterations = 
     const slots = r < 0.1 ? ['day', 'night'] : r < 0.3 ? ['night'] : r < 0.45 ? ['day'] : null;
     if (slots) await store.put('bookings', { id: `SEED-${i}`, seeded: true, status: 'confirmed', sessions: [{ date: d, slots, addons: {} }], contact: { name: 'Belegt' }, total: 0, createdAt: iso });
   }
+  // Beispiel-Belegung der Bunker-Bereiche (Grundriss-Kalender)
+  const day = (n) => ymd(new Date(today.getFullYear(), today.getMonth(), today.getDate() + n));
+  const occ = [
+    [3, 3, ['foyer', 'halle1', 'halle2'], 'booked', 'Firmenfeier'], [5, 6, ['halle1'], 'reserved', 'Ausstellung'],
+    [9, 9, ['studio6'], 'booked', 'Fotoshooting'], [12, 14, ['halle1', 'halle2', 'foyer'], 'booked', 'Fashion Week'],
+    [17, 17, ['history'], 'reserved', 'Workshop'], [20, 21, ['halle2'], 'reserved', 'Release-Event'],
+    [26, 27, ['studio6', 'lager'], 'booked', 'Videodreh'], [33, 33, ['foyer', 'halle1', 'halle2', 'history', 'studio6'], 'booked', 'Private Feier'],
+    [40, 42, ['halle1'], 'reserved', 'Kunstausstellung'],
+  ];
+  for (const [a, b, spaces, status, title] of occ) await store.put('occupancy', { id: `SEED-B${a}`, seeded: true, spaces, dateFrom: day(a), dateTo: day(b), status, title, createdAt: iso });
   // Beispiel-Events für die nächsten 3 Wochen nach Wochenplan
   const samples = {
     0: { category: 'membersday', de: 'Membersday: Kino & Networking', en: 'Members day: cinema & networking', membersOnly: true, desc: { de: 'Nur für Artist-Member + 1 Gast. Kein Eintritt, nur Getränke.', en: 'Artist Members + 1 guest only. No entry fee, just drinks.' } },
