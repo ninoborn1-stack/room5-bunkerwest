@@ -338,8 +338,22 @@ export function formError(box, msg) {
 
 export const successSvg = `<svg class="check-anim" viewBox="0 0 110 110" fill="none"><circle cx="55" cy="55" r="52" style="stroke:var(--accent)" stroke-width="2"/><path d="M34 56l14 14 28-30" style="stroke:var(--text)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
+// ---------------- Selbst-Aktualisierung ----------------
+// Liegt eine neuere Version online als die geladene (Browser-Cache), einmal automatisch neu laden.
+function checkVersion() {
+  const build = document.querySelector('meta[name=build]')?.content;
+  if (!build) return;
+  fetch('version.json', { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).then((j) => {
+    if (!j?.v || j.v === build) return;
+    const key = `r5-reloaded-${j.v}`;
+    try { if (sessionStorage.getItem(key)) return; sessionStorage.setItem(key, '1'); } catch { return; }
+    location.reload();
+  }).catch(() => {});
+}
+
 // ---------------- Init ----------------
 window.__r5 = true;
+checkVersion();
 applyI18n();
 shell();
 icons();

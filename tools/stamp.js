@@ -30,4 +30,5 @@ for (const file of walk(PUB)) {
   }
   if (s !== before) { fs.writeFileSync(file, s); n++; }
 }
-console.log(`Versionsstempel v=${v} in ${n} Dateien gesetzt`);
+fs.writeFileSync(path.join(PUB, 'version.json'), JSON.stringify({ v }));
+console.log(`Versionsstempel v=${v} in ${n} Dateien gesetzt (+ version.json)`);
