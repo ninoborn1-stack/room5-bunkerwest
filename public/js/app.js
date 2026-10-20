@@ -153,7 +153,8 @@ function shell() {
   let last = 0;
   const onScroll = (y) => {
     header.classList.toggle('is-solid', y > 40);
-    header.classList.toggle('is-hidden', y > last && y > 300 && !menu.classList.contains('is-open'));
+    const hide = y > last && y > 300 && !menu.classList.contains('is-open');
+    header.classList.toggle('is-hidden', hide); document.documentElement.classList.toggle('header-hidden', hide);
     last = y;
   };
   window.addEventListener('scroll', () => onScroll(window.scrollY), { passive: true });
