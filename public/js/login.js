@@ -1,5 +1,6 @@
 import { $, $$, formError, userReady, t, lang, captcha } from './app.js';
-import { api } from './api.js';
+import { api, backendMode } from './api.js';
+import { verifiedBadge, icons } from './app.js';
 
 const params = new URLSearchParams(location.search);
 const next = params.get('next');
@@ -55,3 +56,24 @@ $('[data-reset]').addEventListener('submit', async (e) => {
   try { const { user } = await api.reset(resetToken, new FormData(e.target).get('password')); location.href = target(user); }
   catch (ex) { err($('[data-reset-error]'), ex); }
 });
+
+// Demo-Zugänge: nur im Demo-Modus (z. B. GitHub-Link) und lokal – nie auf der echten Seite
+(async () => {
+  const mode = await backendMode();
+  if (mode !== 'demo' && !['localhost', '127.0.0.1'].includes(location.hostname)) return;
+  const seed = await fetch('data-seed.json').then((r) => r.json()).catch(() => ({ users: [] }));
+  if (!seed.users?.length) return;
+  const order = ['artist', 'community', 'admin'];
+  const box = $('[data-demo-logins]');
+  $('.demo-grid', box).innerHTML = order.map((role) => seed.users.find((u) => u.role === role)).filter(Boolean).map((u) => `
+    <button type="button" class="demo-login" data-demo="${u.role}">${u.role === 'admin' ? '<i data-lucide="shield-check"></i>' : verifiedBadge(u.role, 20)}
+      <span><b>${t(`auth.demo.${u.role}`)}</b><small>${u.email}</small></span><i data-lucide="arrow-right"></i></button>`).join('');
+  box.hidden = false; icons(box);
+  box.addEventListener('click', async (e) => {
+    const b = e.target.closest('[data-demo]'); if (!b) return;
+    const u = seed.users.find((x) => x.role === b.dataset.demo);
+    b.disabled = true;
+    try { await api.logout().catch(() => {}); const { user } = await api.login({ email: u.email, password: u.password }); location.href = target(user); }
+    catch (ex) { formError($('[data-login-error]'), ex.message); b.disabled = false; }
+  });
+})();

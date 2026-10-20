@@ -119,6 +119,26 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
     return !!r.success;
   }
 
+  /** Einfache Begrenzung pro Schlüssel (z. B. Login je E-Mail+IP): max Versuche pro Zeitfenster */
+  async function limit(key, max, windowMs) {
+    const id = await sha256(`rl:${key}`);
+    const now = nowFn();
+    const rec = (await store.get('ratelimits', id)) || { id, count: 0, reset: now + windowMs };
+    if (rec.reset < now) { rec.count = 0; rec.reset = now + windowMs; }
+    rec.count += 1;
+    await store.put('ratelimits', rec);
+    if (rec.count > max) fail(429, 'too_many');
+  }
+  const clearLimit = async (key) => store.del('ratelimits', await sha256(`rl:${key}`));
+
+  /** Reservierungen, deren Bezahl-Zeit abgelaufen ist, als "expired" markieren */
+  async function expireHolds() {
+    const now = nowFn();
+    for (const b of await store.all('bookings')) {
+      if (b.status === 'awaiting_payment' && new Date(b.holdUntil).getTime() < now) { b.status = 'expired'; await store.put('bookings', b); }
+    }
+  }
+
   async function currentUser(token) {
     if (!token) return null;
     const sess = await store.get('sessions', await sha256(token));
@@ -227,13 +247,14 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
 
     if (path === '/config/public') {
       const cap = await capacity(store);
-      return { body: { capacity: { paidLeft: cap.paidLeft, freeLeft: cap.freeLeft, waitlist: cap.waitlist, paidSlots: cap.paidSlots }, artistPrice: cap.price, payments: stripeOn ? 'stripe' : 'demo', turnstileSiteKey: env.TURNSTILE_SITE_KEY || null } };
+      return { body: { capacity: { paidLeft: cap.paidLeft, freeLeft: cap.freeLeft, waitlist: cap.waitlist, paidSlots: cap.paidSlots }, payments: stripeOn ? 'stripe' : 'demo', turnstileSiteKey: env.TURNSTILE_SITE_KEY || null } };
     }
 
     // ----- Auth
     if (path === '/auth/me') return { body: { user: publicUser(user) } };
 
     if (path === '/auth/register' && method === 'POST') {
+      await limit(`register:${ctx.ip || ''}`, 10, 3600000);
       if (!(await verifyCaptcha(body.captcha, ctx.ip))) fail(400, 'captcha');
       if (!str(body.name) || !isEmail(body.email)) fail(400, 'name_email');
       if (String(body.password || '').length < 8) fail(400, 'password_short');
@@ -244,8 +265,11 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
     }
 
     if (path === '/auth/login' && method === 'POST') {
+      const lkey = `login:${String(body.email || '').toLowerCase()}:${ctx.ip || ''}`;
+      await limit(lkey, 10, 15 * 60000);
       const u = await userByEmail(body.email);
       if (!u || !(await verifyPassword(body.password, u.password))) fail(401, 'login_failed');
+      await clearLimit(lkey);
       return { body: { user: publicUser(u) }, setToken: await startSession(u) };
     }
 
@@ -255,6 +279,7 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
     }
 
     if (path === '/auth/forgot' && method === 'POST') {
+      await limit(`forgot:${ctx.ip || ''}`, 5, 3600000);
       const u = await userByEmail(body.email);
       if (u) {
         const token = randomToken(24);
@@ -293,13 +318,17 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
     }
     if (path === '/me/overview') {
       const u = needUser();
+      await expireHolds();
       const mine = (x) => x.userId === u.id || x.contact?.email === u.email || x.email === u.email;
       const bookings = (await store.all('bookings')).filter(mine).filter((b) => b.status !== 'expired');
       const requests = (await store.all('requests')).filter(mine);
       const application = (await store.all('applications')).filter((a) => a.userId === u.id).sort((a, b) => b.createdAt.localeCompare(a.createdAt))[0] || null;
       const tickets = (await store.all('tickets')).filter((t) => t.userId === u.id);
       const events = await store.all('events');
-      return { body: { user: publicUser(u), bookings, requests, application, tickets: tickets.map((t) => ({ ...t, event: events.find((e) => e.id === t.eventId) || null })), capacity: await capacity(store) } };
+      const cap = await capacity(store);
+      // Preis nur für Eingeladene und Artists (öffentlich: "auf Anfrage")
+      if (!(application?.status === 'invited' || isArtist(u))) delete cap.price;
+      return { body: { user: publicUser(u), bookings, requests, application, tickets: tickets.map((t) => ({ ...t, event: events.find((e) => e.id === t.eventId) || null })), capacity: cap } };
     }
 
     // ----- Studio
@@ -345,6 +374,7 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
 
     // ----- Zentrales Kontaktformular (alle Anfragen, inkl. Studio-Anfragen)
     if (path === '/requests' && method === 'POST') {
+      await limit(`requests:${ctx.ip || ''}`, 20, 3600000);
       if (!(await verifyCaptcha(body.captcha, ctx.ip))) fail(400, 'captcha');
       const type = REQUEST_TYPES.find((t) => t.id === body.type)?.id;
       if (!type) fail(400, 'type_invalid');
@@ -369,6 +399,7 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
 
     // ----- Artist-Bewerbung (legt bei Bedarf gleich ein Community-Profil an)
     if (path === '/applications' && method === 'POST') {
+      await limit(`applications:${ctx.ip || ''}`, 5, 3600000);
       if (!(await verifyCaptcha(body.captcha, ctx.ip))) fail(400, 'captcha');
       let u = user;
       if (u && isArtist(u)) fail(409, 'already_artist');
@@ -470,6 +501,7 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
     if (path.startsWith('/admin')) {
       needAdmin();
       if (path === '/admin/overview') {
+        await expireHolds();
         const users = await store.all('users');
         return { body: {
           requests: (await store.all('requests')).sort((a, b) => b.createdAt.localeCompare(a.createdAt)),

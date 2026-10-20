@@ -2,6 +2,14 @@
 
 Alles mit kostenlosen Plänen. Fixkosten: 0 €. Stripe nimmt nur eine Gebühr pro Zahlung.
 
+## 0. Vorab lokal wie auf Cloudflare testen (ohne Account)
+
+```bash
+npm run cf:db    # lokale D1-Datenbank anlegen
+npm run cf:dev   # → http://localhost:8788 – echte Cloudflare-Laufzeit mit D1
+```
+Zugang für den ersten Admin kommt aus `.dev.vars` (`ADMIN_EMAIL`, `ADMIN_PASSWORD`, nicht im Repo).
+
 ## 1. Cloudflare (Hosting, Backend, Datenbank)
 
 1. Kostenlosen Account auf cloudflare.com anlegen.

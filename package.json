@@ -8,7 +8,9 @@
     "grade": "python3 tools/grade.py",
     "postinstall": "node tools/vendor.js",
     "vendor": "node tools/vendor.js",
-    "test": "node tests/core.test.mjs"
+    "test": "node tests/core.test.mjs",
+    "cf:db": "wrangler d1 execute bunkerwest --local --file=cloudflare/schema.sql",
+    "cf:dev": "wrangler pages dev --port 8788"
   },
   "keywords": [],
   "author": "",
@@ -21,5 +23,8 @@
     "gsap": "^3.15.0",
     "lucide": "^1.57.0"
   },
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "wrangler": "^4.151.2"
+  }
 }

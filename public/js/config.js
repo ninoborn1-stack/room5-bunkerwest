@@ -43,7 +43,7 @@ export const MEMBERSHIP = {
   artistDiscount: 0.30,        // 30 % auf alle Sessions
   paidSlots: 40,               // zahlende Artist-Plätze
   freeSlots: 10,               // Freiplätze (Influencer, Werbung, Freunde)
-  artistPriceMonthly: 49,      // PLATZHALTER – Preis noch offen (Kap. 12 im Plan)
+  artistPriceMonthly: 49,      // PLATZHALTER – wird NICHT öffentlich gezeigt, nur in der Einladung (Admin → Einstellungen)
   bookingWindowDays: 120,      // so weit im Voraus buchbar/anfragbar
   holdMinutes: 30,             // so lange ist ein Termin während der Bezahlung reserviert
 };
@@ -82,10 +82,10 @@ export const EVENT_CATEGORIES = {
   special:  { de: 'Special', en: 'Special' },
 };
 
-// PLATZHALTER – wird durch die von Nesto geprüfte Liste ersetzt
+// Equipment im Raum (Stand 20.10.2026 – bewusst schlank, professioneller Standard)
 export const GEAR = [
-  { group: { de: 'Monitoring', en: 'Monitoring' }, items: ['Adam Audio A7X', 'Beyerdynamic DT 770 / 990'] },
-  { group: { de: 'Recording', en: 'Recording' }, items: ['Universal Audio Apollo', 'Großmembran-Mikrofon', 'Shure SM7B'] },
-  { group: { de: 'Instrumente', en: 'Instruments' }, items: ['Native Instruments Komplete Kontrol', 'E-Gitarre', 'E-Bass'] },
-  { group: { de: 'Raum', en: 'Room' }, items: ['Holz-Diffusor-Wand', 'Deckensegel', 'Breitband-Absorber', 'Vocal-Ecke mit Popschutz'] },
+  { group: { de: 'Recording', en: 'Recording' }, items: ['Neumann Großmembran-Mikrofon', 'Universal Audio Apollo Twin', 'Popschutz & Shockmount'] },
+  { group: { de: 'Monitoring', en: 'Monitoring' }, items: ['ADAM Audio Studiomonitore', 'Studio-Kopfhörer'] },
+  { group: { de: 'Instrumente', en: 'Instruments' }, items: ['E-Gitarren & E-Bass', 'MIDI-Keyboard'] },
+  { group: { de: 'Raum', en: 'Room' }, items: ['Holz-Diffusor-Wand', 'Deckensegel & Absorber', 'Vocal-Ecke'] },
 ];

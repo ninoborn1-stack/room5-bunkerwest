@@ -1,4 +1,4 @@
-import { gsap, ScrollTrigger, $, $$, icons, reduced, splitWords, t, L, isTouch } from './app.js';
+import { gsap, ScrollTrigger, $, $$, icons, reduced, splitWords, t, L, isTouch, lang } from './app.js';
 import { SLOTS, PRICES, ADDONS, GEAR, MEMBERSHIP } from './config.js';
 import { euro, timeLabel } from './pricing.js';
 
@@ -22,7 +22,8 @@ $('[data-price-grid]').innerHTML = cards.map((c, i) => `
   </article>`).join('');
 
 $('[data-extras]').innerHTML = ADDONS.map((a) => `<div class="extra"><i data-lucide="${a.icon}"></i><div><b>${L(a.label)}</b><span>${euro(a.price)} / ${a.kind === 'hourly' ? t('unit.hour') : t('unit.track')}</span></div></div>`).join('');
-$('[data-gear]').innerHTML = GEAR.map((g) => `<div class="gear-col"><h4>${L(g.group)}</h4><ul>${g.items.map((i) => `<li>${i}</li>`).join('')}</ul></div>`).join('');
+const GEAR_EN = { 'Neumann Großmembran-Mikrofon': 'Neumann large-diaphragm microphone', 'Popschutz & Shockmount': 'Pop filter & shock mount', 'ADAM Audio Studiomonitore': 'ADAM Audio studio monitors', 'Studio-Kopfhörer': 'Studio headphones', 'E-Gitarren & E-Bass': 'Electric guitars & bass', 'Holz-Diffusor-Wand': 'Wooden diffuser wall', 'Deckensegel & Absorber': 'Ceiling clouds & absorbers', 'Vocal-Ecke': 'Vocal corner' };
+$('[data-gear]').innerHTML = GEAR.map((g) => `<div class="gear-col"><h4>${L(g.group)}</h4><ul>${g.items.map((i) => `<li>${lang === 'en' ? GEAR_EN[i] || i : i}</li>`).join('')}</ul></div>`).join('');
 icons();
 
 // ---------- Laufband (CSS-Animation, Inhalt verdoppelt für nahtlose Schleife) ----------

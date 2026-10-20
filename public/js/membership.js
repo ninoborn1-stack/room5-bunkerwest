@@ -1,11 +1,10 @@
 import { gsap, $, $$, icons, formError, esc, successSvg, userReady, t, isArtist, publicConfig, captcha } from './app.js';
 import { api } from './api.js';
-import { euro } from './pricing.js';
 
 // ---------- Preis & freie Plätze ----------
 publicConfig().then((cfg) => {
   const cap = cfg.capacity || {};
-  $('[data-artist-price]').textContent = cfg.artistPrice ? t('mem.a.price', { n: euro(cfg.artistPrice) }) : t('mem.a.priceTbd');
+  $('[data-artist-price]').textContent = t('mem.a.priceOnRequest');
   const left = cap.paidLeft ?? 0, total = cap.paidSlots ?? 40;
   $('[data-capacity]').innerHTML = `<div class="cap-bar"><i style="width:${Math.round(((total - left) / total) * 100)}%"></i></div>
     <div class="cap-text">${left > 0 ? t('mem.a.left', { n: left, total }) : t('mem.a.full', { n: cap.waitlist || 0 })}</div>`;

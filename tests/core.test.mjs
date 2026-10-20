@@ -79,4 +79,11 @@ console.log('outbox mails:', outbox.length, [...new Set(outbox.map((m) => m.temp
 const started = await call('a', 'POST', '/bookings/checkout', { sessions: [{ date: ymd(new Date()), slots: ['day'] }] });
 console.log('today day session (depends on time):', started.status, started.body.code || 'ok');
 
+// Login-Begrenzung: nach 10 Fehlversuchen gesperrt
+{
+  let last;
+  for (let i = 0; i < 11; i++) last = await be.handle({ method: 'POST', path: '/auth/login', body: { email: 'brute@room5.test', password: 'x' }, ip: '9.9.9.9', lang: 'de' });
+  ok('login rate limit', last.status === 429, last.body);
+}
+
 if (failed) { console.error(`\n${failed} Test(s) fehlgeschlagen`); process.exit(1); } else console.log('\nAlle Tests bestanden.');

@@ -964,3 +964,12 @@ html[data-theme="light"] { --k-yoga: #c2457a; --k-cowork: #4b7a12; --k-setup: #3
 .legal article { padding: 30px 0; border-top: 1px solid var(--line); scroll-margin-top: 100px; }
 .legal article h2 { margin: 0 0 16px; }
 @media (max-width: 400px) { .h2 { font-size: 9.6vw; } }
+.stat span { display: block; max-width: 22ch; }
+.demo-logins { margin: 24px 0 6px; padding: 16px; border: 1px dashed color-mix(in srgb, var(--accent) 45%, transparent); border-radius: var(--radius); }
+.demo-grid { display: grid; gap: 8px; margin-top: 12px; }
+.demo-login { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 12px; border: 1px solid var(--line-2); text-align: left; transition: border-color .25s, background .25s; }
+.demo-login:hover { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.demo-login span { flex: 1; display: grid; }
+.demo-login small { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
+.demo-login > svg:last-child { width: 16px; height: 16px; color: var(--muted); }
+.demo-login > svg.lucide:first-child { width: 20px; height: 20px; color: var(--accent); }

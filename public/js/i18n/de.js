@@ -208,4 +208,8 @@ export const DE = {
   "ev.notifyOff": "Bei neuen Events benachrichtigen",
   "ev.claimed": "Ticket gesichert – Bestätigung per E-Mail",
   "home.community.join": "Community beitreten",
+  "mem.a.priceOnRequest": "Preis auf Anfrage · per Bewerbung",
+  "auth.demo.artist": "Als Artist-Member testen",
+  "auth.demo.community": "Als Community-Member testen",
+  "auth.demo.admin": "Als Admin testen",
 };
