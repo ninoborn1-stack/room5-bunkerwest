@@ -1282,3 +1282,9 @@ html[lang="en"] .lang-de, html:not([lang="en"]) .lang-en { display: none; }
   .nav { display: none; }
   .menu-toggle { display: grid; }
 }
+.tier-prices { display: grid; gap: 0; margin: -10px 0 26px; padding: 6px 18px 14px; border: 1px solid var(--line); border-radius: 14px; background: color-mix(in srgb, var(--text) 2%, transparent); }
+.tier-prices > div { display: flex; justify-content: space-between; gap: 14px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+.tier-prices > div span { color: var(--muted); }
+.tier-prices > div b { font-family: var(--font-mono); font-weight: 500; white-space: nowrap; }
+.tier-prices > div.tp-sep { margin-top: 8px; }
+.tier-prices .link-arrow { margin-top: 14px; font-size: 14px; justify-self: start; }

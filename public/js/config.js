@@ -39,10 +39,10 @@ export const PRICES = {
 
 // Zubuchbare Leistungen (Member-Rabatt gilt NICHT darauf)
 export const ADDONS = [
-  { id: 'engineer', kind: 'hourly', price: 85,     icon: 'sliders-horizontal', label: { de: 'Recording Engineer', en: 'Recording Engineer' }, desc: { de: 'Aufnahme, Gain-Staging, saubere Takes – du konzentrierst dich auf die Performance.', en: 'Recording, gain staging, clean takes – you focus on the performance.' } },
-  { id: 'producer', kind: 'hourly', price: 150,    icon: 'audio-waveform',     label: { de: 'Produzent', en: 'Producer' },                     desc: { de: 'Beats, Arrangement, Vocal-Produktion. Ein zweites Paar Ohren mit Plan.', en: 'Beats, arrangement, vocal production. A second pair of ears with a plan.' } },
-  { id: 'mix',      kind: 'track',  price: 499.99, icon: 'blend',              label: { de: 'Mixing', en: 'Mixing' },                          desc: { de: 'Vollständiger Mix deines Songs.', en: 'A complete mix of your song.' } },
-  { id: 'master',   kind: 'track',  price: 499.99, icon: 'gauge',              label: { de: 'Mastering', en: 'Mastering' },                    desc: { de: 'Laut, klar, streaming-ready.', en: 'Loud, clear, streaming-ready.' } },
+  { id: 'engineer', kind: 'hourly', price: 20,     icon: 'sliders-horizontal', label: { de: 'Recording Engineer', en: 'Recording Engineer' }, desc: { de: 'Aufnahme, Gain-Staging, saubere Takes – du konzentrierst dich auf die Performance.', en: 'Recording, gain staging, clean takes – you focus on the performance.' } },
+  { id: 'producer', kind: 'hourly', price: 30,     icon: 'audio-waveform',     label: { de: 'Produzent', en: 'Producer' },                     desc: { de: 'Beats, Arrangement, Vocal-Produktion. Ein zweites Paar Ohren mit Plan.', en: 'Beats, arrangement, vocal production. A second pair of ears with a plan.' } },
+  { id: 'mix',      kind: 'track',  price: 250,    icon: 'blend',              label: { de: 'Mixing', en: 'Mixing' },                          desc: { de: 'Vollständiger Mix deines Songs.', en: 'A complete mix of your song.' } },
+  { id: 'master',   kind: 'track',  price: 85,     icon: 'gauge',              label: { de: 'Mastering', en: 'Mastering' },                    desc: { de: 'Laut, klar, streaming-ready.', en: 'Loud, clear, streaming-ready.' } },
 ];
 
 // Versteckt laut Meeting (Code bleibt, nur ausgeschaltet)
@@ -64,8 +64,8 @@ export const MEMBERSHIP = {
 
 // Kontaktformular: alle Anfrage-Arten an einer Stelle
 export const REQUEST_TYPES = [
+  { id: 'event',      icon: 'sparkles',       label: { de: 'Create your own space', en: 'Create your own space' } },
   { id: 'studio',     icon: 'mic-vocal',      label: { de: 'Studio-Session', en: 'Studio session' } },
-  { id: 'event',      icon: 'party-popper',   label: { de: 'Event & Booking im Bunker', en: 'Event & booking at the Bunker' } },
   { id: 'location',   icon: 'clapperboard',   label: { de: 'Location: Shooting & Videodreh', en: 'Location: shoot & video' } },
   { id: 'membership', icon: 'badge-check',    label: { de: 'Membership-Club', en: 'Membership club' } },
   { id: 'kooperation',icon: 'handshake',      label: { de: 'Kooperation', en: 'Collaboration' } },

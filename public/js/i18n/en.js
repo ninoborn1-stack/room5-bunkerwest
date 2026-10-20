@@ -611,4 +611,7 @@ export const EN = {
   "bw.card.emptyFree": "{n} of {total} spaces available on the chosen day",
   "bw.card.emptyCombine": "Combine spaces freely",
   "bw.card.emptyRequest": "Non-binding request, offer by email",
+  "mem.c.request": "Request a session",
+  "mem.c.b5": "Studio on request only",
+  "mem.c.b5s": "You can request Room 5 but not book it directly – at the regular price:",
 };

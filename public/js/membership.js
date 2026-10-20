@@ -1,5 +1,16 @@
-import { gsap, $, $$, icons, formError, esc, successSvg, userReady, t, isArtist, publicConfig, captcha } from './app.js';
+import { gsap, $, $$, icons, formError, esc, successSvg, userReady, t, isArtist, publicConfig, captcha, L } from './app.js';
 import { api } from './api.js';
+import { PRICES, ADDONS, SLOTS } from './config.js';
+import { euro, timeLabel } from './pricing.js';
+
+// ---------- Community: reguläre Studiopreise (nur auf Anfrage) ----------
+$('[data-community-prices]').innerHTML = [
+  [`${L(SLOTS.day.label)} · ${timeLabel(SLOTS.day.from)}–${timeLabel(SLOTS.day.to)}`, euro(PRICES.slot)],
+  [`${L(SLOTS.night.label)} · ${timeLabel(SLOTS.night.from)}–${timeLabel(SLOTS.night.to)}`, euro(PRICES.slot)],
+  ['Day + Night', euro(PRICES.bundle)],
+  ...ADDONS.map((a) => [L(a.label), `${euro(a.price)} / ${a.kind === 'hourly' ? t('unit.hour') : t('unit.track')}`]),
+].map(([k, v], i) => `<div class="${i === 3 ? 'tp-sep' : ''}"><span>${k}</span><b>${v}</b></div>`).join('') + `<a href="buchen.html" class="link-arrow">${t('mem.c.request')} <i data-lucide="arrow-up-right"></i></a>`;
+icons($('[data-community-prices]'));
 
 // ---------- Preis & freie Plätze ----------
 publicConfig().then((cfg) => {

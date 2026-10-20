@@ -34,7 +34,7 @@ r = await call('a', 'POST', '/auth/login', { email: em('artist'), password: pw('
 ok('artist login', r.status === 200 && r.body.user.role === 'artist', r.body);
 r = await call('a', 'POST', '/bookings/checkout', { sessions: [{ date: day, slots: ['day', 'night'], addons: { producer: 2, mix: 1 } }] });
 ok('artist checkout', r.status === 201 && r.body.url.includes('test=1'), r.body);
-ok('price 203 + 300 + 499.99', r.body.booking?.total === 1002.99, r.body.booking?.total);
+ok('price 203 + 2×30 + 250', r.body.booking?.total === 513, r.body.booking?.total);
 const bid = r.body.booking?.id;
 r = await call('c', 'GET', '/availability'); ok('hold blocks slot', (r.body.booked[day] || []).includes('day'));
 r = await call('a', 'POST', '/payments/demo-confirm', { kind: 'booking', ref: bid });

@@ -72,10 +72,10 @@ Ziel: **die echte, neue Seite** – mit funktionierendem Backend, so günstig wi
 
 | Leistung | Status | Preis |
 |---|---|---|
-| Recording Engineer | ✅ | 85 € / Stunde |
-| Produzent | ✅ | 150 € / Stunde |
-| Mixing | ✅ | 499,99 € pro Track |
-| Mastering | ✅ | 499,99 € pro Track |
+| Recording Engineer | ✅ | 20 € / Stunde (geändert 20.10.) |
+| Produzent | ✅ | 30 € / Stunde (geändert 20.10.) |
+| Mixing | ✅ | 250 € pro Track (geändert 20.10.) |
+| Mastering | ✅ | 85 € pro Track (geändert 20.10.) |
 | Grundausstattung | ✅ inklusive | – |
 | Verlängerung nach 0 Uhr | 🔒 aus | – |
 | Premium-Equipment | 🔒 aus (bis Equipment fertig) | – |
@@ -241,7 +241,7 @@ Alle Mails zweisprachig (DE/EN je nach Profil), im Bunker-Design.
 | 1 | ~~Zusammenführen?~~ | ✅ ja, am Ende – erst diese Seite fertig |
 | 2 | ~~Night Session~~ | ✅ 18:30–00:30 |
 | 3 | Artist-Membership: Preis pro Monat? Mindestlaufzeit? | – (fehlt komplett) |
-| 4 | ~~Produzent~~ | ✅ 150 € / Stunde |
+| 4 | ~~Produzent~~ | ✅ 30 € / Stunde |
 | 5 | ~~Galerie~~ | ✅ Swipen + Auto-Lauf |
 | 6 | Coworking Freitag bis 14 oder 15 Uhr? | – |
 | 7 | Mittwoch-Abendformat | vorerst „Art & Yoga“ laut Skizze |

@@ -316,4 +316,5 @@ export const DE = {
   "bw.card.emptyFree": "{n} von {total} Bereichen frei am gewählten Tag",
   "bw.card.emptyCombine": "Bereiche frei kombinierbar",
   "bw.card.emptyRequest": "Unverbindlich anfragen, Angebot per E-Mail",
+  "mem.c.request": "Session anfragen",
 };
