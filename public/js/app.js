@@ -1,10 +1,13 @@
-// Gemeinsame Shell: Header, Footer, Hintergrund, Smooth-Scroll, Reveals, Cursor, Seitenübergänge
+// Gemeinsame Shell: Header, Footer, Hintergrund, Reveals, Seitenübergänge, Theme & Sprache
 import { STUDIO } from './config.js';
 import { api, backendMode } from './api.js';
+import { t, lang, locale, applyI18n, setLang } from './i18n.js';
+import { setLocale } from './pricing.js';
 
 const { gsap, ScrollTrigger, lucide } = window;
 gsap.registerPlugin(ScrollTrigger);
-export { gsap, ScrollTrigger };
+export { gsap, ScrollTrigger, t, lang };
+setLocale(locale);
 
 export const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 export const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
@@ -14,45 +17,72 @@ export const icons = (root = document) => lucide.createIcons({ attrs: { 'stroke-
 export const $ = (s, r = document) => r.querySelector(s);
 export const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 export const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+/** Text aus {de, en}-Objekten in der aktiven Sprache */
+export const L = (o) => (o && typeof o === 'object' ? o[lang] ?? o.de : o ?? '');
 
 export const brandMark = `<svg class="brand-mark" viewBox="0 0 40 40" fill="none" aria-hidden="true">
   <rect x="1" y="1" width="38" height="38" rx="10" stroke="currentColor" stroke-opacity=".35"/>
   <g fill="currentColor">
     <rect class="bm-bar" x="9"  y="16" width="3" height="8"  rx="1.5"/>
     <rect class="bm-bar" x="14" y="11" width="3" height="18" rx="1.5"/>
-    <rect class="bm-bar" x="19" y="8"  width="3" height="24" rx="1.5" fill="#ff4a1c"/>
+    <rect class="bm-bar" x="19" y="8"  width="3" height="24" rx="1.5" style="fill:var(--accent)"/>
     <rect class="bm-bar" x="24" y="13" width="3" height="14" rx="1.5"/>
     <rect class="bm-bar" x="29" y="17" width="3" height="6"  rx="1.5"/>
   </g></svg>`;
 
+/** Verifizierungs-Haken (Twitter-Stil): Community = Outline, Artist = gefüllt */
+export function verifiedBadge(role, size = 18) {
+  if (!['community', 'artist', 'admin'].includes(role)) return '';
+  const filled = role !== 'community';
+  const label = role === 'community' ? t('role.community') : role === 'artist' ? t('role.artist') : 'Admin';
+  return `<svg class="verified ${filled ? 'is-artist' : 'is-community'}" width="${size}" height="${size}" viewBox="0 0 24 24" role="img" aria-label="${label}"><title>${label}</title>
+    <path class="v-shape" d="M12 1.6l2.5 1.9 3.1-.3 1.2 2.9 2.9 1.2-.3 3.1 1.9 2.5-1.9 2.5.3 3.1-2.9 1.2-1.2 2.9-3.1-.3L12 22.4l-2.5-1.9-3.1.3-1.2-2.9-2.9-1.2.3-3.1L.7 12l1.9-2.5-.3-3.1 2.9-1.2 1.2-2.9 3.1.3z"/>
+    <path class="v-check" d="M7.6 12.3l3 3 5.8-6.2" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+}
+
 const NAV = [
-  { href: './', label: 'Studio', key: 'home' },
-  { href: 'buchen.html', label: 'Buchen', key: 'buchen' },
-  { href: 'membership.html', label: 'Membership', key: 'membership' },
-  { href: 'ueber-uns.html', label: 'Über uns', key: 'about' },
-  { href: 'kontakt.html', label: 'Kontakt', key: 'kontakt' },
+  { href: './', label: t('nav.studio'), key: 'home' },
+  { href: 'buchen.html', label: t('nav.book'), key: 'buchen' },
+  { href: 'events.html', label: t('nav.events'), key: 'events' },
+  { href: 'membership.html', label: t('nav.membership'), key: 'membership' },
+  { href: 'ueber-uns.html', label: t('nav.about'), key: 'about' },
+  { href: 'kontakt.html', label: t('nav.contact'), key: 'kontakt' },
 ];
+
+function toggles() {
+  const theme = document.documentElement.getAttribute('data-theme');
+  return `<div class="toggle-group" role="group" aria-label="${t('ui.theme')}">
+      <button type="button" data-set-theme="light" aria-pressed="${theme === 'light'}" aria-label="${t('ui.light')}"><i data-lucide="sun"></i></button>
+      <button type="button" data-set-theme="dark" aria-pressed="${theme === 'dark'}" aria-label="${t('ui.dark')}"><i data-lucide="moon"></i></button>
+    </div>
+    <div class="toggle-group" role="group" aria-label="${t('ui.language')}">
+      <button type="button" data-set-lang="de" aria-pressed="${lang === 'de'}">DE</button>
+      <button type="button" data-set-lang="en" aria-pressed="${lang === 'en'}">EN</button>
+    </div>`;
+}
 
 // ---------------- Shell einfügen ----------------
 function shell() {
   const header = document.createElement('header');
   header.className = 'site-header';
   header.innerHTML = `
-    <a href="./" class="brand" aria-label="Room 5 – Startseite">${brandMark}<span>ROOM 5<small>BUNKERWEST</small></span></a>
-    <nav class="nav" aria-label="Hauptnavigation">
+    <a href="./" class="brand" aria-label="Room 5">${brandMark}<span>ROOM 5<small>BUNKER WEST</small></span></a>
+    <nav class="nav" aria-label="${t('ui.mainnav')}">
       ${NAV.map((n) => `<a class="nav-link ${n.key === page ? 'is-active' : ''}" href="${n.href}">${n.label}</a>`).join('')}
     </nav>
     <div class="nav-actions">
-      <a href="login.html" class="icon-btn" data-auth-link aria-label="Login oder Profil"><i data-lucide="user-round"></i></a>
-      <a href="buchen.html" class="btn btn-primary btn-sm" data-magnetic>Jetzt buchen <i data-lucide="arrow-right"></i></a>
-      <button class="icon-btn menu-toggle" aria-label="Menü öffnen" aria-expanded="false"><i data-lucide="menu"></i></button>
+      ${toggles()}
+      <a href="login.html" class="icon-btn auth-btn" data-auth-link aria-label="${t('nav.login')}"><i data-lucide="user-round"></i></a>
+      <a href="kontakt.html?typ=studio" class="btn btn-primary btn-sm" data-cta>${t('nav.request')} <i data-lucide="arrow-right"></i></a>
+      <button class="icon-btn menu-toggle" aria-label="${t('ui.menu')}" aria-expanded="false"><i data-lucide="menu"></i></button>
     </div>`;
   document.body.prepend(header);
 
   const menu = document.createElement('div');
   menu.className = 'menu-panel';
   menu.innerHTML = `${NAV.map((n, i) => `<a href="${n.href}"><span>0${i + 1}</span>${n.label}</a>`).join('')}
-    <a href="login.html" data-auth-link><span>06</span>Login</a>
+    <a href="login.html" data-auth-link><span>07</span>${t('nav.login')}</a>
+    <div class="menu-toggles">${toggles()}</div>
     <div class="menu-foot"><a href="mailto:${STUDIO.email}">${STUDIO.email}</a><span>${STUDIO.house} · ${STUDIO.name}</span></div>`;
   document.body.append(menu);
 
@@ -62,25 +92,25 @@ function shell() {
     <div class="wrap">
       <div class="footer-grid">
         <div>
-          <a href="./" class="brand">${brandMark}<span>ROOM 5<small>BUNKERWEST</small></span></a>
-          <p class="muted" style="max-width:34ch;margin-top:22px">${STUDIO.claim} Recording, Produktion und Mix – Day Session 12–18, Night Session 18–24.</p>
-          <a href="buchen.html" class="link-arrow" style="margin-top:10px">Session buchen <i data-lucide="arrow-up-right"></i></a>
+          <a href="./" class="brand">${brandMark}<span>ROOM 5<small>BUNKER WEST</small></span></a>
+          <p class="muted" style="max-width:34ch;margin-top:22px">${t('footer.claim')}</p>
+          <a href="buchen.html" class="link-arrow" style="margin-top:10px">${t('footer.book')} <i data-lucide="arrow-up-right"></i></a>
         </div>
         <div><h5>Studio</h5><ul>
-          <li><a href="./">Room 5</a></li><li><a href="buchen.html">Buchen & Preise</a></li><li><a href="membership.html">Membership</a></li><li><a href="ueber-uns.html">Über uns</a></li>
+          <li><a href="./">Room 5</a></li><li><a href="buchen.html">${t('footer.prices')}</a></li><li><a href="events.html">${t('nav.events')}</a></li><li><a href="ueber-uns.html">${t('nav.about')}</a></li>
         </ul></div>
-        <div><h5>Kontakt</h5><ul>
-          <li><a href="kontakt.html">Kontaktformular</a></li><li><a href="kontakt.html?typ=kooperation">Kooperationen</a></li><li><a href="mailto:${STUDIO.email}">${STUDIO.email}</a></li><li><a href="${STUDIO.instagram}" target="_blank" rel="noopener">Instagram</a></li>
+        <div><h5>${t('nav.contact')}</h5><ul>
+          <li><a href="kontakt.html">${t('footer.form')}</a></li><li><a href="kontakt.html?typ=kooperation">${t('footer.coop')}</a></li><li><a href="mailto:${STUDIO.email}">${STUDIO.email}</a></li><li><a href="${STUDIO.instagram}" target="_blank" rel="noopener">Instagram</a></li>
         </ul></div>
-        <div><h5>Account</h5><ul>
-          <li><a href="login.html">Login</a></li><li><a href="login.html?tab=register">Profil anlegen</a></li><li><a href="membership.html#anfrage">Mitglied werden</a></li><li><a href="konto.html">Mein Profil</a></li><li><a href="admin.html">Intern</a></li>
+        <div><h5>Community</h5><ul>
+          <li><a href="login.html">${t('nav.login')}</a></li><li><a href="login.html?tab=register">${t('footer.join')}</a></li><li><a href="membership.html#artist">${t('footer.apply')}</a></li><li><a href="konto.html">${t('footer.profile')}</a></li><li><a href="admin.html">${t('footer.internal')}</a></li>
         </ul></div>
       </div>
-      <div class="footer-word" aria-hidden="true">Bunkerwest</div>
+      <div class="footer-word" aria-hidden="true">Bunker West</div>
       <div class="footer-bottom">
         <span>© ${new Date().getFullYear()} ${STUDIO.house} · ${STUDIO.name}</span>
-        <span class="mode-badge" data-mode-badge><i></i><span>Verbinde …</span></span>
-        <span><a href="kontakt.html">Impressum</a> · <a href="kontakt.html">Datenschutz</a></span>
+        <span class="mode-badge" data-mode-badge><i></i><span>…</span></span>
+        <span><a href="rechtliches.html#impressum">${t('footer.imprint')}</a> · <a href="rechtliches.html#datenschutz">${t('footer.privacy')}</a> · <a href="rechtliches.html#agb">${t('footer.terms')}</a></span>
       </div>
     </div>`;
   const main = document.querySelector('main');
@@ -89,6 +119,22 @@ function shell() {
   document.body.insertAdjacentHTML('beforeend', `
     <div class="grain"></div>
     <div class="toasts" role="status" aria-live="polite"></div>`);
+
+  // Theme & Sprache
+  document.addEventListener('click', (e) => {
+    const th = e.target.closest('[data-set-theme]');
+    if (th) {
+      const v = th.dataset.setTheme;
+      document.documentElement.setAttribute('data-theme', v);
+      try { localStorage.setItem('r5-theme', v); } catch {}
+      $$('[data-set-theme]').forEach((b) => b.setAttribute('aria-pressed', b.dataset.setTheme === v));
+    }
+    const lg = e.target.closest('[data-set-lang]');
+    if (lg && lg.dataset.setLang !== lang) {
+      if (currentUser) api.updateMe({ lang: lg.dataset.setLang }).catch(() => {});
+      setLang(lg.dataset.setLang);
+    }
+  });
 
   // Mobile-Menü
   const toggle = header.querySelector('.menu-toggle');
@@ -110,32 +156,29 @@ function shell() {
     last = y;
   };
   window.addEventListener('scroll', () => onScroll(window.scrollY), { passive: true });
-
 }
 
 // ---------------- Auth-Status & Backend-Modus ----------------
 export let currentUser = null;
+export const isArtist = (u = currentUser) => !!u && (u.role === 'admin' || (u.role === 'artist' && u.membership?.status === 'active'));
 export const userReady = api.me().then((r) => (currentUser = r.user)).catch(() => null);
 async function authUi() {
   const u = await userReady;
   $$('[data-auth-link]').forEach((a) => {
-    if (u) {
-      a.href = u.role === 'admin' ? 'admin.html' : 'konto.html';
-      a.setAttribute('aria-label', 'Mein Konto');
-      const member = ['member', 'admin'].includes(u.role);
-      if (a.classList.contains('icon-btn')) {
-        a.innerHTML = `<i data-lucide="${u.role === 'admin' ? 'shield-check' : 'user-round-check'}"></i>`;
-        if (member) { a.style.borderColor = 'var(--amber)'; a.style.color = 'var(--amber)'; }
-      } else a.innerHTML = `<span>06</span>Profil`;
-      a.setAttribute('aria-label', 'Mein Profil');
-    }
+    if (!u) return;
+    a.href = u.role === 'admin' ? 'admin.html' : 'konto.html';
+    a.setAttribute('aria-label', t('footer.profile'));
+    if (a.classList.contains('icon-btn')) a.innerHTML = `<i data-lucide="user-round-check"></i>${verifiedBadge(u.role, 16)}`;
+    else a.innerHTML = `<span>07</span>${t('footer.profile')}`;
   });
+  // Artist-Member sehen "Jetzt buchen", alle anderen "Anfragen"
+  if (isArtist(u)) $$('[data-cta]').forEach((b) => { b.href = 'buchen.html'; b.innerHTML = `${t('nav.bookNow')} <i data-lucide="arrow-right"></i>`; });
   icons();
   const mode = await backendMode();
   const badge = $('[data-mode-badge]');
   if (badge) {
     badge.classList.toggle('local', mode !== 'server');
-    badge.querySelector('span').textContent = mode === 'server' ? 'Lokaler Server verbunden' : 'Demo-Modus · Daten im Browser';
+    badge.querySelector('span').textContent = mode === 'server' ? t('ui.modeServer') : t('ui.modeDemo');
   }
 }
 
@@ -261,6 +304,17 @@ function transitions() {
   addEventListener('pageshow', (e) => { if (e.persisted) root.classList.remove('is-leaving', 'is-entering'); });
 }
 
+// ---------------- Spam-Schutz (Cloudflare Turnstile, nur wenn Schlüssel gesetzt) ----------------
+let cfgPromise;
+export const publicConfig = () => (cfgPromise ||= api.config().catch(() => ({})));
+export async function captcha(container) {
+  const cfg = await publicConfig();
+  if (!cfg.turnstileSiteKey || !container) return () => null;
+  if (!window.turnstile) await new Promise((res) => { const sc = document.createElement('script'); sc.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'; sc.onload = res; document.head.append(sc); });
+  const id = window.turnstile.render(container, { sitekey: cfg.turnstileSiteKey, theme: document.documentElement.dataset.theme === 'light' ? 'light' : 'dark', language: lang });
+  return () => window.turnstile.getResponse(id);
+}
+
 // ---------------- Toast ----------------
 export function toast(msg, icon = 'check') {
   const box = $('.toasts');
@@ -277,10 +331,11 @@ export function formError(box, msg) {
   if (msg) icons(box);
 }
 
-export const successSvg = `<svg class="check-anim" viewBox="0 0 110 110" fill="none"><circle cx="55" cy="55" r="52" stroke="#ff4a1c" stroke-width="2"/><path d="M34 56l14 14 28-30" stroke="#efe7da" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+export const successSvg = `<svg class="check-anim" viewBox="0 0 110 110" fill="none"><circle cx="55" cy="55" r="52" style="stroke:var(--accent)" stroke-width="2"/><path d="M34 56l14 14 28-30" style="stroke:var(--text)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
 // ---------------- Init ----------------
 window.__r5 = true;
+applyI18n();
 shell();
 icons();
 smooth();

@@ -264,3 +264,22 @@ Alle Mails zweisprachig (DE/EN je nach Profil), im Bunker-Design.
 | **7. Livegang** | Cloudflare + Domain, Stripe live, rechtliche Seiten, Test-Zugänge entfernen, Mobile-/Performance-Check | neue Seite online |
 
 Phase 1 kann sofort starten. Phasen 2–6 bauen aufeinander auf. Vor Phase 7 braucht es die Accounts und die offenen Punkte aus Kapitel 12.
+
+---
+
+## 14. Umsetzungsstand (20.10.2026)
+
+| Bereich | Stand |
+|---|---|
+| Farbsystem Bunkergrün + Gold, Light/Dark | ✅ umgesetzt |
+| Deutsch/Englisch (alle öffentlichen Seiten, E-Mails) | ✅ umgesetzt (Admin bewusst nur Deutsch) |
+| Startseite nach Meeting (Kacheln, Zahlen, 3 Takte mit Gold-Teaser, Galerie, Preise mit Member-Preis) | ✅ umgesetzt |
+| Studio: Day 12–18, Night 18:30–00:30, Paket 290 €, Artist −30 %, Add-ons, Anfrage vs. Direktbuchung | ✅ umgesetzt |
+| Verlängerung, Premium-Equipment, Wöchentlich wiederholen | 🔒 ausgeblendet (`FEATURES` in config.js) |
+| Membership Community/Artist, Haken, Plätze 40+10, Warteliste, Bewerbung, Abo | ✅ umgesetzt |
+| Profil je Stufe, Einstellungen, Passwort, Buchungen/Anfragen/Tickets | ✅ umgesetzt |
+| Zentrales Kontaktformular mit Zusatzfeldern | ✅ umgesetzt |
+| Events & Wochenplan, Benachrichtigungen, Free-Tickets | ✅ umgesetzt |
+| Admin: Anfragen, Buchungen, Bewerbungen/Mitglieder, Events, Einstellungen, E-Mail-Protokoll, Newsletter-CSV | ✅ umgesetzt |
+| Backend-Kern lokal / Demo / Cloudflare D1, Stripe, Resend, Turnstile | ✅ gebaut – Accounts & Schlüssel fehlen noch (siehe LIVEGANG.md) |
+| Zusammenführung mit der Bunker-West-Seite | ⏳ nächster Schritt |

@@ -1,69 +1,163 @@
-import { $, icons, esc, toast, userReady } from './app.js';
+// Admin-Bereich (intern, Deutsch)
+import { $, $$, icons, esc, toast, userReady, verifiedBadge } from './app.js';
+import { REQUEST_TYPES, EVENT_CATEGORIES } from './config.js';
 import { api } from './api.js';
-import { parseYmd, sessionRange, sessionLabel, hourLabel, euro } from './pricing.js';
+import { parseYmd, sessionRange, sessionLabel, timeLabel, euro } from './pricing.js';
 
 const user = await userReady;
 if (user?.role !== 'admin') location.replace('login.html?next=admin.html');
 
-const STATUS = { confirmed: 'Bestätigt', pending: 'Offen', declined: 'Abgelehnt', cancelled: 'Storniert', approved: 'Freigegeben', rejected: 'Abgelehnt' };
 const fmt = (d) => parseYmd(d).toLocaleDateString('de-DE', { weekday: 'short', day: 'numeric', month: 'short' });
 const when = (iso) => (iso ? new Date(iso).toLocaleString('de-DE', { dateStyle: 'medium', timeStyle: 'short' }) : '');
-let data = { bookings: [], memberships: [], messages: [] };
-let tab = new URLSearchParams(location.search).get('tab') || 'memberships';
+const typeLabel = (id) => REQUEST_TYPES.find((r) => r.id === id)?.label.de || id;
+const STATUS = { new: 'Neu', progress: 'In Bearbeitung', done: 'Erledigt', declined: 'Abgelehnt', confirmed: 'Bestätigt', awaiting_payment: 'Wartet auf Zahlung', cancelled: 'Storniert', expired: 'Abgelaufen', pending: 'Offen', invited: 'Eingeladen', waitlist: 'Warteliste', active: 'Aktiv', rejected: 'Abgelehnt' };
+const status = (s) => `<span class="status ${s}">${STATUS[s] || s}</span>`;
+const sessions = (list = []) => list.map((s) => { const [a, z] = sessionRange(s); const ex = Object.entries(s.addons || {}).filter(([, v]) => v).map(([k, v]) => `${k} ${v}`); return `<div style="margin-top:6px">${fmt(s.date)} <span class="mono muted" style="font-size:13px">${timeLabel(a)}–${timeLabel(z)} · ${sessionLabel(s)}${ex.length ? ' · ' + esc(ex.join(', ')) : ''}</span></div>`; }).join('');
+
+let data = null;
+let tab = new URLSearchParams(location.search).get('tab') || 'requests';
+let filter = 'all';
+let editEvent = null;
 
 const TABS = [
-  ['memberships', 'Mitgliedschaften', (d) => d.memberships.filter((m) => m.status === 'pending').length],
-  ['bookings', 'Buchungen', (d) => d.bookings.filter((b) => b.status === 'pending').length],
-  ['messages', 'Nachrichten', (d) => d.messages.filter((m) => !m.read).length],
-  ['users', 'Accounts', (d) => d.users.length],
+  ['requests', 'Anfragen', (d) => d.requests.filter((r) => r.status === 'new').length],
+  ['bookings', 'Buchungen', (d) => d.bookings.filter((b) => b.status === 'confirmed').length],
+  ['applications', 'Bewerbungen & Mitglieder', (d) => d.applications.filter((a) => a.status === 'pending').length],
+  ['events', 'Events', (d) => d.events.length],
+  ['settings', 'Einstellungen', () => ''],
+  ['outbox', 'E-Mails', (d) => d.outbox.length],
 ];
 
 function render() {
+  const cap = data.capacity;
+  $('[data-status-chips]').innerHTML = `<span class="chip"><span>Artist-Plätze: ${cap.paidUsed}/${cap.paidSlots} zahlend · ${cap.freeUsed}/${cap.freeSlots} frei · Warteliste ${cap.waitlist}</span></span>
+    <span class="chip"><span>Zahlung: ${data.payments === 'stripe' ? 'Stripe live' : 'Testmodus'}</span></span><span class="chip"><span>E-Mail: ${data.mail === 'resend' ? 'Resend' : 'nur Protokoll'}</span></span>`;
   $('[data-tabs]').innerHTML = TABS.map(([k, l, c]) => `<button class="${tab === k ? 'is-active' : ''}" data-tab="${k}">${l}<span>${c(data)}</span></button>`).join('');
-  const panel = $('[data-panel]');
-  const empty = (t) => `<div class="cart-empty"><i data-lucide="inbox"></i><p>${t}</p></div>`;
-  if (tab === 'memberships') panel.innerHTML = data.memberships.length ? data.memberships.map((m) => `
-    <div class="admin-item"><div>
-      <div class="row" style="gap:10px"><b>${esc(m.name)}</b><span class="status ${m.status}">${STATUS[m.status]}</span><span class="mono muted" style="font-size:12px">${esc(m.tier)} · ${esc(m.role || '')}</span></div>
-      <div class="meta">${esc(m.email)} ${m.phone ? '· ' + esc(m.phone) : ''} ${m.city ? '· ' + esc(m.city) : ''} · ${when(m.createdAt)}</div>
-      ${m.genres ? `<div class="meta">Genres: ${esc(m.genres)} · Nutzung: ${esc(m.usage || '')}${m.referral ? ' · Empfehlung: ' + esc(m.referral) : ''}</div>` : ''}
-      ${m.links ? `<div class="meta">Links: ${esc(m.links)}</div>` : ''}
-      <pre>${esc(m.motivation)}</pre></div>
-      <div class="row">${m.status === 'pending' ? `<button class="btn btn-primary btn-sm" data-mb="${m.id}" data-act="approve"><i data-lucide="check"></i>Freigeben</button><button class="btn btn-ghost btn-sm" data-mb="${m.id}" data-act="reject">Ablehnen</button>` : ''}</div>
-    </div>`).join('') : empty('Keine Anfragen.');
-  if (tab === 'bookings') panel.innerHTML = data.bookings.length ? data.bookings.map((b) => `
-    <div class="admin-item"><div>
-      <div class="row" style="gap:10px"><b>${esc(b.contact?.name)}</b><span class="status ${b.status}">${STATUS[b.status]}</span><span class="mono muted" style="font-size:12px">${esc(b.id)} · ${b.mode === 'book' ? 'Direktbuchung' : 'Anfrage'}${b.member ? ' · Member' : ''}</span></div>
-      <div class="meta">${esc(b.contact?.email)} ${b.contact?.phone ? '· ' + esc(b.contact.phone) : ''} ${b.contact?.project ? '· ' + esc(b.contact.project) : ''} · ${when(b.createdAt)}</div>
-      ${b.sessions.map((s) => { const [a, z] = sessionRange(s); const ex = [...Object.entries(s.staff || {}).filter(([, v]) => v).map(([k, v]) => `${k} ${v}h`), ...Object.entries(s.services || {}).filter(([, v]) => v).map(([k, v]) => `${k} ${v}×`), ...(s.upgrades || [])]; return `<div style="margin-top:6px">${fmt(s.date)} <span class="mono muted" style="font-size:13px">${hourLabel(a)}–${hourLabel(z)} · ${sessionLabel(s)}${ex.length ? ' · ' + esc(ex.join(', ')) : ''}</span></div>`; }).join('')}
-      ${b.contact?.notes ? `<pre>${esc(b.contact.notes)}</pre>` : ''}</div>
-      <div style="text-align:right"><div class="h4">${euro(b.total || 0)}</div><div class="row" style="margin-top:10px;justify-content:flex-end">
-        ${b.status === 'pending' ? `<button class="btn btn-primary btn-sm" data-bk="${b.id}" data-act="confirm">Bestätigen</button>` : ''}
-        ${['pending', 'confirmed'].includes(b.status) ? `<button class="btn btn-ghost btn-sm" data-bk="${b.id}" data-act="decline">Absagen</button>` : ''}</div></div>
-    </div>`).join('') : empty('Noch keine Buchungen.');
-  if (tab === 'messages') panel.innerHTML = data.messages.length ? data.messages.map((m) => `
-    <div class="admin-item" style="${m.read ? 'opacity:.6' : ''}"><div>
-      <div class="row" style="gap:10px"><b>${esc(m.subject || '(ohne Betreff)')}</b><span class="status ${m.read ? 'approved' : 'pending'}">${esc(m.type)}</span></div>
-      <div class="meta">${esc(m.name)} · <a href="mailto:${esc(m.email)}" style="text-decoration:underline">${esc(m.email)}</a>${m.company ? ' · ' + esc(m.company) : ''} · ${when(m.createdAt)}</div>
-      <pre>${esc(m.message)}</pre></div>
-      <div>${m.read ? '' : `<button class="btn btn-ghost btn-sm" data-msg="${m.id}">Gelesen</button>`}</div>
-    </div>`).join('') : empty('Keine Nachrichten.');
-  if (tab === 'users') panel.innerHTML = data.users.map((u) => `
-    <div class="admin-item"><div><div class="row" style="gap:10px"><b>${esc(u.name)}</b><span class="status approved">${esc(u.role)}${u.tier ? ' · ' + esc(u.tier) : ''}</span></div><div class="meta">${esc(u.email)}</div></div><div></div></div>`).join('');
+  const p = $('[data-panel]');
+  const empty = (txt) => `<div class="cart-empty"><i data-lucide="inbox"></i><p>${txt}</p></div>`;
+
+  if (tab === 'requests') {
+    const list = data.requests.filter((r) => filter === 'all' || r.type === filter);
+    p.innerHTML = `<div class="admin-filter"><button class="${filter === 'all' ? 'is-active' : ''}" data-filter="all">Alle</button>${REQUEST_TYPES.map((r) => `<button class="${filter === r.id ? 'is-active' : ''}" data-filter="${r.id}">${r.label.de}</button>`).join('')}</div>` +
+      (list.length ? list.map((r) => `<div class="admin-item"><div>
+        <div class="row" style="gap:10px"><b>${esc(r.name)}</b><span class="tag-soft">${typeLabel(r.type)}</span>${status(r.status)}<span class="mono muted" style="font-size:12px">${r.id}</span></div>
+        <div class="meta"><a href="mailto:${esc(r.email)}">${esc(r.email)}</a>${r.phone ? ' · ' + esc(r.phone) : ''}${r.company ? ' · ' + esc(r.company) : ''} · ${when(r.createdAt)}</div>
+        ${sessions(r.sessions)}${r.total ? `<div class="meta">Normalpreis: ${euro(r.total)}</div>` : ''}
+        ${Object.keys(r.fields || {}).length ? `<div class="meta">${Object.entries(r.fields).map(([k, v]) => `${esc(k)}: ${esc(v)}`).join(' · ')}</div>` : ''}
+        ${r.message ? `<pre>${esc(r.message)}</pre>` : ''}</div>
+        <div class="row" style="justify-content:flex-end">
+          ${r.type === 'studio' && r.sessions?.length && ['new', 'progress'].includes(r.status) ? `<button class="btn btn-primary btn-sm" data-studio="${r.id}" data-act="accept">Termin bestätigen</button><button class="btn btn-ghost btn-sm" data-studio="${r.id}" data-act="decline">Absagen</button>` : ''}
+          <select data-req-status="${r.id}">${['new', 'progress', 'done', 'declined'].map((s) => `<option value="${s}" ${r.status === s ? 'selected' : ''}>${STATUS[s]}</option>`).join('')}</select>
+        </div></div>`).join('') : empty('Keine Anfragen.'));
+  }
+
+  if (tab === 'bookings') {
+    p.innerHTML = data.bookings.length ? data.bookings.map((b) => `<div class="admin-item"><div>
+      <div class="row" style="gap:10px"><b>${esc(b.contact?.name)}</b>${status(b.status)}<span class="mono muted" style="font-size:12px">${b.id} · ${b.artist ? 'Artist-Direktbuchung' : 'aus Anfrage'}</span></div>
+      <div class="meta">${esc(b.contact?.email || '')}${b.contact?.phone ? ' · ' + esc(b.contact.phone) : ''} · ${when(b.createdAt)}${b.paidAt ? ' · bezahlt ' + when(b.paidAt) : ''}</div>
+      ${sessions(b.sessions)}${b.contact?.notes ? `<pre>${esc(b.contact.notes)}</pre>` : ''}</div>
+      <div style="text-align:right"><div class="h4">${euro(b.total || 0)}</div>${['confirmed', 'awaiting_payment'].includes(b.status) ? `<button class="btn btn-ghost btn-sm" style="margin-top:10px" data-booking="${b.id}" data-status="cancelled">Stornieren</button>` : ''}</div></div>`).join('') : empty('Noch keine Buchungen.');
+  }
+
+  if (tab === 'applications') {
+    const apps = data.applications;
+    const members = data.users.filter((u) => u.role === 'artist');
+    p.innerHTML = `<h3 class="h4 admin-sub">Bewerbungen</h3>` + (apps.length ? apps.map((a) => `<div class="admin-item"><div>
+      <div class="row" style="gap:10px"><b>${esc(a.name)}</b>${status(a.status)}<span class="mono muted" style="font-size:12px">${esc(a.role || '')} · ${esc(a.usage || '')}</span></div>
+      <div class="meta"><a href="mailto:${esc(a.email)}">${esc(a.email)}</a>${a.phone ? ' · ' + esc(a.phone) : ''}${a.city ? ' · ' + esc(a.city) : ''} · ${when(a.createdAt)}</div>
+      ${a.genres ? `<div class="meta">Genres: ${esc(a.genres)}${a.referral ? ' · Empfehlung: ' + esc(a.referral) : ''}</div>` : ''}${a.links ? `<div class="meta">Links: ${esc(a.links)}</div>` : ''}
+      <pre>${esc(a.motivation)}</pre></div>
+      <div class="row" style="justify-content:flex-end">${a.status === 'pending' || a.status === 'waitlist' ? `<button class="btn btn-primary btn-sm" data-app="${a.id}" data-act="approve" data-kind="paid">Annehmen (zahlend)</button><button class="btn btn-ghost btn-sm" data-app="${a.id}" data-act="approve" data-kind="free">Freiplatz</button><button class="btn btn-ghost btn-sm" data-app="${a.id}" data-act="reject">Ablehnen</button>` : ''}</div></div>`).join('') : empty('Keine Bewerbungen.')) +
+      `<h3 class="h4 admin-sub">Artist-Member (${members.length})</h3>` + (members.length ? members.map((u) => `<div class="admin-item"><div><div class="row" style="gap:10px"><b class="name-line">${esc(u.name)} ${verifiedBadge(u.role, 16)}</b>${status(u.membership?.status || 'active')}<span class="mono muted" style="font-size:12px">${u.membership?.kind === 'free' ? 'Freiplatz' : 'zahlend'}</span></div><div class="meta">${esc(u.email)} · seit ${when(u.membership?.since)}</div></div>
+      <div><button class="btn btn-ghost btn-sm" data-revoke="${u.id}">Membership beenden</button></div></div>`).join('') : empty('Noch keine Artist-Member.')) +
+      `<h3 class="h4 admin-sub">Community (${data.users.filter((u) => u.role === 'community').length})</h3><div class="admin-item"><div class="meta">${data.users.filter((u) => u.role === 'community').map((u) => esc(u.name)).join(' · ') || '–'}</div><div><button class="btn btn-ghost btn-sm" data-newsletter>Newsletter-Liste (CSV)</button></div></div>`;
+  }
+
+  if (tab === 'events') {
+    const e = editEvent || {};
+    p.innerHTML = `<form class="form admin-form" data-event-form>
+      <h3 class="h4">${e.id ? 'Event bearbeiten' : 'Neues Event'}</h3>
+      <div class="form-grid">
+        <div class="field"><label>Titel (DE) *</label><input name="title_de" required value="${esc(e.title?.de || '')}"></div>
+        <div class="field"><label>Titel (EN)</label><input name="title_en" value="${esc(e.title?.en || '')}"></div>
+        <div class="field"><label>Datum *</label><input name="date" type="date" required value="${e.date || ''}"></div>
+        <div class="field"><label>Kategorie</label><select name="category">${Object.entries(EVENT_CATEGORIES).map(([k, v]) => `<option value="${k}" ${e.category === k ? 'selected' : ''}>${v.de}</option>`).join('')}</select></div>
+        <div class="field"><label>Beginn</label><input name="start" type="time" value="${e.start || '19:00'}"></div>
+        <div class="field"><label>Ende</label><input name="end" type="time" value="${e.end || '23:00'}"></div>
+        <div class="field"><label>Kapazität</label><input name="capacity" type="number" min="0" value="${e.capacity ?? 100}"></div>
+        <div class="field"><label>Free-Tickets für Artists</label><input name="freeTickets" type="number" min="0" value="${e.freeTickets ?? 5}"></div>
+        <div class="field full"><label>Beschreibung (DE)</label><textarea name="desc_de" style="min-height:80px">${esc(e.description?.de || '')}</textarea></div>
+        <div class="field full"><label>Beschreibung (EN)</label><textarea name="desc_en" style="min-height:80px">${esc(e.description?.en || '')}</textarea></div>
+      </div>
+      <label class="check"><input type="checkbox" name="artistFree" ${e.artistFree ? 'checked' : ''}><span>Artist-Member frei (+1), z. B. Kino-Montag</span></label>
+      <div class="row"><button class="btn btn-primary btn-sm" type="submit">Speichern</button>${e.id ? '<button class="btn btn-ghost btn-sm" type="button" data-event-new>Neu</button>' : ''}</div>
+    </form>` + (data.events.length ? data.events.map((ev) => {
+      const sold = data.tickets.filter((t) => t.eventId === ev.id).length;
+      return `<div class="admin-item"><div><div class="row" style="gap:10px"><b>${esc(ev.title.de)}</b><span class="tag-soft">${EVENT_CATEGORIES[ev.category]?.de || ev.category}</span>${ev.notifiedAt ? '<span class="status confirmed">benachrichtigt</span>' : ''}</div>
+        <div class="meta">${fmt(ev.date)} · ${ev.start}–${ev.end} · Free-Tickets ${sold}/${ev.freeTickets}</div></div>
+        <div class="row" style="justify-content:flex-end"><button class="btn btn-ghost btn-sm" data-event-edit="${ev.id}">Bearbeiten</button><button class="btn btn-ghost btn-sm" data-event-notify="${ev.id}">Benachrichtigen</button><button class="btn btn-ghost btn-sm" data-event-del="${ev.id}">Löschen</button></div></div>`;
+    }).join('') : empty('Keine Events.'));
+  }
+
+  if (tab === 'settings') {
+    const s = data.settings;
+    p.innerHTML = `<form class="form admin-form" data-settings-form>
+      <h3 class="h4">Artist-Membership</h3>
+      <div class="form-grid">
+        <div class="field"><label>Monatsbeitrag (€)</label><input name="artistPriceMonthly" type="number" min="0" step="0.01" value="${s.artistPriceMonthly}"></div>
+        <div class="field"><label>Zahlende Plätze</label><input name="paidSlots" type="number" min="0" value="${s.paidSlots}"></div>
+        <div class="field"><label>Freiplätze</label><input name="freeSlots" type="number" min="0" value="${s.freeSlots}"></div>
+      </div>
+      <p class="muted" style="font-size:14px;margin:0">Werden Plätze erhöht, rückt automatisch die Warteliste nach (mit E-Mail).</p>
+      <div><button class="btn btn-primary btn-sm" type="submit">Speichern</button></div>
+    </form>`;
+  }
+
+  if (tab === 'outbox') {
+    p.innerHTML = `<div class="admin-item"><div class="meta">${data.mail === 'resend' ? 'E-Mails werden über Resend versendet.' : 'Noch kein Mail-Dienst verbunden – alle E-Mails landen hier im Protokoll (RESEND_API_KEY setzen, dann gehen sie raus).'}</div><div></div></div>` +
+      (data.outbox.length ? data.outbox.map((m) => `<details class="admin-item mail-item"><summary><div><div class="row" style="gap:10px"><b>${esc(m.subject)}</b><span class="tag-soft">${m.template}</span><span class="status ${m.status === 'sent' ? 'confirmed' : m.status === 'queued' ? 'pending' : 'cancelled'}">${m.status}</span></div><div class="meta">an ${esc(m.to)} · ${when(m.createdAt)} · ${m.lang}</div></div></summary><iframe sandbox srcdoc="${esc(m.html)}"></iframe></details>`).join('') : empty('Noch keine E-Mails.'));
+  }
   icons();
 }
 
-async function load() { data = await api.adminOverview(); render(); }
+async function load() { data = await api.admin.overview(); render(); }
 
 document.addEventListener('click', async (e) => {
-  if (e.target.closest('[data-logout]')) { await api.logout(); location.href = './'; return; }
-  const t = e.target.closest('[data-tab], [data-mb], [data-bk], [data-msg]');
-  if (!t) return;
-  if (t.dataset.tab) { tab = t.dataset.tab; history.replaceState(null, '', `?tab=${tab}`); return render(); }
-  if (t.dataset.mb) { await api.adminMembership(t.dataset.mb, t.dataset.act); toast(t.dataset.act === 'approve' ? 'Freigegeben – Account angelegt' : 'Anfrage abgelehnt'); }
-  if (t.dataset.bk) { await api.adminBooking(t.dataset.bk, t.dataset.act); toast(t.dataset.act === 'confirm' ? 'Buchung bestätigt' : 'Buchung abgesagt'); }
-  if (t.dataset.msg) await api.adminRead(t.dataset.msg);
-  load();
+  const tg = e.target.closest('button'); if (!tg) return;
+  const ds = tg.dataset;
+  try {
+    if (e.target.closest('[data-logout]')) { await api.logout(); location.href = './'; return; }
+    if (ds.tab) { tab = ds.tab; history.replaceState(null, '', `?tab=${tab}`); return render(); }
+    if (ds.filter) { filter = ds.filter; return render(); }
+    if (ds.studio) { await api.admin.studio(ds.studio, ds.act); toast(ds.act === 'accept' ? 'Termin bestätigt – E-Mail raus' : 'Abgesagt – E-Mail raus'); }
+    else if (ds.booking) { if (!confirm('Buchung wirklich stornieren?')) return; await api.admin.booking(ds.booking, ds.status); toast('Buchung storniert'); }
+    else if (ds.app) { const r = await api.admin.application(ds.app, ds.act, ds.kind); toast(r.application.status === 'invited' ? 'Eingeladen – Zahlungslink per E-Mail' : r.application.status === 'waitlist' ? 'Plätze voll – auf Warteliste gesetzt' : r.application.status === 'active' ? 'Freiplatz vergeben' : 'Abgelehnt'); }
+    else if (ds.revoke) { if (!confirm('Membership wirklich beenden?')) return; await api.admin.revoke(ds.revoke); toast('Membership beendet – Warteliste rückt nach'); }
+    else if (ds.eventEdit) { editEvent = data.events.find((x) => x.id === ds.eventEdit); render(); scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    else if (ds.eventNew !== undefined) { editEvent = null; render(); return; }
+    else if (ds.eventDel) { if (!confirm('Event löschen?')) return; await api.admin.deleteEvent(ds.eventDel); toast('Event gelöscht'); }
+    else if (ds.eventNotify) { const r = await api.admin.notifyEvent(ds.eventNotify); toast(`${r.sent} Benachrichtigungen verschickt`); }
+    else if (ds.newsletter !== undefined) {
+      const { csv } = await api.admin.newsletter();
+      const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv' })); a.download = 'newsletter.csv'; a.click(); return;
+    } else return;
+    load();
+  } catch (ex) { toast(ex.message, 'circle-alert'); }
+});
+document.addEventListener('change', async (e) => {
+  const sel = e.target.closest('[data-req-status]');
+  if (sel) { await api.admin.request(sel.dataset.reqStatus, { status: sel.value }); toast('Status gespeichert'); load(); }
+});
+document.addEventListener('submit', async (e) => {
+  if (e.target.matches('[data-event-form]')) {
+    e.preventDefault();
+    const d = Object.fromEntries(new FormData(e.target));
+    try { await api.admin.saveEvent({ ...d, id: editEvent?.id, artistFree: !!d.artistFree }); editEvent = null; toast('Event gespeichert'); load(); } catch (ex) { toast(ex.message, 'circle-alert'); }
+  }
+  if (e.target.matches('[data-settings-form]')) {
+    e.preventDefault();
+    await api.admin.settings(Object.fromEntries(new FormData(e.target))); toast('Einstellungen gespeichert'); load();
+  }
 });
 
 if (user?.role === 'admin') load();

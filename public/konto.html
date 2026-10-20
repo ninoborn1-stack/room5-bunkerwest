@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Mein Profil · Room 5 Bunkerwest</title>
-  <meta name="theme-color" content="#070605">
+  <title>Mein Profil · Bunker West</title>
+  <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
-  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__r5)document.documentElement.classList.remove('js')},4000);try{if(sessionStorage.getItem('r5-transition')){document.documentElement.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}</script>
+  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t=s('r5-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lucide.min.js" defer></script>
@@ -18,27 +19,50 @@
 <main>
   <section class="page-hero" style="padding-bottom:40px">
     <div class="wrap">
-      <div class="eyebrow" data-account-tier>Profil</div>
-      <h1 class="display h1" style="margin-top:24px" data-account-hello>Hallo.</h1>
+      <div class="eyebrow" data-account-tier></div>
+      <h1 class="display h1 name-line" style="margin-top:24px" data-account-hello>…</h1>
     </div>
   </section>
   <section class="section-sm" style="padding-top:0">
     <div class="wrap account-grid">
-      <aside class="card card-pad">
-        <span data-account-badge></span>
-        <h3 class="h4" style="margin:22px 0 4px" data-account-name>—</h3>
-        <p class="muted mono" style="font-size:13px" data-account-email>—</p>
-        <ul class="benefits" style="margin:20px 0" data-account-benefits></ul>
+      <aside class="stack" style="--s:18px">
+        <div class="card card-pad">
+          <div data-account-badge></div>
+          <h3 class="h4 name-line" style="margin:18px 0 4px" data-account-name>—</h3>
+          <p class="muted mono" style="font-size:13px;margin:0" data-account-email>—</p>
+          <form class="form" style="margin-top:22px;gap:16px" data-settings>
+            <div class="field"><label for="s-name" data-i18n="acc.name">Name</label><input id="s-name" name="name"></div>
+            <div class="field"><label for="s-lang" data-i18n="ui.language">Sprache</label><select id="s-lang" name="lang"><option value="de">Deutsch</option><option value="en">English</option></select></div>
+            <label class="check"><input type="checkbox" name="newsletter"><span data-i18n="auth.newsletter">Newsletter (1× im Monat) mit Programm und Deals</span></label>
+            <label class="check"><input type="checkbox" name="notifyEvents"><span data-i18n="auth.notify">Benachrichtige mich zu Events im Bunker</span></label>
+            <button class="btn btn-ghost btn-sm" type="submit" data-i18n="ui.save">Speichern</button>
+          </form>
+        </div>
+        <details class="card card-pad">
+          <summary class="h4" data-i18n="acc.password">Passwort ändern</summary>
+          <form class="form" style="margin-top:16px;gap:14px" data-password>
+            <div class="field"><label for="p-cur" data-i18n="acc.current">Aktuelles Passwort</label><input id="p-cur" name="current" type="password" autocomplete="current-password"></div>
+            <div class="field"><label for="p-new" data-i18n="auth.newPassword">Neues Passwort</label><input id="p-new" name="password" type="password" autocomplete="new-password" minlength="8"></div>
+            <div class="alert err" data-password-error hidden></div>
+            <button class="btn btn-ghost btn-sm" type="submit" data-i18n="ui.save">Speichern</button>
+          </form>
+        </details>
         <div class="row">
-          <a href="buchen.html" class="btn btn-primary btn-sm">Session buchen <i data-lucide="arrow-right"></i></a>
-          <button class="btn btn-ghost btn-sm" data-logout><i data-lucide="log-out"></i>Logout</button>
+          <a href="buchen.html" class="btn btn-primary btn-sm" data-book-cta><span data-i18n="acc.book">Session anfragen</span> <i data-lucide="arrow-right"></i></a>
+          <button class="btn btn-ghost btn-sm" data-logout><i data-lucide="log-out"></i><span data-i18n="acc.logout">Logout</span></button>
         </div>
       </aside>
-      <div class="card card-pad">
-        <div class="row" style="justify-content:space-between"><h3 class="h4">Meine Buchungen</h3><span class="mono muted" data-booking-count></span></div>
-        <div data-bookings style="margin-top:10px"></div>
+      <div class="stack" style="--s:18px">
+        <div data-membership-card></div>
+        <div class="card card-pad">
+          <div class="row" style="justify-content:space-between"><h3 class="h4" data-i18n="acc.bookings">Buchungen & Anfragen</h3><span class="mono muted" data-booking-count></span></div>
+          <div data-bookings style="margin-top:10px"></div>
+        </div>
+        <div class="card card-pad" data-tickets-card hidden>
+          <h3 class="h4" data-i18n="acc.tickets">Meine Free-Tickets</h3>
+          <div data-tickets style="margin-top:10px"></div>
+        </div>
       </div>
-      <div data-membership-card style="grid-column:1 / -1"></div>
     </div>
   </section>
 </main>

@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Membership · Room 5 Bunkerwest</title>
-  <meta name="description" content="Bunkerwest Community Membership – exklusiv, nur auf Anfrage. Priorität bei Buchungen, Vergünstigungen und Zugang zur Community.">
-  <meta name="theme-color" content="#070605">
+  <title>Membership · Bunker West Community</title>
+  <meta name="description" content="Bunker West Community: kostenlos als Community-Member oder per Bewerbung Artist-Member – direkt buchen, 30 % auf Sessions, Creative Coworking.">
+  <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
-  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__r5)document.documentElement.classList.remove('js')},4000);try{if(sessionStorage.getItem('r5-transition')){document.documentElement.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}</script>
+  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t=s('r5-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lucide.min.js" defer></script>
@@ -18,61 +19,49 @@
 <div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
 <main>
   <section class="page-hero" style="min-height:88vh;display:flex;align-items:flex-end">
-    <div class="ph-bg" style="opacity:.5"><img src="img/lounge-lamp.jpg" alt="" data-parallax="22"></div>
+    <div class="ph-bg" style="opacity:.5"><img src="img/team-color.jpg" alt="" data-parallax="22"></div>
     <div class="wrap">
-      <span class="lock-badge" data-reveal><i data-lucide="lock-keyhole"></i>Nur auf Anfrage · Limitierte Plätze</span>
-      <h1 class="display long" style="margin-top:28px" data-split>Bunkerwest<br><span class="outline">Community</span></h1>
+      <span class="lock-badge" data-reveal><i data-lucide="badge-check"></i><span data-i18n="mem.badge">Community & Club for Artists</span></span>
+      <h1 class="display long" style="margin-top:28px" data-split data-i18n-html="mem.title">Bunker West<br><span class="outline">Community</span></h1>
       <div class="ph-row">
-        <p class="lead">Kein Abo, das man einfach abschließt. Ein kleiner Kreis von Menschen, die regelmäßig Musik machen – und Room 5 zu ihrem Raum machen.</p>
-        <a href="#anfrage" class="btn btn-primary" data-magnetic>Mitgliedschaft anfragen <i data-lucide="arrow-down"></i></a>
+        <p class="lead" data-i18n="mem.lead">Wie Soho House – nur für Musik. Zwei Stufen: kostenlos dabei sein als Community-Member, oder als Artist-Member Teil eines kuratierten Clubs werden.</p>
+        <div class="row"><a href="#artist" class="btn btn-primary" data-magnetic><span data-i18n="mem.apply">Als Artist bewerben</span> <i data-lucide="arrow-down"></i></a><a href="login.html?tab=register" class="btn btn-ghost" data-i18n="mem.join">Kostenlos beitreten</a></div>
       </div>
     </div>
   </section>
 
-  <!-- Vorteile -->
+  <!-- Zwei Stufen -->
   <section class="section">
     <div class="wrap">
-      <div class="row" style="justify-content:space-between;align-items:flex-end;gap:30px;margin-bottom:60px">
-        <h2 class="display h2" data-split>Was Members<br>bekommen</h2>
-        <p class="lead muted" data-reveal style="max-width:36ch">Vorteile, die sich bei jeder Session bemerkbar machen – und ein Netzwerk, das bleibt.</p>
-      </div>
-      <div class="values" data-stagger>
-        <div class="card value"><i data-lucide="calendar-clock"></i><h3 class="h4">Priorität im Kalender</h3><p class="muted" style="margin-top:12px" data-window-text>Bis zu 90 Tage im Voraus buchen – öffentliche Buchungen nur 30 Tage.</p></div>
-        <div class="card value"><i data-lucide="badge-percent"></i><h3 class="h4">Vergünstigte Preise</h3><p class="muted" style="margin-top:12px" data-discount-text>15 % auf alle Sessions, automatisch bei jeder Buchung.</p></div>
-        <div class="card value"><i data-lucide="key-round"></i><h3 class="h4">Member-Slots</h3><p class="muted" style="margin-top:12px">Exklusive Zeitfenster und Last-Minute-Slots, die nie öffentlich gehen.</p></div>
-        <div class="card value"><i data-lucide="users-round"></i><h3 class="h4">Community</h3><p class="muted" style="margin-top:12px">Listening Sessions, Feedback-Runden und Features mit anderen Members.</p></div>
-        <div class="card value"><i data-lucide="sliders-horizontal"></i><h3 class="h4">Upgrades inklusive</h3><p class="muted" style="margin-top:12px">Ausgewählte Equipment-Upgrades für Residents ohne Aufpreis.</p></div>
-        <div class="card value"><i data-lucide="ticket"></i><h3 class="h4">Bunkerwest Events</h3><p class="muted" style="margin-top:12px">Früher Zugang und Gästeliste bei Events im Haus.</p></div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Stufen -->
-  <section class="section" style="padding-top:0">
-    <div class="wrap">
-      <div class="eyebrow" data-reveal>Zwei Stufen</div>
-      <h2 class="display h2" style="margin:24px 0 60px" data-split>Member oder<br><span class="outline">Resident</span></h2>
+      <div class="eyebrow" data-reveal data-i18n="mem.tiers.eyebrow">Zwei Stufen</div>
+      <h2 class="display h2" style="margin:24px 0 60px" data-split data-i18n-html="mem.tiers.title">Community oder<br><span class="outline">Artist</span></h2>
       <div class="tiers">
         <article class="card tier" data-reveal>
-          <span class="t-price">Auf Anfrage</span>
-          <h3 class="display h3">Member</h3>
-          <p class="muted">Für Artists und Producer, die regelmäßig, aber flexibel im Studio sind.</p>
-          <ul class="benefits" style="margin-bottom:0">
-            <li><i data-lucide="check"></i><div><b>90-Tage-Buchungsfenster</b></div></li>
-            <li><i data-lucide="check"></i><div><b>15 % auf Raumpreise</b></div></li>
-            <li><i data-lucide="check"></i><div><b>Community-Zugang & Events</b></div></li>
+          <div class="tier-head"><svg class="verified is-community" width="30" height="30" viewBox="0 0 24 24"><path class="v-shape" d="M12 1.6l2.5 1.9 3.1-.3 1.2 2.9 2.9 1.2-.3 3.1 1.9 2.5-1.9 2.5.3 3.1-2.9 1.2-1.2 2.9-3.1-.3L12 22.4l-2.5-1.9-3.1.3-1.2-2.9-2.9-1.2.3-3.1L.7 12l1.9-2.5-.3-3.1 2.9-1.2 1.2-2.9 3.1.3z"/><path class="v-check" d="M7.6 12.3l3 3 5.8-6.2" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="t-price" data-i18n="mem.c.price">Kostenlos · sofort dabei</span></div>
+          <h3 class="display h3">Community</h3>
+          <p class="muted" data-i18n="mem.c.lead">Für alle, die den Bunker lieben: Events, Programm, Deals. Einfach registrieren – keine Bewerbung.</p>
+          <ul class="benefits" style="margin-bottom:26px">
+            <li><i data-lucide="mail"></i><div><b data-i18n="mem.c.b1">Newsletter & Event-Benachrichtigungen</b><span data-i18n="mem.c.b1s">Einmal im Monat – plus Bescheid, wenn ein Event online geht.</span></div></li>
+            <li><i data-lucide="ticket-percent"></i><div><b data-i18n="mem.c.b2">Gelegentliche Event-Gutscheine</b><span data-i18n="mem.c.b2s">Ab und zu 15 % auf Events per E-Mail.</span></div></li>
+            <li><i data-lucide="party-popper"></i><div><b data-i18n="mem.c.b3">Eigene Events im Bunker</b><span data-i18n="mem.c.b3s">Yoga, Sip & Paint, Lesungen … anfragen und gegen Miete ausrichten.</span></div></li>
+            <li><i data-lucide="user-round"></i><div><b data-i18n="mem.c.b4">Eigenes Profil</b><span data-i18n="mem.c.b4s">Anfragen, Buchungen und Einstellungen an einem Ort.</span></div></li>
           </ul>
+          <a href="login.html?tab=register" class="btn btn-ghost btn-block" data-i18n="mem.join">Kostenlos beitreten</a>
         </article>
-        <article class="card tier resident" data-reveal data-delay=".1">
-          <span class="glow" style="position:absolute;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle,rgba(233,163,91,.25),transparent 70%);top:-140px;right:-120px"></span>
-          <span class="t-price">Auf Anfrage · sehr limitiert</span>
-          <h3 class="display h3">Resident</h3>
-          <p class="muted">Feste wöchentliche Slots, für Projekte, die Room 5 als Zuhause brauchen.</p>
-          <ul class="benefits" style="margin-bottom:0">
-            <li><i data-lucide="check"></i><div><b>Alles aus Member</b></div></li>
-            <li><i data-lucide="check"></i><div><b>Fester Wochen-Slot</b></div></li>
-            <li><i data-lucide="check"></i><div><b>Upgrades inklusive, eigenes Storage-Fach</b></div></li>
+        <article class="card tier artist-tier" data-reveal data-delay=".1">
+          <span class="glow-gold"></span>
+          <div class="tier-head"><svg class="verified is-artist" width="30" height="30" viewBox="0 0 24 24"><path class="v-shape" d="M12 1.6l2.5 1.9 3.1-.3 1.2 2.9 2.9 1.2-.3 3.1 1.9 2.5-1.9 2.5.3 3.1-2.9 1.2-1.2 2.9-3.1-.3L12 22.4l-2.5-1.9-3.1.3-1.2-2.9-2.9-1.2.3-3.1L.7 12l1.9-2.5-.3-3.1 2.9-1.2 1.2-2.9 3.1.3z"/><path class="v-check" d="M7.6 12.3l3 3 5.8-6.2" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="t-price" data-artist-price>…</span></div>
+          <h3 class="display h3">Artist</h3>
+          <p class="muted" data-i18n="mem.a.lead">Kuratierter Club für Musiker:innen, Instrumentalist:innen und Produzent:innen. Begrenzte Plätze, nur per Bewerbung.</p>
+          <div class="capacity" data-capacity></div>
+          <ul class="benefits" style="margin-bottom:26px">
+            <li><i data-lucide="calendar-check"></i><div><b data-i18n="mem.a.b1">Studio direkt buchen & bezahlen</b><span data-i18n="mem.a.b1s">Ohne Anfrage, sofort fest – mit 30 % auf jede Session.</span></div></li>
+            <li><i data-lucide="laptop"></i><div><b data-i18n="mem.a.b2">Creative Coworking</b><span data-i18n="mem.a.b2s">Mo–Do 9–17 Uhr, Fr 9–14 Uhr – exklusiv für Artists.</span></div></li>
+            <li><i data-lucide="coffee"></i><div><b data-i18n="mem.a.b3">30 % im Bunker</b><span data-i18n="mem.a.b3s">Café (Matcha, Acai, Drinks), Bar, Events, Yoga & Retreats.</span></div></li>
+            <li><i data-lucide="ticket"></i><div><b data-i18n="mem.a.b4">Free-Tickets & Kino-Montag</b><span data-i18n="mem.a.b4s">Limitierte Free-Tickets für Abend-Events, montags Kino frei + 1 Begleitung.</span></div></li>
+            <li><i data-lucide="utensils"></i><div><b data-i18n="mem.a.b5">Exklusive Dinner & Bubble</b><span data-i18n="mem.a.b5s">Ab und zu Member-Dinner, Listening-Abende, Songcamps in Planung.</span></div></li>
           </ul>
+          <a href="#artist" class="btn btn-primary btn-block" data-i18n="mem.apply">Als Artist bewerben</a>
         </article>
       </div>
     </div>
@@ -81,87 +70,71 @@
   <!-- Ablauf -->
   <section class="section-sm" style="padding-top:0">
     <div class="wrap">
-      <div class="steps" style="padding-top:0">
-        <div class="step" data-reveal><b class="n">01</b><h3 class="h4">Anfrage stellen</h3><p>Erzähl uns, wer du bist, was du machst und wie du Room 5 nutzen willst.</p></div>
-        <div class="step" data-reveal data-delay=".1"><b class="n">02</b><h3 class="h4">Kennenlernen</h3><p>Wir hören rein, melden uns und laden dich auf einen Kaffee in den Bunker ein.</p></div>
-        <div class="step" data-reveal data-delay=".2"><b class="n">03</b><h3 class="h4">Willkommen</h3><p>Nach Freigabe wird dein Profil zum Member-Profil – die Vorteile gelten sofort.</p></div>
+      <div class="steps" style="padding-top:0" data-stagger>
+        <div class="step"><b class="n">01</b><h3 class="h4" data-i18n="mem.s1">Bewerben</h3><p data-i18n="mem.s1p">Zeig uns, was du musikalisch machst: Links, Projekte, Pläne.</p></div>
+        <div class="step"><b class="n">02</b><h3 class="h4" data-i18n="mem.s2">Kennenlernen</h3><p data-i18n="mem.s2p">Wir hören rein und melden uns – meist innerhalb einer Woche.</p></div>
+        <div class="step"><b class="n">03</b><h3 class="h4" data-i18n="mem.s3">Willkommen</h3><p data-i18n="mem.s3p">Bei Zusage aktivierst du deine Membership. Sind alle Plätze voll, kommst du auf die Warteliste und rückst automatisch nach.</p></div>
       </div>
     </div>
   </section>
 
-  <!-- Formular -->
-  <section class="section" id="anfrage">
+  <!-- Bewerbung -->
+  <section class="section" id="artist">
     <div class="wrap">
       <div class="split" style="align-items:start">
         <div style="position:sticky;top:120px">
-          <div class="eyebrow">Mitgliedschaft anfragen</div>
-          <h2 class="display h2" style="margin:24px 0" data-split>Klopf<br>an die Tür.</h2>
-          <p class="muted" style="max-width:40ch">Ein normales Profil kann jeder kostenlos anlegen. Die Membership ist die Stufe darüber – wir prüfen jede Anfrage persönlich, Antwort meist innerhalb einer Woche.</p>
-          <div class="card card-pad" style="margin-top:30px">
-            <span class="label">Status prüfen</span>
-            <form class="row" style="margin-top:12px;flex-wrap:nowrap" data-status-form>
-              <input class="input" type="email" name="email" placeholder="deine@email.de" required style="flex:1;min-width:0">
-              <button class="btn btn-ghost btn-sm" type="submit">Prüfen</button>
-            </form>
-            <div data-status-out class="muted" style="margin-top:12px;font-size:14px"></div>
-          </div>
+          <div class="eyebrow" data-i18n="mem.form.eyebrow">Artist-Bewerbung</div>
+          <h2 class="display h2" style="margin:24px 0" data-split data-i18n-html="mem.form.title">Klopf<br>an die Tür.</h2>
+          <p class="muted" style="max-width:40ch" data-i18n="mem.form.lead">Wir prüfen jede Bewerbung persönlich. Ohne Profil legen wir mit deiner Bewerbung gleich ein kostenloses Community-Profil für dich an.</p>
         </div>
 
         <div class="card card-pad" data-membership-wrap>
           <div class="form-steps"><i class="on"></i><i></i><i></i></div>
           <form class="form" data-membership novalidate>
             <div class="fstep is-active" data-fstep="1">
-              <h3 class="h4">01 · Über dich</h3>
+              <h3 class="h4" data-i18n="mem.f1">01 · Über dich</h3>
               <div class="form-grid">
-                <div class="field"><label for="m-name">Name *</label><input id="m-name" name="name" autocomplete="name" required></div>
-                <div class="field"><label for="m-email">E-Mail *</label><input id="m-email" name="email" type="email" autocomplete="email" required></div>
-                <div class="field"><label for="m-phone">Telefon</label><input id="m-phone" name="phone" type="tel" autocomplete="tel"></div>
-                <div class="field"><label for="m-city">Stadt</label><input id="m-city" name="city" autocomplete="address-level2"></div>
+                <div class="field"><label for="m-name" data-i18n="form.name">Name *</label><input id="m-name" name="name" autocomplete="name" required></div>
+                <div class="field"><label for="m-email" data-i18n="form.email">E-Mail *</label><input id="m-email" name="email" type="email" autocomplete="email" required></div>
+                <div class="field"><label for="m-phone" data-i18n="form.phone">Telefon</label><input id="m-phone" name="phone" type="tel" autocomplete="tel"></div>
+                <div class="field"><label for="m-city" data-i18n="form.city">Stadt</label><input id="m-city" name="city" autocomplete="address-level2"></div>
               </div>
-              <div class="field"><span class="label">Was machst du?</span>
+              <div class="field"><span class="label" data-i18n="mem.whatDo">Was machst du?</span>
                 <div class="chips" style="margin-top:4px">
                   <label class="chip"><input type="radio" name="role" value="Artist" checked><span><i data-lucide="mic-vocal"></i>Artist</span></label>
                   <label class="chip"><input type="radio" name="role" value="Producer"><span><i data-lucide="audio-waveform"></i>Producer</span></label>
+                  <label class="chip"><input type="radio" name="role" value="Instrumentalist"><span><i data-lucide="guitar"></i><span data-i18n="mem.role.instr">Instrumentalist:in</span></span></label>
                   <label class="chip"><input type="radio" name="role" value="Engineer"><span><i data-lucide="sliders-horizontal"></i>Engineer</span></label>
-                  <label class="chip"><input type="radio" name="role" value="Band"><span><i data-lucide="guitar"></i>Band</span></label>
-                  <label class="chip"><input type="radio" name="role" value="Podcast"><span><i data-lucide="podcast"></i>Podcast</span></label>
+                  <label class="chip"><input type="radio" name="role" value="Songwriter"><span><i data-lucide="pen-line"></i>Songwriter</span></label>
                 </div>
               </div>
             </div>
-
             <div class="fstep" data-fstep="2">
-              <h3 class="h4">02 · Deine Musik</h3>
-              <div class="field"><label for="m-genres">Genres / Stil</label><input id="m-genres" name="genres" placeholder="z. B. Rap, R&B, Elektronik"></div>
-              <div class="field"><label for="m-links">Links</label><textarea id="m-links" name="links" style="min-height:90px" placeholder="Spotify, SoundCloud, Instagram, YouTube …"></textarea></div>
-              <div class="field"><span class="label">Wie oft würdest du Room 5 nutzen?</span>
+              <h3 class="h4" data-i18n="mem.f2">02 · Deine Musik</h3>
+              <div class="field"><label for="m-genres" data-i18n="mem.genres">Genres / Stil</label><input id="m-genres" name="genres" placeholder="z. B. Rap, R&B, Elektronik" data-i18n-attr="placeholder:mem.genresPh"></div>
+              <div class="field"><label for="m-links" data-i18n="mem.links">Links zu deiner Musik</label><textarea id="m-links" name="links" style="min-height:90px" placeholder="Spotify, SoundCloud, Instagram, YouTube …"></textarea></div>
+              <div class="field"><span class="label" data-i18n="mem.usage">Wie oft wärst du im Bunker?</span>
                 <div class="chips" style="margin-top:4px">
-                  <label class="chip"><input type="radio" name="usage" value="monatlich" checked><span>1–2× im Monat</span></label>
-                  <label class="chip"><input type="radio" name="usage" value="wöchentlich"><span>Wöchentlich</span></label>
-                  <label class="chip"><input type="radio" name="usage" value="mehrmals pro Woche"><span>Mehrmals pro Woche</span></label>
-                </div>
-              </div>
-              <div class="field"><span class="label">Gewünschte Stufe</span>
-                <div class="chips" style="margin-top:4px">
-                  <label class="chip"><input type="radio" name="tier" value="member" checked><span><i data-lucide="user-round"></i>Member</span></label>
-                  <label class="chip"><input type="radio" name="tier" value="resident"><span><i data-lucide="crown"></i>Resident</span></label>
+                  <label class="chip"><input type="radio" name="usage" value="monatlich" checked><span data-i18n="mem.usage1">1–2× im Monat</span></label>
+                  <label class="chip"><input type="radio" name="usage" value="wöchentlich"><span data-i18n="mem.usage2">Wöchentlich</span></label>
+                  <label class="chip"><input type="radio" name="usage" value="mehrmals pro Woche"><span data-i18n="mem.usage3">Mehrmals pro Woche</span></label>
                 </div>
               </div>
             </div>
-
             <div class="fstep" data-fstep="3">
-              <h3 class="h4">03 · Warum Room 5?</h3>
-              <div class="field"><label for="m-motivation">Erzähl uns von dir & deinen Plänen *</label><textarea id="m-motivation" name="motivation" required placeholder="Woran arbeitest du gerade? Was suchst du in einer Community?"></textarea></div>
-              <div class="field"><label for="m-ref">Empfehlung durch ein Member (optional)</label><input id="m-ref" name="referral" placeholder="Name des Members"></div>
-              <div class="field"><label for="m-pw">Passwort für dein Profil *</label><input id="m-pw" name="password" type="password" autocomplete="new-password" minlength="8" required><span class="hint">Mind. 8 Zeichen. Damit legen wir gleich dein Profil an.</span></div>
-              <label class="check"><input type="checkbox" name="privacy" required><span>Ich bin einverstanden, dass meine Angaben zur Prüfung der Anfrage gespeichert werden.</span></label>
+              <h3 class="h4" data-i18n="mem.f3">03 · Warum der Bunker?</h3>
+              <div class="field"><label for="m-motivation" data-i18n="mem.motivation">Erzähl uns von dir & deinen Plänen *</label><textarea id="m-motivation" name="motivation" required placeholder="Woran arbeitest du gerade? Was suchst du im Club?" data-i18n-attr="placeholder:mem.motivationPh"></textarea></div>
+              <div class="field"><label for="m-ref" data-i18n="mem.referral">Empfehlung durch ein Member (optional)</label><input id="m-ref" name="referral"></div>
+              <div class="field" data-pw-field><label for="m-pw" data-i18n="mem.pw">Passwort für dein Profil *</label><input id="m-pw" name="password" type="password" autocomplete="new-password" minlength="8" required><span class="hint" data-i18n="mem.pwHint">Mind. 8 Zeichen. Damit legen wir gleich dein Community-Profil an.</span></div>
+              <label class="check"><input type="checkbox" name="privacy" required><span data-i18n="mem.privacy">Ich bin einverstanden, dass meine Angaben zur Prüfung der Bewerbung gespeichert werden.</span></label>
+              <div class="captcha" data-captcha></div>
             </div>
-
             <div class="alert err" data-membership-error hidden></div>
             <div class="form-nav">
-              <button type="button" class="btn btn-ghost" data-prev hidden><i data-lucide="arrow-left"></i>Zurück</button>
+              <button type="button" class="btn btn-ghost" data-prev hidden><i data-lucide="arrow-left"></i><span data-i18n="ui.back">Zurück</span></button>
               <span></span>
-              <button type="button" class="btn btn-primary" data-next>Weiter <i data-lucide="arrow-right"></i></button>
-              <button type="submit" class="btn btn-primary" data-send hidden data-magnetic>Anfrage senden <i data-lucide="send"></i></button>
+              <button type="button" class="btn btn-primary" data-next><span data-i18n="ui.next">Weiter</span> <i data-lucide="arrow-right"></i></button>
+              <button type="submit" class="btn btn-primary" data-send hidden><span data-i18n="mem.send">Bewerbung senden</span> <i data-lucide="send"></i></button>
             </div>
           </form>
         </div>

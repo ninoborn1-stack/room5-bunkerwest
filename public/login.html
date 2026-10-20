@@ -3,11 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Login & Profil · Room 5 Bunkerwest</title>
-  <meta name="theme-color" content="#070605">
+  <title>Login · Bunker West Community</title>
+  <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
-  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__r5)document.documentElement.classList.remove('js')},4000);try{if(sessionStorage.getItem('r5-transition')){document.documentElement.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}</script>
+  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t=s('r5-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lucide.min.js" defer></script>
@@ -17,48 +18,66 @@
 <div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
 <main class="auth-wrap">
   <div class="auth-media">
-    <img src="img/vocal-booth.jpg" alt="Vocal-Ecke mit Mikrofon in Room 5" data-parallax="10">
-    <div class="am-text">
-      <span class="lock-badge"><i data-lucide="user-round"></i>Profil & Members</span>
-      <p class="display h3" style="margin-top:20px">Willkommen<br>zurück im Bunker.</p>
+    <img src="img/vocal-booth.jpg" alt="" data-parallax="10">
+    <div class="am-text" data-theme="dark">
+      <span class="lock-badge"><i data-lucide="badge-check"></i><span>Bunker West Community</span></span>
+      <p class="display h3" style="margin-top:20px" data-i18n-html="auth.side">Willkommen<br>im Bunker.</p>
     </div>
   </div>
   <div class="auth-body">
     <div class="auth-box">
-      <div class="eyebrow">Dein Profil</div>
-      <h1 class="display h2" style="margin:22px 0 14px" data-auth-title>Einloggen</h1>
-      <div class="auth-tabs" role="tablist">
-        <button class="is-active" data-tab="login" role="tab">Einloggen</button>
-        <button data-tab="register" role="tab">Profil anlegen</button>
+      <div class="eyebrow" data-i18n="auth.eyebrow">Dein Profil</div>
+      <h1 class="display h2" style="margin:22px 0 14px" data-auth-title data-i18n="auth.login">Einloggen</h1>
+      <div class="auth-tabs" role="tablist" data-tabs>
+        <button class="is-active" data-tab="login" role="tab" data-i18n="auth.login">Einloggen</button>
+        <button data-tab="register" role="tab" data-i18n="auth.register">Community beitreten</button>
       </div>
 
       <form class="form" data-login novalidate>
-        <div class="field"><label for="l-email">E-Mail</label><input id="l-email" name="email" type="email" autocomplete="username" required></div>
-        <div class="field"><label for="l-pw">Passwort</label><input id="l-pw" name="password" type="password" autocomplete="current-password" required></div>
+        <div class="field"><label for="l-email" data-i18n="auth.email">E-Mail</label><input id="l-email" name="email" type="email" autocomplete="username" required></div>
+        <div class="field"><label for="l-pw" data-i18n="auth.password">Passwort</label><input id="l-pw" name="password" type="password" autocomplete="current-password" required></div>
         <div class="alert err" data-login-error hidden></div>
-        <button class="btn btn-primary btn-block" type="submit">Einloggen <i data-lucide="arrow-right"></i></button>
+        <button class="btn btn-primary btn-block" type="submit"><span data-i18n="auth.login">Einloggen</span> <i data-lucide="arrow-right"></i></button>
+        <button type="button" class="link-arrow" style="justify-self:start" data-tab="forgot" data-i18n="auth.forgot">Passwort vergessen?</button>
       </form>
 
       <form class="form" data-register novalidate hidden>
-        <p class="muted" style="margin:0;font-size:15px">Kostenlos und für alle: deine Buchungen im Überblick, Daten beim Buchen schon ausgefüllt.</p>
-        <div class="field"><label for="r-name">Name</label><input id="r-name" name="name" autocomplete="name" required></div>
-        <div class="field"><label for="r-email">E-Mail</label><input id="r-email" name="email" type="email" autocomplete="email" required></div>
-        <div class="field"><label for="r-pw">Passwort</label><input id="r-pw" name="password" type="password" autocomplete="new-password" minlength="8" required><span class="hint">Mindestens 8 Zeichen.</span></div>
+        <p class="muted" style="margin:0;font-size:15px" data-i18n="auth.registerLead">Kostenlos und sofort aktiv: Newsletter, Event-Benachrichtigungen, gelegentliche Gutscheine und dein eigenes Profil.</p>
+        <div class="field"><label for="r-name" data-i18n="auth.name">Name</label><input id="r-name" name="name" autocomplete="name" required></div>
+        <div class="field"><label for="r-email" data-i18n="auth.email">E-Mail</label><input id="r-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="field"><label for="r-pw" data-i18n="auth.password">Passwort</label><input id="r-pw" name="password" type="password" autocomplete="new-password" minlength="8" required><span class="hint" data-i18n="auth.pwHint">Mindestens 8 Zeichen.</span></div>
+        <label class="check"><input type="checkbox" name="newsletter" checked><span data-i18n="auth.newsletter">Newsletter (1× im Monat) mit Programm und Deals</span></label>
+        <label class="check"><input type="checkbox" name="notifyEvents" checked><span data-i18n="auth.notify">Benachrichtige mich zu Events im Bunker</span></label>
+        <div class="captcha" data-captcha></div>
         <div class="alert err" data-register-error hidden></div>
-        <button class="btn btn-primary btn-block" type="submit">Profil anlegen <i data-lucide="arrow-right"></i></button>
+        <button class="btn btn-primary btn-block" type="submit"><span data-i18n="auth.registerBtn">Kostenlos beitreten</span> <i data-lucide="arrow-right"></i></button>
+      </form>
+
+      <form class="form" data-forgot novalidate hidden>
+        <p class="muted" style="margin:0;font-size:15px" data-i18n="auth.forgotLead">Gib deine E-Mail ein – wir schicken dir einen Link zum Zurücksetzen.</p>
+        <div class="field"><label for="f-email" data-i18n="auth.email">E-Mail</label><input id="f-email" name="email" type="email" autocomplete="email" required></div>
+        <div class="alert" data-forgot-msg hidden></div>
+        <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.sendLink">Link senden</button>
+      </form>
+
+      <form class="form" data-reset novalidate hidden>
+        <p class="muted" style="margin:0;font-size:15px" data-i18n="auth.resetLead">Wähle ein neues Passwort.</p>
+        <div class="field"><label for="n-pw" data-i18n="auth.newPassword">Neues Passwort</label><input id="n-pw" name="password" type="password" autocomplete="new-password" minlength="8" required></div>
+        <div class="alert err" data-reset-error hidden></div>
+        <button class="btn btn-primary btn-block" type="submit" data-i18n="auth.savePassword">Passwort speichern</button>
       </form>
 
       <div class="card card-pad" style="margin-top:30px">
         <div class="row" style="align-items:flex-start;flex-wrap:nowrap;gap:16px">
-          <i data-lucide="key-round" style="color:var(--amber);width:22px;flex:none;margin-top:2px"></i>
+          <svg class="verified is-artist" width="24" height="24" viewBox="0 0 24 24" style="flex:none;margin-top:2px"><path class="v-shape" d="M12 1.6l2.5 1.9 3.1-.3 1.2 2.9 2.9 1.2-.3 3.1 1.9 2.5-1.9 2.5.3 3.1-2.9 1.2-1.2 2.9-3.1-.3L12 22.4l-2.5-1.9-3.1.3-1.2-2.9-2.9-1.2.3-3.1L.7 12l1.9-2.5-.3-3.1 2.9-1.2 1.2-2.9 3.1.3z"/><path class="v-check" d="M7.6 12.3l3 3 5.8-6.2" fill="none" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           <div>
-            <b>Profil ist nicht gleich Membership</b>
-            <p class="muted" style="font-size:15px;margin:6px 0 14px">Die Bunkerwest Community (Rabatt, längeres Buchungsfenster, Events) gibt es nur auf Anfrage – mit oder ohne bestehendes Profil.</p>
-            <a href="membership.html#anfrage" class="link-arrow">Mitgliedschaft anfragen <i data-lucide="arrow-up-right"></i></a>
+            <b data-i18n="auth.artistTitle">Artist-Member werden</b>
+            <p class="muted" style="font-size:15px;margin:6px 0 14px" data-i18n="auth.artistText">Direkt buchen, 30 % auf Sessions, Creative Coworking – kuratierter Club, nur per Bewerbung.</p>
+            <a href="membership.html#artist" class="link-arrow"><span data-i18n="auth.artistLink">Zur Bewerbung</span> <i data-lucide="arrow-up-right"></i></a>
           </div>
         </div>
       </div>
-      <p class="muted" style="font-size:14px;margin-top:24px">Nur buchen? Geht auch ganz ohne Profil: <a href="buchen.html" style="text-decoration:underline">zur Buchung</a>.</p>
+      <p class="muted" style="font-size:14px;margin-top:24px" data-i18n-html="auth.noProfile">Nur anfragen? Geht auch ganz ohne Profil: <a href="buchen.html" style="text-decoration:underline">zum Studio-Kalender</a>.</p>
     </div>
   </div>
 </main>

@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Impressum, Datenschutz & AGB · Bunker West</title>
+  <meta name="description" content="Impressum, Datenschutzerklärung und AGB von Bunker West / Room 5.">
+  <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t=s('r5-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lucide.min.js" defer></script>
+  <script type="module" src="js/app.js"></script>
+</head>
+<body data-page="legal">
+<div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
+<main>
+  <section class="page-hero" style="padding-bottom:30px">
+    <div class="wrap">
+      <h1 class="display h2 long" data-i18n="legal.title">Rechtliches</h1>
+      <div class="alert info" style="margin-top:24px;max-width:70ch"><i data-lucide="info"></i><span data-i18n="legal.note">Platzhalter: Impressum, Datenschutzerklärung und AGB werden von der aktuellen Bunker-West-Website übernommen.</span></div>
+    </div>
+  </section>
+  <section class="section-sm legal" style="padding-top:0">
+    <div class="wrap" style="max-width:820px">
+      <article id="impressum"><h2 class="h3 display" data-i18n="footer.imprint">Impressum</h2><p class="muted">Bunker West · Room 5<br>[Anschrift]<br>[Vertretungsberechtigte Person]<br>[E-Mail · Telefon]<br>[Registereintrag / USt-IdNr.]</p></article>
+      <article id="datenschutz"><h2 class="h3 display" data-i18n="footer.privacy">Datenschutz</h2>
+        <p class="muted" data-i18n="legal.privacy1">Wir speichern nur die Daten, die du uns über Formulare, dein Profil oder Buchungen gibst, und nutzen sie, um deine Anfrage, Buchung oder Mitgliedschaft abzuwickeln. Zahlungen laufen über Stripe, E-Mails über unseren Mail-Dienst. Für Login, Sprache und Darstellung speichern wir technisch notwendige Angaben in deinem Browser.</p>
+        <p class="muted">[Vollständige Datenschutzerklärung folgt]</p></article>
+      <article id="agb"><h2 class="h3 display" data-i18n="footer.terms">AGB</h2>
+        <p class="muted" data-i18n="legal.terms1">Studio-Sessions: Day Session 12:00–18:00 Uhr, Night Session 18:30–00:30 Uhr. Grundausstattung ist inklusive. Kostenlose Stornierung bis 48 Stunden vor Beginn. Schäden am Equipment werden berechnet.</p>
+        <p class="muted">[Vollständige AGB folgen]</p></article>
+    </div>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Events & Wochenplan · Bunker West</title>
+  <meta name="description" content="Wochenplan und Events im Bunker West: Yoga & More am Morgen, Creative Coworking für Artists, abends Kino, Comedy, Art, Musik und Workshops.">
+  <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/style.css">
+  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t=s('r5-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
+  <script src="vendor/gsap.min.js" defer></script>
+  <script src="vendor/ScrollTrigger.min.js" defer></script>
+  <script src="vendor/lucide.min.js" defer></script>
+  <script type="module" src="js/events.js"></script>
+</head>
+<body data-page="events">
+<div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
+<main>
+  <section class="page-hero" style="padding-bottom:40px">
+    <div class="ph-bg"><img src="img/room-full.jpg" alt="" data-parallax="20"></div>
+    <div class="wrap">
+      <div class="crumbs mono"><a href="./">Bunker West</a><i data-lucide="chevron-right" style="width:14px"></i><span>Events</span></div>
+      <h1 class="display" style="margin-top:28px" data-split data-i18n-html="ev.title">Woche im<br><span class="outline">Bunker</span></h1>
+      <div class="ph-row">
+        <p class="lead muted" data-i18n="ev.lead">Morgens Yoga & More, tagsüber Creative Coworking für Artists, abends Kino, Comedy, Art, Musik und Workshops.</p>
+        <button class="btn btn-ghost" data-notify-toggle hidden><i data-lucide="bell"></i><span></span></button>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm" style="padding-top:0">
+    <div class="wrap">
+      <div class="row" style="justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:24px">
+        <h2 class="display h3" data-i18n="ev.week">Wochenplan</h2>
+        <div class="week-legend" data-legend></div>
+      </div>
+      <div class="card card-pad week" data-week></div>
+      <p class="muted" style="font-size:14px;margin-top:14px" data-i18n="ev.weekNote">Abend-Events ab 19 Uhr (Aufbau 17–19 Uhr), meist bis ca. 100 Gäste. Sonntag ist ruhig – Retreats & Yoga bis 20 Uhr.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:40px">
+    <div class="wrap">
+      <div class="row" style="justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:30px">
+        <h2 class="display h2" data-split data-i18n-html="ev.upcoming">Nächste<br>Events</h2>
+        <a href="kontakt.html?typ=event" class="link-arrow"><span data-i18n="ev.host">Eigenes Event anfragen</span> <i data-lucide="arrow-up-right"></i></a>
+      </div>
+      <div class="alert info" data-guest-hint hidden></div>
+      <div class="event-list" data-events></div>
+    </div>
+  </section>
+</main>
+</body>
+</html>

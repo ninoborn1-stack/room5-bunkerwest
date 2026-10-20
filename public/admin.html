@@ -4,11 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex">
-  <title>Intern · Room 5 Bunkerwest</title>
-  <meta name="theme-color" content="#070605">
+  <title>Backstage · Bunker West</title>
+  <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
-  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__r5)document.documentElement.classList.remove('js')},4000);try{if(sessionStorage.getItem('r5-transition')){document.documentElement.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}</script>
+  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t=s('r5-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lucide.min.js" defer></script>
@@ -20,8 +21,8 @@
   <section class="page-hero" style="padding-bottom:30px">
     <div class="wrap">
       <div class="eyebrow">Intern · Studio-Verwaltung</div>
-      <div class="row" style="justify-content:space-between;margin-top:22px"><h1 class="display h2">Backstage</h1><button class="btn btn-ghost btn-sm" data-logout><i data-lucide="log-out"></i>Logout</button></div>
-      <p class="muted" style="margin-top:16px;max-width:60ch">Buchungen bestätigen, Mitgliedschaftsanfragen freigeben und Nachrichten lesen. Eine freigegebene Anfrage legt automatisch einen Member-Account an.</p>
+      <div class="row" style="justify-content:space-between;margin-top:22px"><h1 class="display h2 long">Backstage</h1><button class="btn btn-ghost btn-sm" data-logout><i data-lucide="log-out"></i>Logout</button></div>
+      <p class="muted" style="margin-top:16px;max-width:70ch">Alle Anfragen, Studio-Buchungen, Artist-Bewerbungen und Mitglieder, Events, Einstellungen und das E-Mail-Protokoll an einem Ort.</p><div class="row" style="margin-top:14px" data-status-chips></div>
     </div>
   </section>
   <section class="section-sm" style="padding-top:0">

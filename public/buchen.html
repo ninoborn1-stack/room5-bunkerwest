@@ -3,12 +3,13 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Buchen · Room 5 Bunkerwest</title>
-  <meta name="description" content="Room 5 stundenweise, halbtags oder tageweise buchen – mehrere Termine auf einmal, mit Engineer, Produzent und Equipment-Upgrades.">
-  <meta name="theme-color" content="#070605">
+  <title>Session anfragen · Room 5 Bunker West</title>
+  <meta name="description" content="Room 5 anfragen: Day Session 12–18 Uhr, Night Session 18:30–00:30 Uhr, mehrere Tage auf einmal, mit Engineer, Produzent, Mixing und Mastering.">
+  <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
-  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__r5)document.documentElement.classList.remove('js')},4000);try{if(sessionStorage.getItem('r5-transition')){document.documentElement.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}</script>
+  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t=s('r5-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lucide.min.js" defer></script>
@@ -20,14 +21,14 @@
   <section class="page-hero" style="padding-bottom:50px">
     <div class="ph-bg"><img src="img/desk-wide.jpg" alt="" data-parallax="20"></div>
     <div class="wrap">
-      <div class="crumbs mono"><a href="./">Room 5</a><i data-lucide="chevron-right" style="width:14px"></i><span>Buchen</span></div>
-      <h1 class="display" style="margin-top:28px" data-split>Session<br><span class="outline">buchen</span></h1>
+      <div class="crumbs mono"><a href="./">Room 5</a><i data-lucide="chevron-right" style="width:14px"></i><span data-i18n="book.crumb">Buchen</span></div>
+      <h1 class="display" style="margin-top:28px" data-split data-i18n-html="book.title">Session<br><span class="outline">anfragen</span></h1>
       <div class="ph-row">
-        <p class="lead muted">Zwei Sessions pro Tag, je 6 Stunden, je 150 €. Wähle einen oder mehrere Tage, pack Extras dazu und buche direkt – oder frag unverbindlich an.</p>
+        <p class="lead muted" data-i18n="book.lead">Zwei Sessions pro Tag, je 6 Stunden. Wähle einen oder mehrere Tage, pack Extras dazu und schick uns deine Anfrage. Artist-Member buchen und bezahlen direkt.</p>
         <div class="row" data-stagger>
-          <span class="chip"><span><i data-lucide="clock-3"></i>12–18 & 18–24 Uhr</span></span>
-          <span class="chip"><span><i data-lucide="layers"></i>Mehrfachbuchung</span></span>
-          <span class="chip"><span><i data-lucide="badge-percent"></i>Members −15 %</span></span>
+          <span class="chip"><span><i data-lucide="clock-3"></i>12–18 · 18:30–00:30</span></span>
+          <span class="chip"><span><i data-lucide="layers"></i><span data-i18n="book.chip.multi">Mehrere Tage möglich</span></span></span>
+          <span class="chip gold-chip"><span><i data-lucide="badge-percent"></i>Artist −30 %</span></span>
         </div>
       </div>
     </div>
@@ -37,66 +38,52 @@
     <div class="wrap">
       <div class="booking-layout">
         <div>
-          <div class="booking-steps" role="tablist" aria-label="Buchungsschritte">
-            <button class="is-active" data-goto="1"><b>01</b>Termine & Extras</button>
-            <button data-goto="2"><b>02</b>Deine Daten</button>
-            <button data-goto="3" disabled><b>03</b>Bestätigung</button>
+          <div class="booking-steps" role="tablist" aria-label="Schritte" data-i18n-attr="aria-label:book.steps">
+            <button class="is-active" data-goto="1"><b>01</b><span data-i18n="book.step1">Termine & Extras</span></button>
+            <button data-goto="2"><b>02</b><span data-i18n="book.step2">Abschicken</span></button>
+            <button data-goto="3" disabled><b>03</b><span data-i18n="book.step3">Bestätigung</span></button>
           </div>
 
           <!-- Schritt 1 -->
           <div class="card card-pad" data-step="1">
             <div class="cal-head">
               <div>
-                <span class="label">Kalender</span>
+                <span class="label" data-i18n="book.calendar">Kalender</span>
                 <h3 class="display h3" data-month-label style="margin-top:8px">—</h3>
               </div>
               <div class="cal-nav">
-                <button class="icon-btn" data-month="-1" aria-label="Vorheriger Monat"><i data-lucide="arrow-left"></i></button>
-                <button class="icon-btn" data-month="1" aria-label="Nächster Monat"><i data-lucide="arrow-right"></i></button>
+                <button class="icon-btn" data-month="-1" aria-label="Vorheriger Monat" data-i18n-attr="aria-label:book.prev"><i data-lucide="arrow-left"></i></button>
+                <button class="icon-btn" data-month="1" aria-label="Nächster Monat" data-i18n-attr="aria-label:book.next"><i data-lucide="arrow-right"></i></button>
               </div>
             </div>
-            <div class="cal-grid" data-cal aria-label="Tage auswählen"></div>
+            <div class="cal-grid" data-cal></div>
             <div class="cal-legend">
-              <span><i></i>frei</span><span><i class="b"></i>belegt</span><span><i class="s"></i>in deiner Auswahl</span><span class="mono" style="font-size:11px">Balken: Day | Night</span><span><i data-lucide="lock-keyhole"></i>Member-Fenster</span>
+              <span><i></i><span data-i18n="book.legend.free">frei</span></span><span><i class="b"></i><span data-i18n="book.legend.taken">belegt</span></span><span><i class="s"></i><span data-i18n="book.legend.mine">in deiner Auswahl</span></span><span class="mono" style="font-size:11px" data-i18n="book.legend.bars">Balken: Day | Night</span>
             </div>
 
             <div class="day-editor" data-editor hidden>
               <hr class="divider" style="margin-bottom:28px">
               <div class="row" style="justify-content:space-between;margin-bottom:18px">
                 <div>
-                  <span class="label" data-editor-mode>Neue Session</span>
+                  <span class="label" data-editor-mode></span>
                   <h3 class="h4" data-editor-date style="font-size:26px;margin-top:6px">—</h3>
                 </div>
-                <button class="btn btn-ghost btn-sm" data-editor-close><i data-lucide="x"></i>Schließen</button>
+                <button class="btn btn-ghost btn-sm" data-editor-close><i data-lucide="x"></i><span data-i18n="ui.close">Schließen</span></button>
               </div>
 
-              <span class="label">Session wählen · auch beide möglich</span>
+              <span class="label" data-i18n="book.pickSlot">Session wählen · auch beide möglich</span>
               <div class="slot-cards" data-slots></div>
-              <div data-extension></div>
+              <p class="slot-note muted" data-i18n="book.pause">Zwischen Day und Night liegt eine halbe Stunde Pause zum Aufräumen und Wechseln.</p>
 
               <div class="addon-group">
-                <span class="label">Personal · pro Stunde</span>
-                <div class="addons" data-staff></div>
-              </div>
-              <div class="addon-group">
-                <span class="label">Services · pro Track</span>
-                <div class="addons" data-services></div>
-              </div>
-              <div class="addon-group">
-                <span class="label">Premium-Equipment · pro Session · Grundausstattung ist inklusive</span>
-                <div class="addons" data-upgrades></div>
-              </div>
-
-              <div class="repeat-row" data-repeat-row>
-                <i data-lucide="repeat-2"></i>
-                <div style="flex:1;min-width:200px"><b>Wöchentlich wiederholen</b><div class="muted" style="font-size:14px">Gleiche Session an den folgenden Wochen mitbuchen.</div></div>
-                <div class="stepper"><button data-repeat="-1" aria-label="weniger"><i data-lucide="minus"></i></button><output data-repeat-val>1×</output><button data-repeat="1" aria-label="mehr"><i data-lucide="plus"></i></button></div>
+                <span class="label" data-i18n="book.addons">Extras · ohne Member-Rabatt</span>
+                <div class="addons" data-addons></div>
               </div>
 
               <div class="alert err" data-editor-error hidden></div>
               <div class="editor-foot">
-                <div><span class="label">Diese Session</span><div class="sum" data-draft-sum>0 €</div></div>
-                <button class="btn btn-primary" data-add data-magnetic><i data-lucide="plus"></i><span>Zur Auswahl hinzufügen</span></button>
+                <div><span class="label" data-draft-label></span><div class="sum" data-draft-sum>0 €</div><div class="draft-artist" data-draft-artist></div></div>
+                <button class="btn btn-primary" data-add><i data-lucide="plus"></i><span data-add-label></span></button>
               </div>
             </div>
           </div>
@@ -105,24 +92,26 @@
           <div class="card card-pad" data-step="2" hidden>
             <form class="form" data-checkout novalidate>
               <div>
-                <span class="label">Art der Buchung</span>
+                <span class="label" data-i18n="book.how">Wie möchtest du weitermachen?</span>
                 <div class="mode-toggle" style="margin-top:12px">
-                  <button type="button" class="mode-opt is-active" data-mode="book"><i data-lucide="zap"></i><b>Direkt buchen</b><small>Sofort verbindlich bestätigt.</small></button>
-                  <button type="button" class="mode-opt" data-mode="request"><i data-lucide="message-square-dashed"></i><b>Unverbindlich anfragen</b><small>Wir melden uns innerhalb von 24 h.</small></button>
+                  <button type="button" class="mode-opt" data-mode="request"><i data-lucide="message-square-dashed"></i><b data-i18n="book.mode.request">Anfrage senden</b><small data-i18n="book.mode.requestSub">Wir prüfen den Termin und melden uns mit der Bestätigung.</small></button>
+                  <button type="button" class="mode-opt" data-mode="book"><i data-lucide="zap"></i><b data-mode-book-title data-i18n="book.mode.book">Direkt buchen & bezahlen</b><small data-mode-book-sub data-i18n="book.mode.bookSub">Sofort fest, mit 30 % Artist-Rabatt.</small></button>
                 </div>
               </div>
-              <div class="form-grid">
-                <div class="field"><label for="c-name">Name *</label><input id="c-name" name="name" autocomplete="name" required></div>
-                <div class="field"><label for="c-email">E-Mail *</label><input id="c-email" name="email" type="email" autocomplete="email" required></div>
-                <div class="field"><label for="c-phone">Telefon</label><input id="c-phone" name="phone" type="tel" autocomplete="tel"></div>
-                <div class="field"><label for="c-project">Artist / Projekt</label><input id="c-project" name="project" placeholder="z. B. EP-Recording"></div>
-                <div class="field full"><label for="c-notes">Notizen</label><textarea id="c-notes" name="notes" placeholder="Was habt ihr vor? Wie viele Personen? Besondere Wünsche?"></textarea></div>
+              <div class="alert info" data-artist-hint hidden></div>
+              <div class="form-grid" data-contact-fields>
+                <div class="field" data-guest-only><label for="c-name" data-i18n="form.name">Name *</label><input id="c-name" name="name" autocomplete="name"></div>
+                <div class="field" data-guest-only><label for="c-email" data-i18n="form.email">E-Mail *</label><input id="c-email" name="email" type="email" autocomplete="email"></div>
+                <div class="field"><label for="c-phone" data-i18n="form.phone">Telefon</label><input id="c-phone" name="phone" type="tel" autocomplete="tel"></div>
+                <div class="field"><label for="c-project" data-i18n="form.project">Artist / Projekt</label><input id="c-project" name="project" placeholder="z. B. EP-Recording" data-i18n-attr="placeholder:form.projectPh"></div>
+                <div class="field full"><label for="c-notes" data-i18n="form.notes">Notizen</label><textarea id="c-notes" name="notes" placeholder="Was habt ihr vor? Wie viele Personen?" data-i18n-attr="placeholder:form.notesPh"></textarea></div>
               </div>
-              <label class="check"><input type="checkbox" name="terms" required><span>Ich akzeptiere die <a href="kontakt.html">Studioregeln & Stornobedingungen</a>. Schäden an Premium-Equipment werden berechnet. Kostenlose Stornierung bis 48 h vorher.</span></label>
+              <label class="check"><input type="checkbox" name="terms"><span data-i18n-html="book.terms">Ich akzeptiere die <a href="rechtliches.html#agb">AGB & Studioregeln</a>. Kostenlose Stornierung bis 48 h vorher.</span></label>
+              <div class="captcha" data-captcha></div>
               <div class="alert err" data-checkout-error hidden></div>
               <div class="form-nav">
-                <button type="button" class="btn btn-ghost" data-goto="1"><i data-lucide="arrow-left"></i>Zurück</button>
-                <button type="submit" class="btn btn-primary" data-submit data-magnetic><span>Jetzt verbindlich buchen</span><i data-lucide="arrow-right"></i></button>
+                <button type="button" class="btn btn-ghost" data-goto="1"><i data-lucide="arrow-left"></i><span data-i18n="ui.back">Zurück</span></button>
+                <button type="submit" class="btn btn-primary" data-submit><span></span><i data-lucide="arrow-right"></i></button>
               </div>
             </form>
           </div>
@@ -133,17 +122,17 @@
           </div>
         </div>
 
-        <!-- Warenkorb -->
-        <aside class="cart card card-pad" aria-label="Deine Auswahl">
-          <div class="cart-head"><h3 class="h4">Deine Auswahl</h3><span class="mono muted" data-cart-count>0 Sessions</span></div>
+        <!-- Auswahl -->
+        <aside class="cart card card-pad" aria-label="Deine Auswahl" data-i18n-attr="aria-label:book.cart">
+          <div class="cart-head"><h3 class="h4" data-i18n="book.cart">Deine Auswahl</h3><span class="mono muted" data-cart-count></span></div>
           <div data-cart></div>
         </aside>
       </div>
     </div>
   </section>
   <div class="mobile-cartbar" data-cartbar aria-live="polite">
-    <div><b data-cartbar-total>0 €</b><small data-cartbar-count>0 Termine</small></div>
-    <button class="btn btn-primary" data-goto="2">Weiter <i data-lucide="arrow-right"></i></button>
+    <div><b data-cartbar-total>0 €</b><small data-cartbar-count></small></div>
+    <button class="btn btn-primary" data-goto="2"><span data-i18n="ui.next">Weiter</span> <i data-lucide="arrow-right"></i></button>
   </div>
 </main>
 </body>

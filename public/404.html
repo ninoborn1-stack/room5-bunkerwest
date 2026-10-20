@@ -4,10 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Nicht gefunden · Room 5 Bunkerwest</title>
-  <meta name="theme-color" content="#070605">
+  <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
+  <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
-  <script>document.documentElement.classList.add('js');setTimeout(function(){if(!window.__r5)document.documentElement.classList.remove('js')},4000);try{if(sessionStorage.getItem('r5-transition')){document.documentElement.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}</script>
+  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t=s('r5-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lucide.min.js" defer></script>
@@ -17,10 +18,10 @@
 <div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
 <main class="nf">
   <div>
-    <div class="eyebrow" style="justify-content:center">Signal verloren</div>
+    <div class="eyebrow" style="justify-content:center" data-i18n="nf.eyebrow">Signal verloren</div>
     <h1 class="display" style="font-size:clamp(88px,27vw,420px);margin:20px 0"><span class="outline">4</span>0<span class="outline">4</span></h1>
-    <p class="muted" style="margin-bottom:30px">Diese Spur gibt es nicht. Vielleicht im falschen Raum gelandet?</p>
-    <a href="./" class="btn btn-primary" data-magnetic>Zurück zu Room 5 <i data-lucide="arrow-right"></i></a>
+    <p class="muted" style="margin-bottom:30px" data-i18n="nf.text">Diese Spur gibt es nicht. Vielleicht im falschen Raum gelandet?</p>
+    <a href="./" class="btn btn-primary" data-magnetic><span data-i18n="nf.back">Zurück zu Room 5</span> <i data-lucide="arrow-right"></i></a>
   </div>
 </main>
 </body>

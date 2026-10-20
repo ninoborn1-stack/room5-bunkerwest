@@ -4,3 +4,4 @@ data/db.json
 # Rohfotos bleiben lokal (gross, unbearbeitet) – die bearbeiteten liegen in public/img
 originals/
 .claude/
+.env
