@@ -87,6 +87,7 @@ export const api = {
   updateMe: (d) => call('PUT', '/me', d),
   changePassword: (current, password) => call('POST', '/me/password', { current, password }),
   overview: () => call('GET', '/me/overview'),
+  deleteAccount: (password) => call('POST', '/me/delete', { password }),
   availability: (from = '', to = '') => call('GET', `/availability?from=${from}&to=${to}`),
   checkout: (d) => call('POST', '/bookings/checkout', d),
   cancelBooking: (id) => call('POST', `/bookings/${id}/cancel`),
@@ -96,7 +97,7 @@ export const api = {
   membershipCancel: () => call('POST', '/membership/cancel'),
   demoPay: (kind, ref) => call('POST', '/payments/demo-confirm', { kind, ref }),
   events: (from = '') => call('GET', `/events?from=${from}`),
-  claimTicket: (id) => call('POST', `/events/${id}/ticket`),
+  claimTicket: (id, qty = 1) => call('POST', `/events/${id}/ticket`, { qty }),
   admin: {
     overview: () => call('GET', '/admin/overview'),
     request: (id, d) => call('POST', `/admin/requests/${id}`, d),

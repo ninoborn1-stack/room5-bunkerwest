@@ -1,6 +1,6 @@
 // Admin-Bereich (intern, Deutsch)
 import { $, $$, icons, esc, toast, userReady, verifiedBadge } from './app.js';
-import { REQUEST_TYPES, EVENT_CATEGORIES } from './config.js';
+import { REQUEST_TYPES, EVENT_CATEGORIES, MEMBERSHIP } from './config.js';
 import { api } from './api.js';
 import { parseYmd, sessionRange, sessionLabel, timeLabel, euro } from './pricing.js';
 
@@ -85,16 +85,19 @@ function render() {
         <div class="field"><label>Beginn</label><input name="start" type="time" value="${e.start || '19:00'}"></div>
         <div class="field"><label>Ende</label><input name="end" type="time" value="${e.end || '23:00'}"></div>
         <div class="field"><label>Kapazität</label><input name="capacity" type="number" min="0" value="${e.capacity ?? 100}"></div>
-        <div class="field"><label>Free-Tickets für Artists</label><input name="freeTickets" type="number" min="0" value="${e.freeTickets ?? 5}"></div>
+        <div class="field"><label>Free-Tickets für Artists (gesamt)</label><input name="freeTickets" type="number" min="0" value="${e.freeTickets ?? 6}"></div>
+        <div class="field"><label>Verkaufte Tickets (ab ${MEMBERSHIP.bigEventThreshold}: +1 Freund)</label><input name="ticketsSold" type="number" min="0" value="${e.ticketsSold ?? 0}"></div>
         <div class="field full"><label>Beschreibung (DE)</label><textarea name="desc_de" style="min-height:80px">${esc(e.description?.de || '')}</textarea></div>
         <div class="field full"><label>Beschreibung (EN)</label><textarea name="desc_en" style="min-height:80px">${esc(e.description?.en || '')}</textarea></div>
       </div>
-      <label class="check"><input type="checkbox" name="artistFree" ${e.artistFree ? 'checked' : ''}><span>Artist-Member frei (+1), z. B. Kino-Montag</span></label>
+      <label class="check"><input type="checkbox" name="plusOne" ${e.plusOne ? 'checked' : ''}><span>Großes Event: Artists dürfen 2 Free-Tickets nehmen (für sich + einen Freund)</span></label>
+      <label class="check"><input type="checkbox" name="membersOnly" ${e.membersOnly ? 'checked' : ''}><span>Nur für Artist-Member (Membersday): kein Eintritt, +1 Gast</span></label>
       <div class="row"><button class="btn btn-primary btn-sm" type="submit">Speichern</button>${e.id ? '<button class="btn btn-ghost btn-sm" type="button" data-event-new>Neu</button>' : ''}</div>
     </form>` + (data.events.length ? data.events.map((ev) => {
-      const sold = data.tickets.filter((t) => t.eventId === ev.id).length;
+      const sold = data.tickets.filter((t) => t.eventId === ev.id).reduce((n, t) => n + (t.qty || 1), 0);
+      const per = ev.membersOnly || ev.plusOne || (ev.ticketsSold || 0) >= MEMBERSHIP.bigEventThreshold ? 2 : 1;
       return `<div class="admin-item"><div><div class="row" style="gap:10px"><b>${esc(ev.title.de)}</b><span class="tag-soft">${EVENT_CATEGORIES[ev.category]?.de || ev.category}</span>${ev.notifiedAt ? '<span class="status confirmed">benachrichtigt</span>' : ''}</div>
-        <div class="meta">${fmt(ev.date)} · ${ev.start}–${ev.end} · Free-Tickets ${sold}/${ev.freeTickets}</div></div>
+        <div class="meta">${fmt(ev.date)} · ${ev.start}–${ev.end} · ${ev.membersOnly ? `Membersday · ${sold}/${ev.capacity || '∞'} Plätze` : `Free-Tickets ${sold}/${ev.freeTickets} · ${per} pro Artist`}${ev.ticketsSold ? ` · ${ev.ticketsSold} verkauft` : ''}</div></div>
         <div class="row" style="justify-content:flex-end"><button class="btn btn-ghost btn-sm" data-event-edit="${ev.id}">Bearbeiten</button><button class="btn btn-ghost btn-sm" data-event-notify="${ev.id}">Benachrichtigen</button><button class="btn btn-ghost btn-sm" data-event-del="${ev.id}">Löschen</button></div></div>`;
     }).join('') : empty('Keine Events.'));
   }
@@ -152,7 +155,7 @@ document.addEventListener('submit', async (e) => {
   if (e.target.matches('[data-event-form]')) {
     e.preventDefault();
     const d = Object.fromEntries(new FormData(e.target));
-    try { await api.admin.saveEvent({ ...d, id: editEvent?.id, artistFree: !!d.artistFree }); editEvent = null; toast('Event gespeichert'); load(); } catch (ex) { toast(ex.message, 'circle-alert'); }
+    try { await api.admin.saveEvent({ ...d, id: editEvent?.id, plusOne: !!d.plusOne, membersOnly: !!d.membersOnly }); editEvent = null; toast('Event gespeichert'); load(); } catch (ex) { toast(ex.message, 'circle-alert'); }
   }
   if (e.target.matches('[data-settings-form]')) {
     e.preventDefault();

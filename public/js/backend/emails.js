@@ -117,7 +117,7 @@ export const TEMPLATES = {
   ticket_claimed: (d, l) => ({
     subject: l === 'en' ? `Free ticket: ${d.title}` : `Free-Ticket: ${d.title}`,
     html: layout({ lang: l, title: l === 'en' ? 'Your ticket is secured' : 'Dein Ticket ist gesichert',
-      intro: l === 'en' ? 'Show this email or your profile at the entrance.' : 'Zeig diese E-Mail oder dein Profil am Einlass.', body: list([['Event', d.title], [l === 'en' ? 'Date' : 'Datum', d.when]]) }),
+      intro: l === 'en' ? 'Show this email or your profile at the entrance.' : 'Zeig diese E-Mail oder dein Profil am Einlass.', body: list([['Event', d.title], [l === 'en' ? 'Date' : 'Datum', d.when], [l === 'en' ? 'Tickets' : 'Tickets', d.qty > 1 ? (l === 'en' ? '2 (you + 1 friend)' : '2 (du + 1 Freund)') : '1']]) }),
   }),
 };
 

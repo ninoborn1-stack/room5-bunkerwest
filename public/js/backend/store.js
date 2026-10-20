@@ -45,10 +45,10 @@ export async function seedIfEmpty(store, seed, { now = Date.now(), iterations = 
   }
   // Beispiel-Events für die nächsten 3 Wochen nach Wochenplan
   const samples = {
-    0: { category: 'kino', de: 'Kino im Bunker', en: 'Cinema at the Bunker', artistFree: true },
+    0: { category: 'membersday', de: 'Membersday: Kino & Networking', en: 'Members day: cinema & networking', membersOnly: true, desc: { de: 'Nur für Artist-Member + 1 Gast. Kein Eintritt, nur Getränke.', en: 'Artist Members + 1 guest only. No entry fee, just drinks.' } },
     1: { category: 'comedy', de: 'Comedy Night', en: 'Comedy Night' },
     2: { category: 'art', de: 'Sip & Paint', en: 'Sip & Paint' },
-    3: { category: 'musik', de: 'Live Session: Konzert', en: 'Live session: concert' },
+    3: { category: 'musik', de: 'Live Session: Konzert', en: 'Live session: concert', ticketsSold: 199, desc: { de: 'Großes Konzert – Artists bekommen 2 Free-Tickets (für sich + einen Freund).', en: 'Big concert – artists get 2 free tickets (for themselves + a friend).' } },
     4: { category: 'special', de: 'Bunker Friday', en: 'Bunker Friday' },
   };
   for (let i = 1; i <= 21; i++) {
@@ -58,8 +58,8 @@ export async function seedIfEmpty(store, seed, { now = Date.now(), iterations = 
     if (!smp || !WEEK[wd].some((b) => b.kind === 'event')) continue;
     await store.put('events', {
       id: `E-SEED${i}`, date: ymd(day), start: '19:00', end: '23:00', category: smp.category,
-      title: { de: smp.de, en: smp.en }, description: { de: 'Beispiel-Event – wird im Admin-Bereich gepflegt.', en: 'Sample event – managed in the admin area.' },
-      capacity: 100, freeTickets: 5, artistFree: !!smp.artistFree, published: true, createdAt: iso,
+      title: { de: smp.de, en: smp.en }, description: smp.desc || { de: 'Beispiel-Event – wird im Admin-Bereich gepflegt.', en: 'Sample event – managed in the admin area.' },
+      capacity: smp.membersOnly ? 40 : 100, freeTickets: smp.membersOnly ? 0 : 6, ticketsSold: smp.ticketsSold || 0, membersOnly: !!smp.membersOnly, published: true, createdAt: iso,
     });
   }
   return true;

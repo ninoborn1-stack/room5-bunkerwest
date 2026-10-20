@@ -38,17 +38,18 @@ export function renderWeekPlan(root, opts) {
     const today = ymd(new Date());
     const k = KIND();
     const label = `${days[0].toLocaleDateString(locale, { day: 'numeric', month: 'short' })} – ${days[6].toLocaleDateString(locale, { day: 'numeric', month: 'short' })}`;
+    const isLocked = (b) => (b.kind === 'cowork' || b.membersOnly || b.event?.membersOnly) && !artist;
     const block = (b, date) => {
-      const locked = b.kind === 'cowork' && !artist;
+      const locked = isLocked(b);
       const title = b.title ? L(b.title) : k[b.kind];
-      const note = locked ? t('ev.artistsOnly') : b.kind === 'setup' ? t('ev.kind.setupNote') : b.event ? (L(EVENT_CATEGORIES[b.event.category]) || '') : b.note ? L(b.note) : b.generic ? t('wp.programme') : '';
+      const note = locked ? (b.kind === 'cowork' ? t('ev.artistsOnly') : t('ev.membersOnly')) : b.kind === 'setup' ? t('ev.kind.setupNote') : b.event ? (L(EVENT_CATEGORIES[b.event.category]) || '') : b.note ? L(b.note) : b.generic ? t('wp.programme') : '';
       const inner = `<b>${locked ? '<i data-lucide="lock-keyhole"></i>' : ''}${esc(title)}</b><span>${timeLabel(b.from)}–${timeLabel(b.to)}</span>${note ? `<small>${esc(note)}</small>` : ''}${b.event?.mine ? `<em class="wb-tag">${t('ev.haveTicket')}</em>` : ''}`;
       const cls = `wb k-${b.kind} ${locked ? 'is-locked' : ''} ${b.event ? 'is-event' : ''} ${b.generic ? 'is-generic' : ''}`;
       const style = `top:${pct(b.from)}%;height:${pct(b.to) - pct(b.from)}%`;
       return b.event ? `<a class="${cls}" style="${style}" href="${opts.eventHref(b.event)}">${inner}</a>` : `<div class="${cls}" style="${style}">${inner}</div>`;
     };
     const listItem = (b) => {
-      const locked = b.kind === 'cowork' && !artist;
+      const locked = isLocked(b);
       const title = b.title ? L(b.title) : k[b.kind];
       const inner = `<span>${timeLabel(b.from)}–${timeLabel(b.to)}</span><b>${locked ? '<i data-lucide="lock-keyhole"></i>' : ''}${esc(title)}</b>${locked ? `<small>${t('ev.artistsOnly')}</small>` : b.kind === 'setup' ? `<small>${t('ev.kind.setupNote')}</small>` : ''}`;
       return b.event ? `<a class="wl k-event is-event" href="${opts.eventHref(b.event)}">${inner}</a>` : `<div class="wl k-${b.kind} ${locked ? 'is-locked' : ''}">${inner}</div>`;
@@ -86,14 +87,18 @@ export function renderEventCards(root, events, user, { limit = Infinity, onChang
   if (!list.length) { root.innerHTML = `<div class="cart-empty"><i data-lucide="calendar"></i><p>${t('ev.none')}</p></div>`; icons(root); return; }
   root.innerHTML = list.map((e) => {
     const d = parseYmd(e.date);
-    const cta = e.mine ? `<span class="status confirmed">${t('ev.haveTicket')}</span>`
-      : artist && e.freeTickets ? (e.freeLeft > 0 ? `<button class="btn btn-primary btn-sm" data-ticket="${e.id}">${t('ev.claim', { n: e.freeLeft })}</button>` : `<span class="status cancelled">${t('ev.soldOut')}</span>`)
-      : e.freeTickets ? `<span class="gold-note"><i data-lucide="ticket"></i>${t('ev.freeForArtists', { n: e.freeLeft })}</span>` : '';
-    return `<article class="event-card" id="ev-${e.id}">
+    const two = e.perArtist > 1;
+    const cta = e.mine ? `<span class="status confirmed">${e.mineQty > 1 ? t('ev.haveTicket2') : t('ev.haveTicket')}</span>`
+      : artist && (e.freeTickets || e.membersOnly) ? (e.freeLeft > 0
+        ? `<div class="ticket-cta"><button class="btn btn-primary btn-sm" data-ticket="${e.id}" data-qty="1">${e.membersOnly ? t('ev.reserve') : t('ev.claim1')}</button>${two && e.freeLeft > 1 ? `<button class="btn btn-ghost btn-sm" data-ticket="${e.id}" data-qty="2">${e.membersOnly ? t('ev.reserve2') : t('ev.claim2')}</button>` : ''}<small>${e.membersOnly ? t('ev.membersFree') : t('ev.left', { n: e.freeLeft })}</small></div>`
+        : `<span class="status cancelled">${t('ev.soldOut')}</span>`)
+      : e.membersOnly ? `<span class="gold-note"><i data-lucide="lock-keyhole"></i>${t('ev.membersOnly')}</span>`
+      : e.freeTickets ? `<span class="gold-note"><i data-lucide="ticket"></i>${two ? t('ev.freeForArtists2') : t('ev.freeForArtists1')}</span>` : '';
+    return `<article class="event-card ${e.membersOnly ? 'is-members' : ''}" id="ev-${e.id}">
       <div class="ev-date"><b>${d.getDate()}</b><span>${d.toLocaleDateString(locale, { month: 'short' })}</span><small>${d.toLocaleDateString(locale, { weekday: 'short' })}</small></div>
       <div class="ev-body"><span class="tag-soft">${esc(L(EVENT_CATEGORIES[e.category]) || e.category)}</span>
         <h3 class="h4">${esc(L(e.title))}</h3><p class="muted">${esc(L(e.description) || '')}</p>
-        <div class="mono muted" style="font-size:12px">${e.start}–${e.end}${e.artistFree ? ` · ${t('ev.artistFree')}` : ''}</div></div>
+        <div class="mono muted" style="font-size:12px">${e.start}–${e.end}${two && !e.membersOnly ? ` · ${t('ev.bigEvent')}` : ''}</div></div>
       <div class="ev-cta">${cta}</div></article>`;
   }).join('');
   icons(root);
@@ -102,7 +107,7 @@ export function renderEventCards(root, events, user, { limit = Infinity, onChang
     root.addEventListener('click', async (ev) => {
       const b = ev.target.closest('[data-ticket]'); if (!b) return;
       b.disabled = true;
-      try { await api.claimTicket(b.dataset.ticket); toast(t('ev.claimed'), 'ticket'); onChange?.(); }
+      try { await api.claimTicket(b.dataset.ticket, Number(b.dataset.qty) || 1); toast(t('ev.claimed'), 'ticket'); onChange?.(); }
       catch (ex) { toast(ex.code ? t(`err.${ex.code}`) : ex.message, 'circle-alert'); b.disabled = false; }
     });
   }

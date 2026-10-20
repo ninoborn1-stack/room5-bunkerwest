@@ -57,6 +57,8 @@ export const publicUser = (u) => u && {
   membership: u.membership ? { kind: u.membership.kind, status: u.membership.status, since: u.membership.since } : null,
   createdAt: u.createdAt,
 };
+/** Free-Tickets pro Artist für ein Event */
+export const perArtist = (e) => (e.membersOnly || e.plusOne || (Number(e.ticketsSold) || 0) >= MEMBERSHIP.bigEventThreshold ? 2 : 1);
 const isArtist = (u) => u?.role === 'artist' && u.membership?.status === 'active' || u?.role === 'admin';
 const typeLabel = (id, lang) => REQUEST_TYPES.find((t) => t.id === id)?.label[lang] || id;
 const fmtDay = (date, lang) => parseYmd(date).toLocaleDateString(lang === 'en' ? 'en-GB' : 'de-DE', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
@@ -316,6 +318,20 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
       u.password = await hashPassword(body.password, iterations); await store.put('users', u);
       return { body: { ok: true } };
     }
+    // Konto löschen (Passwort zur Bestätigung). Buchungen bleiben für die Buchhaltung, werden aber vom Profil gelöst.
+    if (path === '/me/delete' && method === 'POST') {
+      const u = needUser();
+      if (u.role === 'admin') fail(403, 'forbidden');
+      if (!(await verifyPassword(body.password, u.password))) fail(400, 'wrong_password');
+      for (const b of await store.all('bookings')) if (b.userId === u.id) { b.userId = null; await store.put('bookings', b); }
+      for (const a of await store.all('applications')) if (a.userId === u.id) await store.del('applications', a.id);
+      for (const tk of await store.all('tickets')) if (tk.userId === u.id) await store.del('tickets', tk.id);
+      if (req.token) await store.del('sessions', await sha256(req.token));
+      await store.del('users', u.id);
+      if (u.role === 'artist') await promoteWaitlist(site);
+      return { body: { ok: true }, clearToken: true };
+    }
+
     if (path === '/me/overview') {
       const u = needUser();
       await expireHolds();
@@ -474,13 +490,17 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
     }
 
     // ----- Events
+    // Free-Tickets pro Artist: 1 – bei großen Events (ab bigEventThreshold verkauften Tickets oder "plusOne")
+    // und beim Membersday 2 (für sich + einen Freund/Gast).
     if (path === '/events') {
       const from = req.query.from || ymd(new Date(now));
       const events = (await store.all('events')).filter((e) => e.published !== false && e.date >= from).sort((a, b) => (a.date + a.start).localeCompare(b.date + b.start));
       const tickets = await store.all('tickets');
       return { body: { events: events.map((e) => {
-        const claimed = tickets.filter((t) => t.eventId === e.id).length;
-        return { ...e, freeLeft: Math.max(0, (e.freeTickets || 0) - claimed), mine: !!user && tickets.some((t) => t.eventId === e.id && t.userId === user.id) };
+        const claimed = tickets.filter((t) => t.eventId === e.id).reduce((n, t) => n + (t.qty || 1), 0);
+        const mine = user ? tickets.find((t) => t.eventId === e.id && t.userId === user.id) : null;
+        const pool = e.membersOnly ? (e.capacity || 999) : (e.freeTickets || 0);
+        return { ...e, perArtist: perArtist(e), freeLeft: Math.max(0, pool - claimed), mine: !!mine, mineQty: mine?.qty || 0 };
       }) } };
     }
     const ticket = path.match(/^\/events\/([\w-]+)\/ticket$/);
@@ -491,10 +511,12 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
       if (!e) fail(404, 'not_found');
       const tickets = (await store.all('tickets')).filter((t) => t.eventId === e.id);
       if (tickets.some((t) => t.userId === u.id)) fail(409, 'ticket_have');
-      if (tickets.length >= (e.freeTickets || 0)) fail(409, 'no_tickets');
-      await store.put('tickets', { id: shortId('T'), eventId: e.id, userId: u.id, createdAt: nowIso(now) });
-      await mail(u.email, 'ticket_claimed', { title: e.title[u.lang] || e.title.de, when: `${fmtDay(e.date, u.lang)} · ${e.start}` }, u.lang);
-      return { status: 201, body: { ok: true } };
+      const qty = Math.max(1, Math.min(perArtist(e), Number(body.qty) || 1));
+      const pool = e.membersOnly ? (e.capacity || 999) : (e.freeTickets || 0);
+      if (tickets.reduce((n, t) => n + (t.qty || 1), 0) + qty > pool) fail(409, 'no_tickets');
+      await store.put('tickets', { id: shortId('T'), eventId: e.id, userId: u.id, qty, createdAt: nowIso(now) });
+      await mail(u.email, 'ticket_claimed', { title: e.title[u.lang] || e.title.de, when: `${fmtDay(e.date, u.lang)} · ${e.start}`, qty }, u.lang);
+      return { status: 201, body: { ok: true, qty } };
     }
 
     // ----- Admin
@@ -574,7 +596,8 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
           title: { de: str(body.title_de || body.title?.de, 140), en: str(body.title_en || body.title?.en || body.title_de, 140) },
           description: { de: str(body.desc_de || body.description?.de, 1000), en: str(body.desc_en || body.description?.en || body.desc_de, 1000) },
           capacity: Math.max(0, Number(body.capacity) | 0), freeTickets: Math.max(0, Number(body.freeTickets) | 0),
-          artistFree: !!body.artistFree, published: body.published !== false, updatedAt: nowIso(now), createdAt: e.createdAt || nowIso(now),
+          ticketsSold: Math.max(0, Number(body.ticketsSold) | 0), plusOne: !!body.plusOne, membersOnly: !!body.membersOnly || body.category === 'membersday',
+          published: body.published !== false, updatedAt: nowIso(now), createdAt: e.createdAt || nowIso(now),
         });
         if (!/^\d{4}-\d{2}-\d{2}$/.test(e.date) || !e.title.de) fail(400, 'invalid_date');
         await store.put('events', e);

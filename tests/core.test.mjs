@@ -67,6 +67,12 @@ r = await call('ad', 'POST', `/admin/applications/${(await call('ad','GET','/adm
 // Events + Ticket
 const evs = (await call('a', 'GET', '/events')).body.events; ok('events listed', evs.length > 0);
 r = await call('a', 'POST', `/events/${evs[0].id}/ticket`, {}); ok('artist ticket', r.status === 201, r.body);
+const big = evs.find((e) => e.ticketsSold >= 150);
+if (big) { r = await call('a', 'POST', `/events/${big.id}/ticket`, { qty: 2 }); ok('big event: 2 tickets', r.status === 201 && r.body.qty === 2, r.body); }
+const small = evs.find((e) => !e.membersOnly && e.ticketsSold < 150 && e.id !== evs[0].id);
+if (small) { r = await call('a', 'POST', `/events/${small.id}/ticket`, { qty: 2 }); ok('small event: capped at 1', r.status === 201 && r.body.qty === 1, r.body); }
+const md = evs.find((e) => e.membersOnly);
+if (md) { r = await call('c', 'POST', `/events/${md.id}/ticket`, {}); ok('membersday: community blocked', r.status === 403); }
 r = await call('a', 'POST', `/events/${evs[0].id}/ticket`, {}); ok('no double ticket', r.status === 409);
 r = await call('c', 'POST', `/events/${evs[0].id}/ticket`, {}); ok('community no ticket', r.status === 403);
 // Kontakt
@@ -78,6 +84,13 @@ const outbox = await store.all('outbox');
 console.log('outbox mails:', outbox.length, [...new Set(outbox.map((m) => m.template))].join(', '));
 const started = await call('a', 'POST', '/bookings/checkout', { sessions: [{ date: ymd(new Date()), slots: ['day'] }] });
 console.log('today day session (depends on time):', started.status, started.body.code || 'ok');
+
+// Konto löschen
+{
+  await call('del', 'POST', '/auth/register', { name: 'Weg', email: 'weg@room5.test', password: 'testpass-7' });
+  let r = await call('del', 'POST', '/me/delete', { password: 'falsch' }); ok('delete needs password', r.status === 400);
+  r = await call('del', 'POST', '/me/delete', { password: 'testpass-7' }); ok('account deleted', r.status === 200 && !(await store.all('users')).some((u) => u.email === 'weg@room5.test'));
+}
 
 // Login-Begrenzung: nach 10 Fehlversuchen gesperrt
 {

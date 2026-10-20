@@ -17,66 +17,118 @@
 <body data-page="konto">
 <div class="curtain" aria-hidden="true"><i style="--i:0"></i><i style="--i:1"></i><i style="--i:2"></i><i style="--i:3"></i><i style="--i:4"></i><div class="curtain-label">Room 5</div></div>
 <main>
-  <section class="page-hero" style="padding-bottom:40px">
+  <!-- Profilkopf -->
+  <section class="profile-hero">
     <div class="wrap">
-      <div class="eyebrow" data-account-tier></div>
-      <h1 class="display h1 name-line" style="margin-top:24px" data-account-hello>…</h1>
+      <div class="ph-top">
+        <div class="avatar" data-avatar aria-hidden="true"></div>
+        <div class="ph-id">
+          <div class="eyebrow" data-account-tier></div>
+          <h1 class="display h2 name-line" data-account-hello>…</h1>
+          <p class="muted ph-meta" data-account-meta></p>
+        </div>
+      </div>
+      <div class="ph-stats" data-stats></div>
     </div>
   </section>
-  <section class="section-sm" style="padding-top:0">
-    <div class="wrap account-grid">
-      <aside class="stack" style="--s:18px">
-        <div class="card card-pad">
-          <div data-account-badge></div>
-          <h3 class="h4 name-line" style="margin:18px 0 4px" data-account-name>—</h3>
-          <p class="muted mono" style="font-size:13px;margin:0" data-account-email>—</p>
-          <form class="form" style="margin-top:22px;gap:16px" data-settings>
-            <div class="field"><label for="s-name" data-i18n="acc.name">Name</label><input id="s-name" name="name"></div>
-            <div class="field"><label for="s-lang" data-i18n="ui.language">Sprache</label><select id="s-lang" name="lang"><option value="de">Deutsch</option><option value="en">English</option></select></div>
+
+  <!-- Member-Navigation -->
+  <nav class="profile-nav" aria-label="Profil">
+    <div class="wrap">
+      <div class="pn-left" role="tablist">
+        <button role="tab" data-tab="wochenplan"><i data-lucide="calendar-days"></i><span data-i18n="pn.week">Wochenplan</span></button>
+        <button role="tab" data-tab="events"><i data-lucide="ticket"></i><span data-events-tab-label>Events</span></button>
+        <button role="tab" data-tab="buchungen"><i data-lucide="mic-vocal"></i><span data-i18n="pn.bookings">Buchungen</span></button>
+        <button role="tab" data-tab="membership"><i data-lucide="badge-check"></i><span>Membership</span></button>
+      </div>
+      <div class="pn-right">
+        <button role="tab" data-tab="einstellungen" aria-label="Einstellungen" data-i18n-attr="aria-label:pn.settings"><i data-lucide="settings"></i><span data-i18n="pn.settings">Einstellungen</span></button>
+        <button data-logout aria-label="Logout"><i data-lucide="log-out"></i><span>Logout</span></button>
+      </div>
+    </div>
+  </nav>
+
+  <section class="section-sm profile-panels">
+    <div class="wrap">
+      <!-- Wochenplan -->
+      <div class="panel-tab" data-panel="wochenplan" id="wochenplan">
+        <div class="pt-head">
+          <div><h2 class="display h3" data-i18n="wp.titlePlain">Dein Wochenplan</h2><p class="muted" data-week-sub></p></div>
+          <button class="btn btn-ghost btn-sm" data-notify-toggle hidden><i data-lucide="bell"></i><span></span></button>
+        </div>
+        <div class="card card-pad week" data-week></div>
+      </div>
+
+      <!-- Events / Free-Tickets -->
+      <div class="panel-tab" data-panel="events" hidden>
+        <div class="pt-head"><div><h2 class="display h3" data-events-title>Events</h2><p class="muted" data-events-sub></p></div></div>
+        <div data-my-tickets></div>
+        <div class="event-list" data-events></div>
+      </div>
+
+      <!-- Buchungen -->
+      <div class="panel-tab" data-panel="buchungen" hidden>
+        <div class="pt-head"><div><h2 class="display h3" data-i18n="acc.bookings">Buchungen & Anfragen</h2><p class="muted" data-i18n="acc.bookingsSub">Studio-Sessions, Anfragen und ihr Status.</p></div>
+          <a href="buchen.html" class="btn btn-primary btn-sm" data-book-cta><span data-i18n="acc.book">Session anfragen</span> <i data-lucide="arrow-right"></i></a></div>
+        <div class="card card-pad" data-bookings></div>
+      </div>
+
+      <!-- Membership -->
+      <div class="panel-tab" data-panel="membership" hidden>
+        <div class="pt-head"><div><h2 class="display h3">Membership</h2></div></div>
+        <div data-membership-card></div>
+      </div>
+
+      <!-- Einstellungen -->
+      <div class="panel-tab" data-panel="einstellungen" hidden>
+        <div class="pt-head"><div><h2 class="display h3" data-i18n="pn.settings">Einstellungen</h2></div></div>
+        <div class="settings-grid">
+          <form class="card card-pad form" data-settings>
+            <h3 class="h4" data-i18n="set.profile">Profil</h3>
+            <div class="field"><label for="s-name" data-i18n="acc.name">Name</label><input id="s-name" name="name" autocomplete="name"></div>
+            <div class="field"><label for="s-email" data-i18n="auth.email">E-Mail</label><input id="s-email" name="email" disabled></div>
+            <h3 class="h4" style="margin-top:8px" data-i18n="set.lookLang">Sprache & Darstellung</h3>
+            <div class="form-grid">
+              <div class="field"><label for="s-lang" data-i18n="ui.language">Sprache</label><select id="s-lang" name="lang"><option value="de">Deutsch</option><option value="en">English</option></select></div>
+              <div class="field"><label for="s-theme" data-i18n="ui.theme">Darstellung</label><select id="s-theme" name="theme"><option value="dark" data-i18n="ui.dark">Dunkel</option><option value="light" data-i18n="ui.light">Hell</option></select></div>
+            </div>
+            <h3 class="h4" style="margin-top:8px" data-i18n="set.notify">Benachrichtigungen</h3>
             <label class="check"><input type="checkbox" name="newsletter"><span data-i18n="auth.newsletter">Newsletter (1× im Monat) mit Programm und Deals</span></label>
             <label class="check"><input type="checkbox" name="notifyEvents"><span data-i18n="auth.notify">Benachrichtige mich zu Events im Bunker</span></label>
-            <button class="btn btn-ghost btn-sm" type="submit" data-i18n="ui.save">Speichern</button>
+            <div><button class="btn btn-primary btn-sm" type="submit" data-i18n="ui.save">Speichern</button></div>
           </form>
-        </div>
-        <details class="card card-pad">
-          <summary class="h4" data-i18n="acc.password">Passwort ändern</summary>
-          <form class="form" style="margin-top:16px;gap:14px" data-password>
-            <div class="field"><label for="p-cur" data-i18n="acc.current">Aktuelles Passwort</label><input id="p-cur" name="current" type="password" autocomplete="current-password"></div>
-            <div class="field"><label for="p-new" data-i18n="auth.newPassword">Neues Passwort</label><input id="p-new" name="password" type="password" autocomplete="new-password" minlength="8"></div>
-            <div class="alert err" data-password-error hidden></div>
-            <button class="btn btn-ghost btn-sm" type="submit" data-i18n="ui.save">Speichern</button>
-          </form>
-        </details>
-        <div class="row">
-          <a href="buchen.html" class="btn btn-primary btn-sm" data-book-cta><span data-i18n="acc.book">Session anfragen</span> <i data-lucide="arrow-right"></i></a>
-          <button class="btn btn-ghost btn-sm" data-logout><i data-lucide="log-out"></i><span data-i18n="acc.logout">Logout</span></button>
-        </div>
-      </aside>
-      <div class="stack" style="--s:18px">
-        <div data-membership-card></div>
-        <div class="card card-pad">
-          <div class="row" style="justify-content:space-between"><h3 class="h4" data-i18n="acc.bookings">Buchungen & Anfragen</h3><span class="mono muted" data-booking-count></span></div>
-          <div data-bookings style="margin-top:10px"></div>
-        </div>
-        <div class="card card-pad" data-tickets-card hidden>
-          <h3 class="h4" data-i18n="acc.tickets">Meine Free-Tickets</h3>
-          <div data-tickets style="margin-top:10px"></div>
+          <div class="stack" style="--s:18px">
+            <form class="card card-pad form" data-password>
+              <h3 class="h4" data-i18n="acc.password">Passwort ändern</h3>
+              <div class="field"><label for="p-cur" data-i18n="acc.current">Aktuelles Passwort</label><input id="p-cur" name="current" type="password" autocomplete="current-password"></div>
+              <div class="field"><label for="p-new" data-i18n="auth.newPassword">Neues Passwort</label><input id="p-new" name="password" type="password" autocomplete="new-password" minlength="8"></div>
+              <div class="alert err" data-password-error hidden></div>
+              <div><button class="btn btn-ghost btn-sm" type="submit" data-i18n="ui.save">Speichern</button></div>
+            </form>
+            <div class="card card-pad danger-zone" data-danger>
+              <h3 class="h4" data-i18n="set.delete">Konto löschen</h3>
+              <p class="muted" style="font-size:14px;margin:6px 0 14px" data-i18n="set.deleteText">Dein Profil und deine Einstellungen werden gelöscht. Bereits bestätigte Buchungen bleiben für die Abrechnung erhalten.</p>
+              <button class="btn btn-ghost btn-sm" data-delete-open data-i18n="set.deleteBtn">Konto löschen …</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="section-sm" id="wochenplan" style="padding-top:20px">
-    <div class="wrap">
-      <div class="row" style="justify-content:space-between;align-items:flex-end;gap:20px;margin-bottom:22px">
-        <div><div class="eyebrow" data-i18n="wp.eyebrow">Exklusiv für Members</div><h2 class="display h2" style="margin-top:18px" data-i18n-html="wp.title">Dein<br>Wochenplan</h2></div>
-        <button class="btn btn-ghost" data-notify-toggle hidden><i data-lucide="bell"></i><span></span></button>
+  <!-- Bestätigungsdialog -->
+  <dialog class="modal" data-modal>
+    <form method="dialog" class="modal-box" data-modal-form>
+      <h3 class="h4" data-modal-title></h3>
+      <p class="muted" data-modal-text></p>
+      <div class="field" data-modal-pw hidden><label for="m-pw-confirm" data-i18n="auth.password">Passwort</label><input id="m-pw-confirm" type="password" autocomplete="current-password"></div>
+      <div class="alert err" data-modal-error hidden></div>
+      <div class="row" style="justify-content:flex-end">
+        <button value="cancel" class="btn btn-ghost btn-sm" data-i18n="ui.cancel">Abbrechen</button>
+        <button value="ok" class="btn btn-primary btn-sm" data-modal-ok></button>
       </div>
-      <div class="card card-pad week" data-week></div>
-      <h3 class="display h3" style="margin:50px 0 20px" data-i18n="wp.allEvents">Alle Events</h3>
-      <div class="event-list" data-events></div>
-    </div>
-  </section>
+    </form>
+  </dialog>
 </main>
 </body>
 </html>

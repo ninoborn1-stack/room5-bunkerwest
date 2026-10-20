@@ -283,3 +283,16 @@ Phase 1 kann sofort starten. Phasen 2–6 bauen aufeinander auf. Vor Phase 7 bra
 | Admin: Anfragen, Buchungen, Bewerbungen/Mitglieder, Events, Einstellungen, E-Mail-Protokoll, Newsletter-CSV | ✅ umgesetzt |
 | Backend-Kern lokal / Demo / Cloudflare D1, Stripe, Resend, Turnstile | ✅ gebaut – Accounts & Schlüssel fehlen noch (siehe LIVEGANG.md) |
 | Zusammenführung mit der Bunker-West-Seite | ⏳ nächster Schritt |
+
+---
+
+## 15. Ergänzungen (20.10.2026)
+
+- **Free-Tickets:** 1 pro Artist und Event; bei großen Events (ab 150 verkauften Tickets oder im Admin markiert) 2 – für sich + einen Freund. ✅
+- **Montag = Membersday:** nur Artist-Member + 1 Gast, Kino ohne Eintritt (nur Getränke), Networking, Get-together, Spieleabende. ✅
+- **Slogan „Create your own space“** ist der Anfrage-Button überall. ✅
+- **Kontakt:** „Booking“ und „Event im Bunker“ zusammengelegt; neu „Location: Shooting & Videodreh“. ✅
+- **Profil:** Member-Navigation (Wochenplan · Free-Tickets/Events · Buchungen · Membership | Einstellungen · Logout). ✅
+- **Zukunft – Uni-Kooperationen:** Musik- und Kunsthochschulen als Partner. Studierende bekommen Vorteile
+  (nicht so weitreichend wie Artist-Member), z. B. Rabatt auf Sessions, Location-Shootings oder auf die
+  Artist-Membership selbst. Umsetzung später: Partner-Code bei Registrierung/Bewerbung + eigene Rabattstufe.

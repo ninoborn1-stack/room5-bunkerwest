@@ -21,8 +21,8 @@ const EXTRA = {
   studio: [['date', 'date', t('contact.f.date')], ['slot', ['', 'Day 12–18', 'Night 18:30–00:30', 'Day + Night'], t('contact.f.slot')]],
   membership: [['tier', ['Community', 'Artist'], t('contact.f.tier')]],
   event: [['eventType', 'text', t('contact.f.eventType')], ['date', 'date', t('contact.f.date')], ['guests', 'number', t('contact.f.guests')], ['duration', 'text', t('contact.f.duration')]],
+  location: [['shootType', ['', 'Foto', 'Video / Musikvideo', 'Content / Social', 'Film'], t('contact.f.shootType')], ['date', 'date', t('contact.f.date')], ['crew', 'number', t('contact.f.crew')], ['duration', 'text', t('contact.f.duration')]],
   kooperation: [['website', 'url', 'Website'], ['idea', 'text', t('contact.f.idea')]],
-  booking: [['date', 'date', t('contact.f.date')], ['location', 'text', t('contact.f.location')]],
   presse: [['medium', 'text', t('contact.f.medium')], ['deadline', 'date', 'Deadline']],
   sonstiges: [],
 };
@@ -30,6 +30,7 @@ const HINT = {
   studio: `${t('contact.hint.studio')} <a href="buchen.html">${t('contact.hint.studioLink')}</a>`,
   membership: `${t('contact.hint.membership')} <a href="membership.html#artist">${t('contact.hint.membershipLink')}</a>`,
   event: t('contact.hint.event'),
+  location: t('contact.hint.location'),
 };
 function renderExtra() {
   const type = form.elements.type.value;

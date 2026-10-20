@@ -46,15 +46,16 @@ export const MEMBERSHIP = {
   artistPriceMonthly: 49,      // PLATZHALTER – wird NICHT öffentlich gezeigt, nur in der Einladung (Admin → Einstellungen)
   bookingWindowDays: 120,      // so weit im Voraus buchbar/anfragbar
   holdMinutes: 30,             // so lange ist ein Termin während der Bezahlung reserviert
+  bigEventThreshold: 150,      // ab so vielen verkauften Tickets: 2 Free-Tickets pro Artist (für sich + Freund)
 };
 
 // Kontaktformular: alle Anfrage-Arten an einer Stelle
 export const REQUEST_TYPES = [
   { id: 'studio',     icon: 'mic-vocal',      label: { de: 'Studio-Session', en: 'Studio session' } },
+  { id: 'event',      icon: 'party-popper',   label: { de: 'Event & Booking im Bunker', en: 'Event & booking at the Bunker' } },
+  { id: 'location',   icon: 'clapperboard',   label: { de: 'Location: Shooting & Videodreh', en: 'Location: shoot & video' } },
   { id: 'membership', icon: 'badge-check',    label: { de: 'Membership-Club', en: 'Membership club' } },
-  { id: 'event',      icon: 'party-popper',   label: { de: 'Event im Bunker', en: 'Event at the Bunker' } },
   { id: 'kooperation',icon: 'handshake',      label: { de: 'Kooperation', en: 'Collaboration' } },
-  { id: 'booking',    icon: 'calendar-range', label: { de: 'Booking', en: 'Booking' } },
   { id: 'presse',     icon: 'newspaper',      label: { de: 'Presse', en: 'Press' } },
   { id: 'sonstiges',  icon: 'message-circle', label: { de: 'Sonstiges', en: 'Other' } },
 ];
@@ -62,7 +63,7 @@ export const REQUEST_TYPES = [
 // Wochenplan Bunker (aus der Skizze vom 14.10.). Zeiten in Minuten.
 // kind: yoga | cowork (nur Artist-Member) | setup ("Backstage": Bunker wird vorbereitet) | event
 export const WEEK = [
-  /* Mo */ [{ kind: 'yoga', from: 420, to: 540 }, { kind: 'cowork', from: 540, to: 1020 }, { kind: 'setup', from: 1020, to: 1140 }, { kind: 'event', from: 1140, to: 1440, title: { de: 'Kino', en: 'Cinema' }, note: { de: 'Artist-Member frei + 1 Begleitung', en: 'Artist members free + 1 guest' } }],
+  /* Mo */ [{ kind: 'yoga', from: 420, to: 540 }, { kind: 'cowork', from: 540, to: 1020 }, { kind: 'setup', from: 1020, to: 1140 }, { kind: 'event', membersOnly: true, from: 1140, to: 1440, title: { de: 'Membersday', en: 'Members day' }, note: { de: 'Kino, Networking & Spieleabend – nur Artists +1 Gast, kein Eintritt', en: 'Cinema, networking & game night – artists +1 guest only, no entry fee' } }],
   /* Di */ [{ kind: 'yoga', from: 420, to: 540 }, { kind: 'cowork', from: 540, to: 1020 }, { kind: 'setup', from: 1020, to: 1140 }, { kind: 'event', from: 1140, to: 1440, title: { de: 'Comedy, Yoga & Talks', en: 'Comedy, yoga & talks' } }],
   /* Mi */ [{ kind: 'yoga', from: 420, to: 540 }, { kind: 'cowork', from: 540, to: 1020 }, { kind: 'setup', from: 1020, to: 1140 }, { kind: 'event', from: 1140, to: 1440, title: { de: 'Art, Sip & Paint', en: 'Art, sip & paint' } }],
   /* Do */ [{ kind: 'yoga', from: 420, to: 540 }, { kind: 'cowork', from: 540, to: 1020 }, { kind: 'setup', from: 1020, to: 1140 }, { kind: 'event', from: 1140, to: 1440, title: { de: 'Musik & Workshops', en: 'Music & workshops' } }],
@@ -72,6 +73,7 @@ export const WEEK = [
 ];
 
 export const EVENT_CATEGORIES = {
+  membersday: { de: 'Membersday', en: 'Members day' },
   kino:     { de: 'Kino', en: 'Cinema' },
   comedy:   { de: 'Comedy', en: 'Comedy' },
   yoga:     { de: 'Yoga & Health', en: 'Yoga & health' },

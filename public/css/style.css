@@ -1015,3 +1015,72 @@ a.wl { text-decoration: none; color: inherit; }
 body.has-cartbar .demo-pill { bottom: 92px; }
 .demo-reset { margin-top: 12px; font-size: 13px; }
 .demo-reset svg { width: 14px; height: 14px; }
+.menu-panel .menu-cta { margin-top: 26px; width: max-content; max-width: 100%; }
+.menu-panel > a.menu-cta { font-family: var(--font-body); font-weight: 600; font-size: 15px; letter-spacing: -0.01em; text-transform: none; line-height: 1; display: inline-flex; align-items: center; gap: 12px; padding: 0 24px; }
+
+/* ==========================================================
+   Profil
+   ========================================================== */
+.profile-hero { padding: calc(var(--header-h) + 50px) 0 30px; }
+.ph-top { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.avatar { position: relative; width: 96px; height: 96px; border-radius: 50%; display: grid; place-items: center; flex: none;
+  background: radial-gradient(circle at 30% 25%, color-mix(in srgb, var(--accent-fill) 35%, var(--bg-3)), var(--bg-3) 70%); border: 1px solid var(--line-2); }
+.avatar span { font-family: var(--font-display); font-weight: 800; font-size: 32px; letter-spacing: -0.04em; }
+.avatar .verified { position: absolute; right: -2px; bottom: -2px; background: var(--bg); border-radius: 50%; padding: 2px; }
+.avatar.is-artist { border-color: color-mix(in srgb, var(--gold) 60%, transparent); box-shadow: 0 0 40px color-mix(in srgb, var(--gold) 18%, transparent); }
+.ph-id .eyebrow { margin-bottom: 10px; }
+.ph-id h1 { margin: 0; }
+.ph-meta { margin: 10px 0 0; font-size: 14px; }
+.ph-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 30px; }
+.ph-stat { display: flex; gap: 14px; align-items: center; padding: 16px 18px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--panel); }
+.ph-stat > svg { width: 22px; height: 22px; color: var(--accent); flex: none; }
+.ph-stat b { display: block; font-family: var(--font-display); font-size: 22px; letter-spacing: -0.03em; line-height: 1.1; }
+.ph-stat span { color: var(--muted); font-size: 13px; }
+.profile-nav { position: sticky; top: 0; z-index: 60; background: color-mix(in srgb, var(--bg) 94%, transparent); border-block: 1px solid var(--line); }
+.profile-nav .wrap { display: flex; justify-content: space-between; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+.profile-nav .wrap::-webkit-scrollbar { display: none; }
+.pn-left, .pn-right { display: flex; gap: 4px; }
+.profile-nav button { display: inline-flex; align-items: center; gap: 8px; padding: 18px 14px; font-size: 14px; font-weight: 500; color: var(--muted); border-bottom: 2px solid transparent; white-space: nowrap; transition: color .25s, border-color .25s; }
+.profile-nav button svg { width: 17px; height: 17px; }
+.profile-nav button:hover { color: var(--text); }
+.profile-nav button.is-active { color: var(--text); border-bottom-color: var(--accent); }
+.pn-right [data-logout] { color: var(--muted); }
+.profile-panels { padding-top: 36px; }
+.pt-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; margin-bottom: 22px; }
+.pt-head h2 { margin: 0; }
+.pt-head p { margin: 8px 0 0; max-width: 60ch; }
+.my-tickets { display: grid; gap: 10px; margin-bottom: 26px; }
+.ticket-stub { display: flex; align-items: center; gap: 14px; padding: 14px 18px; border-radius: 14px; border: 1px dashed color-mix(in srgb, var(--gold) 50%, transparent); background: color-mix(in srgb, var(--gold) 6%, transparent); }
+.ticket-stub > svg { width: 22px; height: 22px; color: var(--gold); flex: none; }
+.ticket-stub div { flex: 1; display: grid; } .ticket-stub span { color: var(--muted); font-size: 13px; }
+.ticket-stub em { font-style: normal; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--gold); }
+.ticket-cta { display: grid; gap: 6px; justify-items: end; } .ticket-cta small { color: var(--muted); font-size: 12px; }
+.event-card.is-members { border-color: color-mix(in srgb, var(--gold) 35%, transparent); }
+.membership-hero .mh-top { display: flex; gap: 18px; align-items: center; margin-bottom: 18px; }
+.membership-hero .mh-top h3 { margin: 4px 0 0; }
+.membership-hero.is-artist { border-color: color-mix(in srgb, var(--gold) 45%, transparent); background: linear-gradient(160deg, color-mix(in srgb, var(--gold) 8%, var(--surface)), var(--surface)); }
+.membership-hero.is-upsell { border-style: dashed; border-color: color-mix(in srgb, var(--gold) 45%, transparent); }
+.membership-hero .alert { margin-bottom: 16px; flex-wrap: wrap; align-items: center; } .membership-hero .alert span { flex: 1; min-width: 200px; }
+.perk-grid { list-style: none; padding: 0; margin: 0; display: grid; gap: 10px; }
+.perk-grid li { display: flex; gap: 12px; align-items: flex-start; font-size: 15px; }
+.perk-grid li svg { width: 18px; height: 18px; color: var(--gold); flex: none; margin-top: 2px; }
+.mh-foot { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--line); }
+.membership-split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+.settings-grid { display: grid; grid-template-columns: 1.3fr 1fr; gap: 18px; align-items: start; }
+.settings-grid .form { gap: 16px; }
+.field input:disabled { opacity: .6; }
+.danger-zone { border-color: color-mix(in srgb, var(--err) 35%, transparent); }
+.modal { border: 0; padding: 0; background: transparent; color: var(--text); max-width: min(460px, calc(100vw - 32px)); width: 100%; }
+.modal::backdrop { background: rgba(0,0,0,.6); }
+.modal-box { display: grid; gap: 14px; padding: 26px; border-radius: var(--radius); background: var(--surface); border: 1px solid var(--line-2); }
+.modal-box h3 { margin: 0; } .modal-box p { margin: 0; }
+@media (max-width: 900px) { .membership-split, .settings-grid { grid-template-columns: 1fr; } }
+@media (max-width: 700px) {
+  .ph-stats { grid-template-columns: 1fr; }
+  .avatar { width: 72px; height: 72px; } .avatar span { font-size: 24px; }
+  .profile-nav button span { display: none; }
+  .profile-nav button.is-active span { display: inline; }
+  .profile-nav button { padding: 16px 12px; }
+}
+.ph-id .eyebrow { display: flex; }
+.ph-id h1 { display: block; }

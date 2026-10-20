@@ -73,7 +73,7 @@ function shell() {
     <div class="nav-actions">
       ${toggles()}
       <a href="login.html" class="icon-btn auth-btn" data-auth-link aria-label="${t('nav.login')}"><i data-lucide="user-round"></i></a>
-      <a href="kontakt.html?typ=studio" class="btn btn-primary btn-sm" data-cta>${t('nav.request')} <i data-lucide="arrow-right"></i></a>
+      <a href="kontakt.html" class="btn btn-primary btn-sm" data-cta>${t('slogan')} <i data-lucide="arrow-right"></i></a>
       <button class="icon-btn menu-toggle" aria-label="${t('ui.menu')}" aria-expanded="false"><i data-lucide="menu"></i></button>
     </div>`;
   document.body.prepend(header);
@@ -82,6 +82,7 @@ function shell() {
   menu.className = 'menu-panel';
   menu.innerHTML = `${NAV.map((n, i) => `<a href="${n.href}"><span>0${i + 1}</span>${n.label}</a>`).join('')}
     <a href="login.html" data-auth-link><span>07</span>${t('nav.login')}</a>
+    <a href="kontakt.html" class="btn btn-primary menu-cta" data-cta>${t('slogan')} <i data-lucide="arrow-right"></i></a>
     <div class="menu-toggles">${toggles()}</div>
     <div class="menu-foot"><a href="mailto:${STUDIO.email}">${STUDIO.email}</a><span>${STUDIO.house} · ${STUDIO.name}</span></div>`;
   document.body.append(menu);
@@ -94,7 +95,7 @@ function shell() {
         <div>
           <a href="./" class="brand">${brandMark}<span>ROOM 5<small>BUNKER WEST</small></span></a>
           <p class="muted" style="max-width:34ch;margin-top:22px">${t('footer.claim')}</p>
-          <a href="buchen.html" class="link-arrow" style="margin-top:10px">${t('footer.book')} <i data-lucide="arrow-up-right"></i></a>
+          <a href="kontakt.html" class="link-arrow" style="margin-top:10px">${t('slogan')} <i data-lucide="arrow-up-right"></i></a>
         </div>
         <div><h5>Studio</h5><ul>
           <li><a href="./">Room 5</a></li><li><a href="buchen.html">${t('footer.prices')}</a></li><li><a href="events.html">${t('nav.events')}</a></li><li><a href="ueber-uns.html">${t('nav.about')}</a></li>
