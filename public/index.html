@@ -22,10 +22,10 @@
 <main>
   <!-- ============ HERO ============ -->
   <section class="hero" aria-label="Bunker West" data-theme="dark">
-    <div class="hero-media"><img src="img/bunker/hero.jpg" alt="Ausstellung in der Halle des Bunker West" data-i18n-attr="alt:bw.hero.alt" fetchpriority="high"></div>
+    <div class="hero-media"><img src="img/bunker/hero-main.jpg" alt="Blick durch die Hallen des Bunker West" data-i18n-attr="alt:bw.hero.alt" fetchpriority="high"></div>
     <div class="wrap hero-inner">
       <div class="eyebrow" data-hero-fade data-i18n="bw.hero.eyebrow">Eventlocation Berlin · Hohenzollerndamm 120</div>
-      <h1 class="hero-title is-bunker" aria-label="Bunker West"><span class="line"><span>Bunker</span></span><br><span class="line"><span class="five">West</span></span></h1>
+      <h1 class="hero-wordmark" data-hero-fade><span class="sr-only">Bunker West</span><i class="wordmark" aria-hidden="true"></i></h1>
       <div class="hero-bottom">
         <div data-hero-fade>
           <p class="hero-sub" data-i18n="bw.hero.sub">600 m² unter Beton – Bühne, Bar und Galerie. Für Events, Ausstellungen, Shootings und alles, was noch keinen Namen hat.</p>
@@ -34,16 +34,6 @@
             <a href="kontakt.html?typ=event" class="btn btn-ghost" data-cta-static>Create your own space</a>
           </div>
         </div>
-        <svg class="hero-plan" viewBox="0 0 1360 1737" aria-hidden="true" data-hero-fade>
-          <path class="hp-outline" d="M30 500 L455 22 L1335 478 L1335 1520 L1300 1520 L1300 1725 L1088 1725 L1088 1490 L888 1490 L888 828 L430 828 L430 1400 L30 1400 Z"/>
-          <path class="hp-inner" d="M150 812 L888 812 M470 232 L470 812 M490 600 L572 518 L822 518 L822 582 L1230 582 L1230 815 M66 898 L312 898 L312 1176 L66 1176 M66 1048 L312 1048 M922 834 L1186 834 L1186 1266 L922 1266 M922 1148 L1186 1148"/>
-          <g class="hp-dots">
-            <circle cx="300" cy="620" r="16"/><circle cx="880" cy="380" r="16"/><circle cx="860" cy="700" r="16"/>
-            <circle cx="190" cy="972" r="16"/><circle cx="1054" cy="990" r="16"/><circle cx="1054" cy="1208" r="16"/>
-          </g>
-          <circle class="hp-ping" cx="860" cy="700" r="16"/>
-          <text x="1335" y="1840" class="hp-label" text-anchor="end">BUNKER WEST · 600 M²</text>
-        </svg>
       </div>
     </div>
   </section>
@@ -76,7 +66,7 @@
         <h2 class="display h2" data-split data-i18n-html="bw.uses.title">Was hier<br>passiert</h2>
         <p class="lead muted" data-reveal style="max-width:40ch" data-i18n="bw.uses.lead">Jedes Event soll so einzigartig sein wie die Menschen dahinter. Wir sind Location und Mitgestalter – mit Kreativen, Künstler:innen und Musiker:innen.</p>
       </div>
-      <div class="features" data-stagger>
+      <div class="features uses" data-stagger>
         <a class="feature" href="kontakt.html?typ=event">
           <div class="f-img"><img src="img/bunker/dinner-sm.jpg" alt="" loading="lazy"></div>
           <div class="f-body"><span class="ico"><i data-lucide="party-popper"></i></span><span class="num">01</span></div>
@@ -192,14 +182,22 @@
   <!-- ============ GALERIE ============ -->
   <section class="section" style="padding-top:0" aria-label="Galerie" data-i18n-attr="aria-label:bw.gallery">
     <div class="wrap"><div class="eyebrow" data-reveal data-i18n="bw.gallery">Galerie</div></div>
-    <div class="strip" data-strip tabindex="0">
+    <div class="slider" data-slider aria-roledescription="carousel">
+      <div class="slider-track" data-slider-track>
+      <figure><img src="img/bunker/stage.jpg" alt="Halle 2 mit Bühne, Flügel und Licht" loading="lazy"><figcaption data-i18n="bw.g0">Bühne</figcaption></figure>
       <figure><img src="img/bunker/gallery-wide.jpg" alt="Großformatige Kunst in der Halle" loading="lazy"><figcaption data-i18n="bw.g1">Ausstellung</figcaption></figure>
       <figure class="tall"><img src="img/bunker/fashion.jpg" alt="Fashion-Event im Bunker" loading="lazy"><figcaption>Fashion Week</figcaption></figure>
       <figure><img src="img/bunker/dinner.jpg" alt="Gedeckte Tafel für ein Dinner" loading="lazy"><figcaption>Dinner</figcaption></figure>
-      <figure><img src="img/bunker/bar.jpg" alt="Die Bar im Foyer" loading="lazy"><figcaption data-i18n="bw.g4">Bar & Foyer</figcaption></figure>
+      <figure><img src="img/bunker/bar-bw.jpg" alt="Die Bar im Foyer" loading="lazy"><figcaption data-i18n="bw.g4">Bar & Foyer</figcaption></figure>
       <figure class="tall"><img src="img/bunker/dinner-detail.jpg" alt="Tischdetail mit Tulpen und Gläsern" loading="lazy"><figcaption>Details</figcaption></figure>
-      <figure><img src="img/bunker/halle12.jpg" alt="Blick durch Halle 1 und 2" loading="lazy"><figcaption data-i18n="bw.g6">Halle 1 & 2</figcaption></figure>
+      <figure><img src="img/bunker/hall-spots.jpg" alt="Halle mit Strahlern" loading="lazy"><figcaption data-i18n="bw.g6">Halle 1 & 2</figcaption></figure>
       <figure><img src="img/bunker/exhibition-2.jpg" alt="Kunstwerke an der Betonwand" loading="lazy"><figcaption data-i18n="bw.g7">Galerie</figcaption></figure>
+    </div>
+    </div>
+    <div class="wrap slider-nav">
+      <div class="slider-count mono" data-slider-count></div>
+      <div class="slider-bar"><i data-slider-bar></i></div>
+      <div class="row" style="gap:8px"><button class="icon-btn" data-slider-prev aria-label="Zurück" data-i18n-attr="aria-label:book.prev"><i data-lucide="arrow-left"></i></button><button class="icon-btn" data-slider-next aria-label="Weiter" data-i18n-attr="aria-label:book.next"><i data-lucide="arrow-right"></i></button></div>
     </div>
   </section>
 

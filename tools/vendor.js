@@ -15,6 +15,11 @@ const FILES = {
   'fonts/inter-tight-italic.woff2': '@fontsource-variable/inter-tight/files/inter-tight-latin-wght-italic.woff2',
   'fonts/jetbrains-400.woff2': '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-400-normal.woff2',
   'fonts/great-vibes.woff2': '@fontsource/great-vibes/files/great-vibes-latin-400-normal.woff2',
+  'fonts/bodoni-moda.woff2': '@fontsource-variable/bodoni-moda/files/bodoni-moda-latin-opsz-normal.woff2',
+  'fonts/bodoni-moda-italic.woff2': '@fontsource-variable/bodoni-moda/files/bodoni-moda-latin-opsz-italic.woff2',
+  'fonts/courier-prime-400.woff2': '@fontsource/courier-prime/files/courier-prime-latin-400-normal.woff2',
+  'fonts/courier-prime-400-italic.woff2': '@fontsource/courier-prime/files/courier-prime-latin-400-italic.woff2',
+  'fonts/courier-prime-700.woff2': '@fontsource/courier-prime/files/courier-prime-latin-700-normal.woff2',
   'fonts/jetbrains-500.woff2': '@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2',
 };
 for (const w of [500, 600, 700, 800, 900]) FILES[`fonts/unbounded-${w}.woff2`] = `@fontsource/unbounded/files/unbounded-latin-${w}-normal.woff2`;

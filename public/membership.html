@@ -64,7 +64,7 @@
             <li><i data-lucide="clapperboard"></i><div><b data-i18n="mem.a.b6">Montag ist Membersday</b><span data-i18n="mem.a.b6s">Nur für Artists + 1 Gast: Kino ohne Eintritt (nur Getränke), Networking, Get-together oder Spieleabend.</span></div></li>
             <li><i data-lucide="utensils"></i><div><b data-i18n="mem.a.b5">Exklusive Dinner & Bubble</b><span data-i18n="mem.a.b5s">Ab und zu Member-Dinner, Listening-Abende, Songcamps in Planung.</span></div></li>
           </ul>
-          <a href="#artist" class="btn btn-primary btn-block" data-i18n="mem.apply">Als Artist bewerben</a>
+          <a href="kontakt.html?typ=membership&amp;tier=artist" class="btn btn-primary btn-block" data-i18n="mem.apply">Als Artist bewerben</a>
         </article>
       </div>
     </div>
@@ -85,61 +85,20 @@
   <section class="section" id="artist">
     <div class="wrap">
       <div class="split" style="align-items:start">
-        <div style="position:sticky;top:120px">
+        <div>
           <div class="eyebrow" data-i18n="mem.form.eyebrow">Artist-Bewerbung</div>
           <h2 class="display h2" style="margin:24px 0" data-split data-i18n-html="mem.form.title">Klopf<br>an die Tür.</h2>
           <p class="muted" style="max-width:40ch" data-i18n="mem.form.lead">Wir prüfen jede Bewerbung persönlich. Ohne Profil legen wir mit deiner Bewerbung gleich ein kostenloses Community-Profil für dich an.</p>
         </div>
 
-        <div class="card card-pad" data-membership-wrap>
-          <div class="form-steps"><i class="on"></i><i></i><i></i></div>
-          <form class="form" data-membership novalidate>
-            <div class="fstep is-active" data-fstep="1">
-              <h3 class="h4" data-i18n="mem.f1">01 · Über dich</h3>
-              <div class="form-grid">
-                <div class="field"><label for="m-name" data-i18n="form.name">Name *</label><input id="m-name" name="name" autocomplete="name" required></div>
-                <div class="field"><label for="m-email" data-i18n="form.email">E-Mail *</label><input id="m-email" name="email" type="email" autocomplete="email" required></div>
-                <div class="field"><label for="m-phone" data-i18n="form.phone">Telefon</label><input id="m-phone" name="phone" type="tel" autocomplete="tel"></div>
-                <div class="field"><label for="m-city" data-i18n="form.city">Stadt</label><input id="m-city" name="city" autocomplete="address-level2"></div>
-              </div>
-              <div class="field"><span class="label" data-i18n="mem.whatDo">Was machst du?</span>
-                <div class="chips" style="margin-top:4px">
-                  <label class="chip"><input type="radio" name="role" value="Artist" checked><span><i data-lucide="mic-vocal"></i>Artist</span></label>
-                  <label class="chip"><input type="radio" name="role" value="Producer"><span><i data-lucide="audio-waveform"></i>Producer</span></label>
-                  <label class="chip"><input type="radio" name="role" value="Instrumentalist"><span><i data-lucide="guitar"></i><span data-i18n="mem.role.instr">Instrumentalist:in</span></span></label>
-                  <label class="chip"><input type="radio" name="role" value="Engineer"><span><i data-lucide="sliders-horizontal"></i>Engineer</span></label>
-                  <label class="chip"><input type="radio" name="role" value="Songwriter"><span><i data-lucide="pen-line"></i>Songwriter</span></label>
-                </div>
-              </div>
-            </div>
-            <div class="fstep" data-fstep="2">
-              <h3 class="h4" data-i18n="mem.f2">02 · Deine Musik</h3>
-              <div class="field"><label for="m-genres" data-i18n="mem.genres">Genres / Stil</label><input id="m-genres" name="genres" placeholder="z. B. Rap, R&B, Elektronik" data-i18n-attr="placeholder:mem.genresPh"></div>
-              <div class="field"><label for="m-links" data-i18n="mem.links">Links zu deiner Musik</label><textarea id="m-links" name="links" style="min-height:90px" placeholder="Spotify, SoundCloud, Instagram, YouTube …"></textarea></div>
-              <div class="field"><span class="label" data-i18n="mem.usage">Wie oft wärst du im Bunker?</span>
-                <div class="chips" style="margin-top:4px">
-                  <label class="chip"><input type="radio" name="usage" value="monatlich" checked><span data-i18n="mem.usage1">1–2× im Monat</span></label>
-                  <label class="chip"><input type="radio" name="usage" value="wöchentlich"><span data-i18n="mem.usage2">Wöchentlich</span></label>
-                  <label class="chip"><input type="radio" name="usage" value="mehrmals pro Woche"><span data-i18n="mem.usage3">Mehrmals pro Woche</span></label>
-                </div>
-              </div>
-            </div>
-            <div class="fstep" data-fstep="3">
-              <h3 class="h4" data-i18n="mem.f3">03 · Warum der Bunker?</h3>
-              <div class="field"><label for="m-motivation" data-i18n="mem.motivation">Erzähl uns von dir & deinen Plänen *</label><textarea id="m-motivation" name="motivation" required placeholder="Woran arbeitest du gerade? Was suchst du im Club?" data-i18n-attr="placeholder:mem.motivationPh"></textarea></div>
-              <div class="field"><label for="m-ref" data-i18n="mem.referral">Empfehlung durch ein Member (optional)</label><input id="m-ref" name="referral"></div>
-              <div class="field" data-pw-field><label for="m-pw" data-i18n="mem.pw">Passwort für dein Profil *</label><input id="m-pw" name="password" type="password" autocomplete="new-password" minlength="8" required><span class="hint" data-i18n="mem.pwHint">Mind. 8 Zeichen. Damit legen wir gleich dein Community-Profil an.</span></div>
-              <label class="check"><input type="checkbox" name="privacy" required><span data-i18n="mem.privacy">Ich bin einverstanden, dass meine Angaben zur Prüfung der Bewerbung gespeichert werden.</span></label>
-              <div class="captcha" data-captcha></div>
-            </div>
-            <div class="alert err" data-membership-error hidden></div>
-            <div class="form-nav">
-              <button type="button" class="btn btn-ghost" data-prev hidden><i data-lucide="arrow-left"></i><span data-i18n="ui.back">Zurück</span></button>
-              <span></span>
-              <button type="button" class="btn btn-primary" data-next><span data-i18n="ui.next">Weiter</span> <i data-lucide="arrow-right"></i></button>
-              <button type="submit" class="btn btn-primary" data-send hidden><span data-i18n="mem.send">Bewerbung senden</span> <i data-lucide="send"></i></button>
-            </div>
-          </form>
+        <div class="card card-pad apply-cta" data-reveal>
+          <span class="lock-badge"><i data-lucide="badge-check"></i><span data-i18n="mem.cta.badge">Bewerbung in 2 Minuten</span></span>
+          <h3 class="display h3" style="margin:22px 0 12px" data-i18n-html="mem.cta.title">Erzähl uns<br><span class="outline">von dir.</span></h3>
+          <p class="muted" data-i18n="mem.cta.text">Die Bewerbung läuft über unser Kontaktformular: Thema „Membership“ ist schon ausgewählt. Links zu deiner Musik, ein paar Sätze zu dir – wir melden uns meist innerhalb einer Woche.</p>
+          <ul class="apply-steps mono">
+            <li><b>01</b><span data-i18n="mem.s1">Bewerben</span></li><li><b>02</b><span data-i18n="mem.s2">Kennenlernen</span></li><li><b>03</b><span data-i18n="mem.s3">Willkommen</span></li>
+          </ul>
+          <div class="row"><a href="kontakt.html?typ=membership&amp;tier=artist" class="btn btn-primary" data-magnetic><span data-i18n="mem.apply">Als Artist bewerben</span> <i data-lucide="arrow-right"></i></a><a href="login.html?tab=register" class="btn btn-ghost" data-i18n="mem.join">Kostenlos beitreten</a></div>
         </div>
       </div>
     </div>

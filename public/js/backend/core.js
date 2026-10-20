@@ -6,7 +6,7 @@
 //
 // Rollen: community (kostenlos, frei registrieren) · artist (kuratiert, Platz 40 zahlend + 10 frei) · admin
 import { SLOTS, ADDONS, MEMBERSHIP, REQUEST_TYPES, EVENT_CATEGORIES, SPACES, SPACE_EXTRAS, SPACE_REQUEST_TYPES } from '../config.js';
-import { cleanSession, validateSession, priceCart, sessionSlots, sessionRange, sessionLabel, timeLabel, euro, ymd, parseYmd } from '../pricing.js';
+import { cleanSession, validateSession, priceCart, sessionSlots, sessionRange, sessionLabel, windowsLabel, timeLabel, euro, ymd, parseYmd } from '../pricing.js';
 import { hashPassword, verifyPassword, randomToken, shortId, sha256, hmacSha256Hex } from './crypto.js';
 import { renderEmail } from './emails.js';
 
@@ -75,7 +75,7 @@ export const perArtist = (e) => (e.membersOnly || e.plusOne || (Number(e.tickets
 const isArtist = (u) => u?.role === 'artist' && u.membership?.status === 'active' || u?.role === 'admin';
 const typeLabel = (id, lang) => REQUEST_TYPES.find((t) => t.id === id)?.label[lang] || id;
 const fmtDay = (date, lang) => parseYmd(date).toLocaleDateString(lang === 'en' ? 'en-GB' : 'de-DE', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric' });
-const sessionSummary = (sessions, lang) => sessions.map((s) => { const [a, z] = sessionRange(s); return [fmtDay(s.date, lang), `${sessionLabel(s, lang)} · ${timeLabel(a)}–${timeLabel(z)}`]; });
+const sessionSummary = (sessions, lang) => sessions.map((s) => [fmtDay(s.date, lang), `${sessionLabel(s, lang)} · ${windowsLabel(s)}`]);
 
 async function settings(store) {
   const s = (await store.get('settings', 'main')) || {};

@@ -305,3 +305,8 @@ Phase 1 kann sofort starten. Phasen 2–6 bauen aufeinander auf. Vor Phase 7 bra
 - Fotos: `tools/grade_bunker.py` (gleicher dunkler Look wie Room 5).
 - Rechtliches: Impressum mit Daten von bunkerwest.net/blank (`config.js → LEGAL`), Datenschutz & AGB passend zum echten Stack (Cloudflare, Stripe, Resend, Turnstile, kein Tracking). **Vor Livegang anwaltlich prüfen lassen.**
 - Offen: Schreibweise „Rabaev/Rabev“, zwei verschiedene Telefonnummern (Impressum vs. Kontakt), Bildrechte Fashion-/Dinner-Fotos, ggf. Google/Apple-Kalender-Sync für die Belegung.
+
+## 17. Identity & Preise (21.10.2026)
+- Schrift & Farbe aus „Bunker West initial Identity“: Bunki Green #CFF097, Abyss Black, Ivory Whisper #F1EBE5, Warm Parchment #D7CEBF, Faded Archive #A29585, Urban Steel #595959, Concrete Haze #C4BDDA. Primärschrift Selino (Lizenz fehlt → vorerst Bodoni Moda), Sekundär Courier New (→ Courier Prime, frei). Offizielle Wortmarke als Logo.
+- Studio-Preise neu (Kunde): 1 h 50 €, 3 h 140 €, 6 h (ganze Session) 250 € je Day/Night; 4 h = 190 €, 5 h = 240 €; Day+Night = 500 €. Artist −30 % auf die Raummiete. Frühschicht-Rabatt (12–15 z. B. 120 €) vorbereitet über `PRICES.earlyBlock`, aktuell aus.
+- Artist-Bewerbung läuft jetzt über das Kontaktformular (Thema Membership → Artist), technisch weiter über /applications.

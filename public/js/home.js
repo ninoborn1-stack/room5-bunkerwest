@@ -5,13 +5,13 @@ import { euro, timeLabel } from './pricing.js';
 // ---------- Preiskarten: Normalpreis durchgestrichen, Artist-Preis in Gold, Ersparnis ----------
 const artist = (n) => Math.round(n * (1 - MEMBERSHIP.artistDiscount) * 100) / 100;
 const cards = [
-  { id: 'day', title: L(SLOTS.day.label), price: PRICES.slot, time: `${timeLabel(SLOTS.day.from)} – ${timeLabel(SLOTS.day.to)}`, feats: [t('home.card.day1'), t('home.card.incl')] },
-  { id: 'night', title: L(SLOTS.night.label), price: PRICES.slot, time: `${timeLabel(SLOTS.night.from)} – ${timeLabel(SLOTS.night.to)}`, feats: [t('home.card.night1'), t('home.card.incl')], tag: t('home.card.popular') },
-  { id: 'both', title: 'Day + Night', price: PRICES.bundle, was: PRICES.slot * 2, time: `${timeLabel(SLOTS.day.from)} – ${timeLabel(SLOTS.night.to)}`, feats: [t('home.card.both1', { n: euro(PRICES.slot * 2 - PRICES.bundle) }), t('home.card.incl')], featured: true },
+  { id: 'hour', title: t('home.card.hourT'), price: PRICES.hour, time: '1 h', feats: [t('home.card.hour1'), t('home.card.incl')] },
+  { id: 'block', title: t('home.card.blockT'), price: PRICES.block, was: PRICES.hour * 3, time: '3 h', feats: [t('home.card.block1'), t('home.card.incl')], tag: t('home.card.popular') },
+  { id: 'session', title: t('home.card.sessionT'), price: PRICES.session, was: PRICES.hour * 6, time: `6 h · ${timeLabel(SLOTS.day.from)}–${timeLabel(SLOTS.day.to)} / ${timeLabel(SLOTS.night.from)}–${timeLabel(SLOTS.night.to)}`, feats: [t('home.card.session1'), t('home.card.incl')], featured: true },
 ];
 $('[data-price-grid]').innerHTML = cards.map((c, i) => `
   <article class="price-card ${c.featured ? 'featured' : ''}" data-reveal data-delay="${i * 0.08}">
-    ${c.tag ? `<span class="tag">${c.tag}</span>` : ''}${c.featured ? `<span class="tag">${t('home.card.bundle')}</span>` : ''}
+    ${c.tag ? `<span class="tag">${c.tag}</span>` : ''}${c.featured ? `<span class="tag">${t('home.card.best')}</span>` : ''}
     <span class="mono muted">0${i + 1} / ${c.time}</span>
     <h3 class="h4" style="margin:22px 0 0">${c.title}</h3>
     <div class="amount">${euro(c.price)}${c.was ? `<small class="was">${euro(c.was)}</small>` : ''}</div>

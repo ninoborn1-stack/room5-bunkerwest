@@ -2,7 +2,7 @@
 import { $, $$, icons, esc, toast, userReady, verifiedBadge } from './app.js';
 import { REQUEST_TYPES, EVENT_CATEGORIES, MEMBERSHIP, SPACES, SPACE_EXTRAS } from './config.js';
 import { api } from './api.js';
-import { parseYmd, sessionRange, sessionLabel, timeLabel, euro } from './pricing.js';
+import { parseYmd, windowsLabel, sessionRange, sessionLabel, timeLabel, euro } from './pricing.js';
 
 const user = await userReady;
 if (user?.role !== 'admin') location.replace('login.html?next=admin.html');
@@ -17,7 +17,7 @@ const range = (a, b) => (a === b ? fmt(a) : `${fmt(a)} – ${fmt(b)}`);
 const OCC = { reserved: 'Reserviert', booked: 'Gebucht' };
 const spaceInfo = (r) => (r.spaces?.length ? `<div class="meta space-meta"><b>${r.spaces.map(spaceName).join(' · ')}</b> · ${range(r.dateFrom, r.dateTo)}${r.extras?.length ? ' · Extras: ' + r.extras.map((x) => SPACE_EXTRAS.find((e) => e.id === x)?.label.de || x).join(', ') : ''}</div>` : '');
 let editOcc = null;
-const sessions = (list = []) => list.map((s) => { const [a, z] = sessionRange(s); const ex = Object.entries(s.addons || {}).filter(([, v]) => v).map(([k, v]) => `${k} ${v}`); return `<div style="margin-top:6px">${fmt(s.date)} <span class="mono muted" style="font-size:13px">${timeLabel(a)}–${timeLabel(z)} · ${sessionLabel(s)}${ex.length ? ' · ' + esc(ex.join(', ')) : ''}</span></div>`; }).join('');
+const sessions = (list = []) => list.map((s) => { const ex = Object.entries(s.addons || {}).filter(([, v]) => v).map(([k, v]) => `${k} ${v}`); return `<div style="margin-top:6px">${fmt(s.date)} <span class="mono muted" style="font-size:13px">${windowsLabel(s)} · ${sessionLabel(s)}${ex.length ? ' · ' + esc(ex.join(', ')) : ''}</span></div>`; }).join('');
 
 let data = null;
 let tab = new URLSearchParams(location.search).get('tab') || 'requests';

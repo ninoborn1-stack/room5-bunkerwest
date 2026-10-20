@@ -34,9 +34,9 @@ r = await call('a', 'POST', '/auth/login', { email: em('artist'), password: pw('
 ok('artist login', r.status === 200 && r.body.user.role === 'artist', r.body);
 r = await call('a', 'POST', '/bookings/checkout', { sessions: [{ date: day, slots: ['day', 'night'], addons: { producer: 2, mix: 1 } }] });
 ok('artist checkout', r.status === 201 && r.body.url.includes('test=1'), r.body);
-ok('price 203 + 2×30 + 250', r.body.booking?.total === 513, r.body.booking?.total);
+ok('price (2×250)×0.7 + 2×30 + 250', r.body.booking?.total === 660, r.body.booking?.total);
 const bid = r.body.booking?.id;
-r = await call('c', 'GET', '/availability'); ok('hold blocks slot', (r.body.booked[day] || []).includes('day'));
+r = await call('c', 'GET', '/availability'); ok('hold blocks hours', (r.body.booked[day] || []).includes('d12') && (r.body.booked[day] || []).includes('n23'));
 r = await call('a', 'POST', '/payments/demo-confirm', { kind: 'booking', ref: bid });
 const b = await store.get('bookings', bid); ok('booking confirmed after payment', b.status === 'confirmed', b.status);
 // Bewerbung ohne Profil
@@ -67,7 +67,7 @@ r = await call('ad', 'POST', `/admin/applications/${(await call('ad','GET','/adm
 // Events + Ticket
 const evs = (await call('a', 'GET', '/events')).body.events; ok('events listed', evs.length > 0);
 r = await call('a', 'POST', `/events/${evs[0].id}/ticket`, {}); ok('artist ticket', r.status === 201, r.body);
-const big = evs.find((e) => e.ticketsSold >= 150);
+const big = evs.find((e) => e.ticketsSold >= 150 && e.id !== evs[0].id);
 if (big) { r = await call('a', 'POST', `/events/${big.id}/ticket`, { qty: 2 }); ok('big event: 2 tickets', r.status === 201 && r.body.qty === 2, r.body); }
 const small = evs.find((e) => !e.membersOnly && e.ticketsSold < 150 && e.id !== evs[0].id);
 if (small) { r = await call('a', 'POST', `/events/${small.id}/ticket`, { qty: 2 }); ok('small event: capped at 1', r.status === 201 && r.body.qty === 1, r.body); }

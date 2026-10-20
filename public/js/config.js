@@ -32,9 +32,23 @@ export const SLOTS = {
   day:   { id: 'day',   from: 12 * 60,      to: 18 * 60,      icon: 'sun',  label: { de: 'Day Session',   en: 'Day Session' } },
   night: { id: 'night', from: 18 * 60 + 30, to: 24 * 60 + 30, icon: 'moon', label: { de: 'Night Session', en: 'Night Session' } },
 };
+// Stunden-Einheiten: Day 12–18 (12:00, 13:00 … 17:00), Night 18:30–00:30 (18:30 … 23:30)
+export const HOURS = [
+  ...[12, 13, 14, 15, 16, 17].map((h) => ({ id: `d${h}`, session: 'day', from: h * 60, to: h * 60 + 60 })),
+  ...[18, 19, 20, 21, 22, 23].map((h) => ({ id: `n${h}`, session: 'night', from: h * 60 + 30, to: h * 60 + 90 })),
+];
+// 3-Stunden-Blöcke (Schnellauswahl)
+export const BLOCKS = [
+  { id: 'd-early', session: 'day', hours: ['d12', 'd13', 'd14'] }, { id: 'd-late', session: 'day', hours: ['d15', 'd16', 'd17'] },
+  { id: 'n-early', session: 'night', hours: ['n18', 'n19', 'n20'] }, { id: 'n-late', session: 'night', hours: ['n21', 'n22', 'n23'] },
+];
+// Preise pro Session (Day oder Night) – laut Kunde 21.10.: 1 h 50 €, 3 h 140 €, 6 h 250 €. Artist-Member −30 %.
+// 4 h = 140 + 50, 5 h = 140 + 2 × 50. Frühschicht günstiger (z. B. 120 €) wäre über earlyBlock möglich.
 export const PRICES = {
-  slot: 150,          // € pro Session (egal welche)
-  bundle: 290,        // Day + Night zusammen (10 € Paket-Nachlass für alle)
+  hour: 50,
+  block: 140,         // 3 Stunden
+  session: 250,       // ganze Session, 6 Stunden
+  earlyBlock: null,   // z. B. 120 für 12–15 Uhr – aktuell aus
 };
 
 // Zubuchbare Leistungen (Member-Rabatt gilt NICHT darauf)
@@ -111,17 +125,17 @@ export const PLAN_SIZE = [1360, 1737];
 export const SPACES = [
   { id: 'foyer', cat: 'event', area: 100, name: { de: 'Foyer', en: 'Foyer' },
     poly: '150,500 420,222 470,232 470,812 150,812',
-    images: ['foyer', 'bar'],
+    images: ['bar-bw', 'foyer', 'bar'],
     features: { de: ['Bar mit Zapfanlage', 'Garderobe', 'Lounge-Möbel', 'Direkter Eingang'], en: ['Bar counter', 'Cloakroom', 'Lounge furniture', 'Direct entrance'] },
     desc: { de: 'Empfang mit Bar und Garderobe – für Get-togethers, Empfänge und Ausstellungen.', en: 'Reception with bar and cloakroom – for get-togethers, receptions and exhibitions.' } },
   { id: 'halle1', cat: 'event', area: 104.6, name: { de: 'Halle 1', en: 'Hall 1' },
     poly: '490,234 800,234 1292,470 1292,565 1100,565 1100,458 940,458 940,575 822,575 822,438 590,512 568,512 490,598',
-    images: ['halle1', 'halle1-2', 'halle12'],
+    images: ['hall-spots', 'hatch', 'hall-long', 'halle1-2'],
     features: { de: ['104 m² Fläche', '3 m Raumhöhe', 'Strahler-Beleuchtung', 'Durchreiche zur Bar'], en: ['104 m²', '3 m ceiling', 'Track lighting', 'Bar hatch'] },
     desc: { de: 'Große Fläche mit 3 m Raumhöhe – für Ausstellungen, Shootings, Dinner und Auftritte.', en: 'Large space with a 3 m ceiling – for exhibitions, shoots, dinners and performances.' } },
   { id: 'halle2', cat: 'event', area: 135, name: { de: 'Halle 2 mit Bühne', en: 'Hall 2 with stage' },
     poly: '490,604 572,518 822,518 822,582 1230,582 1230,815 490,815',
-    images: ['halle2', 'halle12', 'dinner'],
+    images: ['stage', 'halle2', 'dinner'],
     features: { de: ['Inkl. Bühne', 'Musik- & Lichttechnik', 'Strahler-Beleuchtung', 'Mit Halle 1 verbindbar'], en: ['Incl. stage', 'Sound & light rig', 'Track lighting', 'Connects to Hall 1'] },
     desc: { de: 'Die Halle mit Bühne, Musik- und Lichttechnik – der Ort für Konzerte, Shows und Release-Events.', en: 'The hall with stage, sound and light – the place for concerts, shows and release events.' } },
   { id: 'history', cat: 'event', area: 25.7, name: { de: 'History Room', en: 'History Room' },
@@ -131,7 +145,7 @@ export const SPACES = [
     desc: { de: 'Charaktervoller Nebenraum für Meetings, Break-outs, Workshops und kleine Sessions.', en: 'Characterful side room for meetings, break-outs, workshops and small sessions.' } },
   { id: 'studio6', cat: 'studio', area: 60.2, name: { de: 'Studio Room 6', en: 'Studio Room 6' },
     poly: '922,834 1186,834 1186,1148 922,1148',
-    images: ['studio6', 'studio6-2'],
+    images: ['room-neon', 'room-doors', 'studio6'],
     features: { de: ['60 m² Fläche', 'Shooting & Videodreh', 'Ausstellung', 'Akustisch ruhig'], en: ['60 m²', 'Shoots & video', 'Exhibitions', 'Acoustically quiet'] },
     desc: { de: 'Großer, ruhiger Raum für Shootings, Videodrehs, Ausstellungen und Produktionen.', en: 'Large, quiet room for shoots, video, exhibitions and productions.' } },
   { id: 'room5', cat: 'studio', area: 22, name: { de: 'Room 5 – Tonstudio', en: 'Room 5 – recording studio' }, link: 'room5.html', own: true,

@@ -12,6 +12,12 @@
 @font-face { font-family: 'JetBrains Mono'; src: url('../vendor/fonts/jetbrains-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'JetBrains Mono'; src: url('../vendor/fonts/jetbrains-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
 
+@font-face { font-family: 'Bodoni Moda'; src: url('../vendor/fonts/bodoni-moda.woff2') format('woff2'); font-weight: 400 900; font-display: swap; }
+@font-face { font-family: 'Bodoni Moda'; src: url('../vendor/fonts/bodoni-moda-italic.woff2') format('woff2'); font-weight: 400 900; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Courier Prime'; src: url('../vendor/fonts/courier-prime-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Courier Prime'; src: url('../vendor/fonts/courier-prime-400-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Courier Prime'; src: url('../vendor/fonts/courier-prime-700.woff2') format('woff2'); font-weight: 600 700; font-display: swap; }
+
 :root, [data-theme="dark"] {
   --bg: #070706;
   --bg-2: #0e0e0c;
@@ -1288,3 +1294,146 @@ html[lang="en"] .lang-de, html:not([lang="en"]) .lang-en { display: none; }
 .tier-prices > div b { font-family: var(--font-mono); font-weight: 500; white-space: nowrap; }
 .tier-prices > div.tp-sep { margin-top: 8px; }
 .tier-prices .link-arrow { margin-top: 14px; font-size: 14px; justify-self: start; }
+
+
+/* ==========================================================
+   BRAND · Bunker West Identity (Dez.) – Farben & Schrift
+   Primärschrift laut Identity: Selino (Reyrey Blue, kommerzielle Lizenz nötig).
+   Bis zur Lizenz: Bodoni Moda (frei, ähnlicher Kontrast). Selino-woff2 nach
+   vendor/fonts legen und 'Selino' vorne in --font-display eintragen – fertig.
+   Sekundärschrift laut Identity: Courier New -> Courier Prime (frei, selbst gehostet).
+   ========================================================== */
+:root, [data-theme="dark"] {
+  --bg: #000000;              /* Abyss Black */
+  --bg-2: #0b0b0a;
+  --bg-3: #161614;
+  --surface: #0e0e0d;
+  --text: #f1ebe5;            /* Ivory Whisper */
+  --muted: #a29585;           /* Faded Archive */
+  --dim: #6f675d;
+  --accent: #cff097;          /* Bunki Green */
+  --accent-fill: #cff097;
+  --on-accent: #0b1404;
+  --gold: #d7cebf;            /* Warm Parchment – Member-Akzent */
+  --amber: var(--gold);
+  --haze: #c4bdda;            /* Concrete Haze */
+  --steel: #595959;           /* Urban Steel */
+  --img-shade: 0, 0, 0;
+}
+html[data-theme="light"] {
+  --bg: #f1ebe5;              /* Ivory Whisper */
+  --bg-2: #e8e0d6;
+  --bg-3: #d7cebf;            /* Warm Parchment */
+  --surface: #f7f3ee;
+  --text: #000000;            /* Abyss Black */
+  --muted: #595959;           /* Urban Steel */
+  --dim: #a29585;             /* Faded Archive */
+  --accent: #4f6d1f;          /* Bunki Green, für Text auf hell abgedunkelt */
+  --accent-fill: #cff097;
+  --on-accent: #0b1404;
+  --gold: #7d6c55;
+  --haze: #8a80ad;
+  --steel: #595959;
+  --img-shade: 241, 235, 229;
+}
+:root {
+  --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
+  --font-body: 'Courier Prime', 'Courier New', Courier, monospace;
+  --font-mono: 'Courier Prime', 'Courier New', Courier, monospace;
+  --font-script: 'Bodoni Moda', Georgia, serif;
+}
+body { font-size: 16px; line-height: 1.6; letter-spacing: -0.005em; }
+
+/* Serif-Überschriften: leicht statt schwer, kein enges Tracking */
+.display, .hero-title, .big-cta .huge, .footer-word, .menu-panel > a, .curtain-label, .preloader .pl-count,
+.h4, .brand, .marquee-track span, .manifest, .stat b, .panel figcaption b, .price-card .amount, .day .d, .slot-card b,
+.block-opt b, .editor-foot .sum, .cart-total .grand b, .tl-item b.year, .mobile-cartbar b, .member-price b,
+.week-list summary, .ev-date b, .wp-nav b, .wp-lock-card b, .avatar span, .ph-stat b, .bw-facts b {
+  font-weight: 400; letter-spacing: -0.01em;
+}
+.display { line-height: .95; letter-spacing: -0.015em; }
+.h4 { font-weight: 500; font-size: 22px; letter-spacing: 0; }
+.hero-title { font-weight: 400; letter-spacing: -0.02em; line-height: .9; }
+.big-cta .huge, .footer-word { letter-spacing: -0.02em; line-height: .9; }
+.manifest { font-weight: 400; line-height: 1.12; letter-spacing: -0.015em; }
+.price-card .amount { letter-spacing: -0.02em; }
+/* "Outline"-Wörter werden zur Selino-Italic-Geste der Identity */
+.outline, .big-cta .huge .o, .hero-title .outline-hero { -webkit-text-stroke: 0 !important; color: var(--accent) !important; font-style: italic; paint-order: normal; }
+.manifest .script { font-family: var(--font-display); font-style: italic; color: var(--accent); font-size: 1em; line-height: inherit; padding: 0; }
+.hero-title .five { color: var(--accent); font-style: italic; }
+/* Mono-Labels: Courier statt JetBrains, etwas ruhiger */
+.eyebrow, .label, .field label, .status, .mono { letter-spacing: .08em; }
+.btn { font-family: var(--font-body); font-weight: 700; letter-spacing: .02em; }
+.nav a.nav-link { font-size: 14px; letter-spacing: .02em; }
+
+/* Offizielle Wortmarke (Farbe über currentColor) */
+.wordmark { display: block; aspect-ratio: 1800 / 257; background: currentColor; -webkit-mask: url('../img/logo-wordmark.png') center / contain no-repeat; mask: url('../img/logo-wordmark.png') center / contain no-repeat; }
+.brand .wordmark { width: 150px; }
+.site-footer .brand .wordmark { width: 220px; }
+.brand-logo { display: inline-flex; flex-direction: column; gap: 6px; }
+.brand-logo small { font-family: var(--font-mono); font-size: 10px; letter-spacing: .24em; color: var(--muted); }
+.hero-wordmark { width: min(1100px, 92%); color: var(--text); margin: 26px 0 0; }
+.hero-wordmark .wordmark { width: 100%; }
+@media (max-width: 600px) { .brand .wordmark { width: 118px; } .hero-wordmark { width: 100%; } }
+/* Hero: nie unter die Navigation rutschen */
+.hero { height: auto; min-height: 100svh; padding-top: calc(var(--header-h) + 48px); }
+.hero-media img { object-position: 50% 50%; }
+/* "Was hier passiert": passt immer in den Bildschirm */
+.uses .f-img { aspect-ratio: 3 / 4; max-height: 52vh; }
+@media (max-width: 1100px) { .uses { row-gap: 32px; } .uses .f-img { aspect-ratio: 16 / 10; max-height: none; } }
+@media (max-width: 600px) { .uses .f-img { aspect-ratio: 16 / 9; } }
+/* Galerie-Slider (kein natives Querscrollen) */
+.slider { overflow: hidden; padding: 30px 0 0 var(--gutter); touch-action: pan-y; user-select: none; }
+.slider-track { display: flex; gap: 14px; transition: transform 1s var(--ease); will-change: transform; }
+.slider figure { position: relative; flex: none; height: clamp(300px, 52vh, 520px); aspect-ratio: 3 / 2; margin: 0; border-radius: var(--radius); overflow: hidden; background: var(--bg-3); }
+.slider figure.tall { aspect-ratio: 2 / 3; }
+.slider img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; transition: transform 1.2s var(--ease); }
+.slider figure:hover img { transform: scale(1.04); }
+.slider figcaption { position: absolute; left: 14px; bottom: 14px; font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; padding: 6px 10px; border-radius: 99px; background: rgba(0, 0, 0, .62); color: #f1ebe5; }
+.slider-nav { display: flex; align-items: center; gap: 22px; margin-top: 22px; }
+.slider-count { font-size: 13px; color: var(--muted); min-width: 64px; }
+.slider-bar { flex: 1; height: 1px; background: var(--line-2); position: relative; overflow: hidden; }
+.slider-bar i { position: absolute; inset: 0; background: var(--accent); transform-origin: left; transform: scaleX(0); transition: transform 1s var(--ease); }
+@media (max-width: 600px) { .slider figure, .slider figure.tall { height: 62vw; } }
+.apply-cta { display: grid; gap: 4px; align-content: start; }
+.apply-cta .lock-badge { justify-self: start; }
+.apply-steps { list-style: none; padding: 0; margin: 18px 0 26px; display: flex; gap: 22px; flex-wrap: wrap; font-size: 13px; color: var(--muted); }
+.apply-steps b { color: var(--accent); margin-right: 8px; font-weight: 400; }
+.member-block-form { display: grid; gap: 16px; padding: 20px; border: 1px solid var(--line); border-radius: var(--radius); background: color-mix(in srgb, var(--accent) 4%, transparent); }
+.member-block-form[hidden] { display: none; }
+/* Über uns: Partner-Teaser */
+.partners { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(24px, 4vw, 60px); align-items: center; }
+.partner-slots { position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.partner-slots span { aspect-ratio: 16 / 9; border: 1px dashed var(--line-2); border-radius: 12px; background: repeating-linear-gradient(-45deg, transparent 0 8px, color-mix(in srgb, var(--text) 3%, transparent) 8px 16px); }
+.partner-slots em { position: absolute; inset: 0; display: grid; place-items: center; font-style: normal; font-size: 12px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); pointer-events: none; }
+@media (max-width: 900px) { .partners { grid-template-columns: 1fr; } }
+/* Wochenplan: nur heute leuchtet, alles andere gedimmt (bleibt klickbar) */
+.wk-day.is-past { opacity: 1; }
+.wk-day:not(.is-today) .wk-col, .wk-day:not(.is-today) .wk-head { opacity: .42; transition: opacity .3s; }
+.wk-day:not(.is-today):hover .wk-col, .wk-day:not(.is-today):hover .wk-head, .wk-day:not(.is-today):focus-within .wk-col { opacity: 1; }
+.wk-day.is-today .wk-col { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+.week-list details.is-past { opacity: 1; }
+.week-list details:not([open]) { opacity: .5; }
+/* Session-Editor: stundenweise */
+.sess-panels { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.sess-panel { border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; display: grid; gap: 14px; transition: border-color .3s; }
+.sess-panel.is-on { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
+.sp-head { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; }
+.sp-head > svg { width: 22px; height: 22px; color: var(--accent); }
+.sp-head b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 22px; line-height: 1.1; }
+.sp-head .mono { font-size: 12px; }
+.sp-sum { font-size: 14px; text-align: right; }
+.sp-quick { display: grid; gap: 6px; }
+.sp-quick button { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 10px 14px; border-radius: 12px; border: 1px solid var(--line-2); font-size: 14px; text-align: left; transition: background .25s, border-color .25s, color .25s; }
+.sp-quick button b { font-weight: 700; }
+.sp-quick button:hover:not(:disabled) { border-color: var(--text); }
+.sp-quick button.is-on { background: var(--accent-fill); color: var(--on-accent); border-color: var(--accent-fill); }
+.sp-quick button.is-on .gold, .sp-quick button.is-on s { color: inherit; }
+.sp-quick button:disabled { opacity: .35; cursor: not-allowed; }
+.sp-hours { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
+.sp-hours button { padding: 9px 0; border-radius: 9px; border: 1px solid var(--line); font-family: var(--font-mono); font-size: 12px; transition: background .25s, border-color .25s, color .25s; }
+.sp-hours button:hover:not(:disabled) { border-color: var(--text); }
+.sp-hours button.is-on { background: var(--text); color: var(--bg); border-color: var(--text); }
+.sp-hours button.is-busy { opacity: .3; text-decoration: line-through; cursor: not-allowed; }
+.sp-note { grid-column: 1 / -1; font-size: 13px; margin: 2px 0 0; }
+@media (max-width: 700px) { .sess-panels { grid-template-columns: 1fr; } }

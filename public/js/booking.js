@@ -1,13 +1,16 @@
 import { gsap, $, $$, icons, toast, formError, esc, successSvg, userReady, scrollToEl, t, L, lang, isArtist, captcha } from './app.js';
-import { SLOTS, ADDONS, MEMBERSHIP } from './config.js';
+import { SLOTS, HOURS, BLOCKS, PRICES, ADDONS, MEMBERSHIP } from './config.js';
 import { api } from './api.js';
-import { ymd, parseYmd, euro, timeLabel, daysAhead, sessionRange, sessionSlots, sessionHours, sessionLabel, validateSession, priceSession, priceCart, artistSavings, roomPrice, pad, SLOT_IDS, startedSlots } from './pricing.js';
+import { ymd, parseYmd, euro, timeLabel, daysAhead, sessionRange, sessionSlots, sessionHours, sessionLabel, validateSession, priceSession, priceCart, artistSavings, roomPrice, windowsLabel, pad, SLOT_IDS, SESSION_IDS, hoursOf, hoursPrice, startedSlots } from './pricing.js';
 import { locale } from './i18n.js';
 
 const CART_KEY = 'r5.cart.v3';
 const fmtDate = (s, opts = { weekday: 'long', day: 'numeric', month: 'long' }) => parseYmd(s).toLocaleDateString(locale, opts);
 const uid = () => Math.random().toString(36).slice(2, 9);
-const startSlots = (() => { const q = new URLSearchParams(location.search).get('slot'); return q === 'both' ? ['day', 'night'] : SLOTS[q] ? [q] : ['day']; })();
+const startSlots = (() => {
+  const q = new URLSearchParams(location.search).get('slot');
+  return { hour: ['d12'], block: BLOCKS[0].hours, night: hoursOf('night'), both: [...hoursOf('day'), ...hoursOf('night')] }[q] || hoursOf('day');
+})();
 const emptyDraft = () => ({ slots: [], addons: {} });
 const ERR = (code) => t(`err.${code}`);
 
@@ -65,7 +68,7 @@ function openEditor(date, item = null) {
   else {
     const taken = takenSet(date);
     const pref = startSlots.filter((id) => !taken.has(id));
-    state.draft = { ...emptyDraft(), slots: pref.length ? pref : SLOT_IDS.filter((id) => !taken.has(id)).slice(0, 1) };
+    state.draft = { ...emptyDraft(), slots: pref.length ? pref : SLOT_IDS.filter((id) => !taken.has(id)).slice(0, 3) };
   }
   const ed = $('[data-editor]'); const wasHidden = ed.hidden; ed.hidden = false;
   $('[data-editor-date]').textContent = fmtDate(date);
@@ -83,14 +86,19 @@ const artistPrice = (n) => Math.round(n * (1 - MEMBERSHIP.artistDiscount) * 100)
 function renderEditor() {
   const d = state.draft;
   const taken = takenSet(state.selected, state.editing);
-  $('[data-slots]').innerHTML = SLOT_IDS.map((id) => {
-    const sl = SLOTS[id]; const on = d.slots.includes(id); const busy = taken.has(id);
-    const price = roomPrice({ slots: [id] });
-    return `<button type="button" class="slot-card ${on ? 'is-on' : ''}" data-slot="${id}" ${busy ? 'disabled' : ''} aria-pressed="${on}">
-      <span class="sc-top"><i data-lucide="${busy ? 'ban' : on ? 'check' : sl.icon}"></i><span class="mono">${busy ? t('book.legend.taken') : on ? t('book.chosen') : t('book.legend.free')}</span></span>
-      <b>${L(sl.label)}</b><span class="sc-time">${timeLabel(sl.from)} – ${timeLabel(sl.to)}</span>
-      <span class="sc-price">${state.artist ? `<s>${euro(price)}</s> <span class="gold">${euro(artistPrice(price))}</span>` : `${euro(price)} · <span class="gold">${t('book.artistPrice', { n: euro(artistPrice(price)) })}</span>`}</span></button>`;
-  }).join('');
+  const money = (n) => (state.artist ? `<s>${euro(n)}</s> <span class="gold">${euro(artistPrice(n))}</span>` : euro(n));
+  $('[data-slots]').innerHTML = SESSION_IDS.map((sid) => {
+    const sl = SLOTS[sid]; const ids = hoursOf(sid);
+    const chosen = ids.filter((id) => d.slots.includes(id));
+    const quick = [{ key: `all:${sid}`, hours: ids, label: `${t('book.fullSession')} · 6 h`, price: PRICES.session },
+      ...BLOCKS.filter((x) => x.session === sid).map((x) => { const hs = HOURS.filter((h) => x.hours.includes(h.id)); return { key: x.id, hours: x.hours, label: `${timeLabel(hs[0].from)}–${timeLabel(hs[hs.length - 1].to)} · 3 h`, price: PRICES.block }; })];
+    return `<div class="sess-panel ${chosen.length ? 'is-on' : ''}">
+      <div class="sp-head"><i data-lucide="${sl.icon}"></i><div><b>${L(sl.label)}</b><span class="mono muted">${timeLabel(sl.from)} – ${timeLabel(sl.to)}</span></div>
+        <span class="sp-sum">${chosen.length ? `${chosen.length} h · ${money(hoursPrice(chosen.length))}` : `<span class="muted">${t('book.pickHours')}</span>`}</span></div>
+      <div class="sp-quick">${quick.map((q) => { const busy = q.hours.some((h) => taken.has(h)); const on = q.hours.every((h) => d.slots.includes(h)); return `<button type="button" class="${on ? 'is-on' : ''}" data-quick="${q.hours.join(',')}" ${busy ? 'disabled' : ''} aria-pressed="${on}"><b>${q.label}</b><span>${money(q.price)}</span></button>`; }).join('')}</div>
+      <div class="sp-hours" role="group" aria-label="${t('book.singleHours')}">${HOURS.filter((h) => h.session === sid).map((h) => { const busy = taken.has(h.id); const on = d.slots.includes(h.id); return `<button type="button" class="${on ? 'is-on' : ''} ${busy ? 'is-busy' : ''}" data-hour="${h.id}" ${busy ? 'disabled' : ''} aria-pressed="${on}" title="${timeLabel(h.from)}–${timeLabel(h.to)}">${timeLabel(h.from)}</button>`; }).join('')}</div>
+    </div>`;
+  }).join('') + `<p class="muted sp-note">${t('book.priceRule', { h: euro(PRICES.hour), b: euro(PRICES.block), s: euro(PRICES.session) })}</p>`;
   const hours = sessionHours(d);
   $('[data-addons]').innerHTML = ADDONS.map((a) => {
     const v = Math.min(Number(d.addons[a.id] || 0), a.kind === 'hourly' ? hours : 20);
@@ -113,7 +121,12 @@ function renderEditor() {
 
 $('[data-editor]').addEventListener('click', (e) => {
   const d = state.draft; const tg = e.target.closest('button'); if (!tg || tg.disabled) return;
-  if (tg.dataset.slot) { const id = tg.dataset.slot; d.slots = d.slots.includes(id) ? d.slots.filter((x) => x !== id) : SLOT_IDS.filter((x) => x === id || d.slots.includes(x)); }
+  if (tg.dataset.hour) { const id = tg.dataset.hour; d.slots = d.slots.includes(id) ? d.slots.filter((x) => x !== id) : SLOT_IDS.filter((x) => x === id || d.slots.includes(x)); }
+  else if (tg.dataset.quick) {
+    const hs = tg.dataset.quick.split(',');
+    const all = hs.every((h) => d.slots.includes(h));
+    d.slots = SLOT_IDS.filter((x) => (all ? d.slots.includes(x) && !hs.includes(x) : d.slots.includes(x) || hs.includes(x)));
+  }
   else if (tg.dataset.addon) {
     const a = ADDONS.find((x) => x.id === tg.dataset.addon); const max = a.kind === 'hourly' ? sessionHours(d) : 20;
     const v = tg.dataset.all ? Number(tg.dataset.all) : Number(d.addons[a.id] || 0) + Number(tg.dataset.d);
@@ -159,7 +172,7 @@ function renderCart(pulse = false) {
     <div class="cart-items">${state.cart.map((c, i) => {
       const p = sum.items[i]; const [a, z] = sessionRange(c);
       return `<div class="cart-item"><div class="ci-top"><div><div class="ci-date">${fmtDate(c.date, { weekday: 'short', day: 'numeric', month: 'short' })}</div>
-          <div class="ci-time">${timeLabel(a)} – ${timeLabel(z)} · ${sessionLabel(c, lang)}</div></div>
+          <div class="ci-time">${windowsLabel(c)} · ${sessionLabel(c, lang)}</div></div>
           <div class="ci-actions"><button data-edit="${c.uid}" aria-label="${t('ui.edit')}"><i data-lucide="pencil"></i></button><button data-remove="${c.uid}" aria-label="${t('ui.remove')}"><i data-lucide="trash-2"></i></button></div></div>
         <div class="ci-lines">${p.lines.map((l) => `<div><span>${esc(l.label)}${l.note ? ` <s>${euro(l.note)}</s>` : ''}</span><span>${euro(l.amount)}</span></div>`).join('')}</div></div>`;
     }).join('')}</div>
@@ -254,7 +267,7 @@ function showSuccess(sessions, email) {
     <span class="eyebrow plain mono">${t('book.success.eyebrow')}</span>
     <h2 class="display h3" style="margin:18px 0 14px">${t('book.success.title')}</h2>
     <p class="muted" style="max-width:44ch;margin:0 auto 26px">${t('book.success.text', { email: esc(email) })}</p>
-    <div style="max-width:440px;margin:0 auto 30px;text-align:left">${sessions.map((s) => { const [a, z] = sessionRange(s); return `<div class="row" style="justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)"><span>${fmtDate(s.date)}</span><span class="mono muted">${timeLabel(a)}–${timeLabel(z)}</span></div>`; }).join('')}
+    <div style="max-width:440px;margin:0 auto 30px;text-align:left">${sessions.map((s) => { const [a, z] = sessionRange(s); return `<div class="row" style="justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line)"><span>${fmtDate(s.date)}</span><span class="mono muted">${windowsLabel(s)}</span></div>`; }).join('')}
       <div class="row" style="justify-content:space-between;padding:14px 0"><span class="label">${t('book.estimate')}</span><b class="h4">${euro(total)}</b></div></div>
     ${!state.artist ? `<div class="member-hint gold-hint" style="max-width:440px;margin:0 auto 24px;text-align:left"><i data-lucide="sparkles"></i><span>${t('book.artistHint', { n: euro(artistSavings(sessions)) })} <a href="membership.html#artist">${t('book.learnMore')}</a></span></div>` : ''}
     <button class="btn btn-ghost" data-goto="1">${t('book.another')}</button>`;

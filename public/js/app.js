@@ -66,14 +66,14 @@ function shell() {
   const header = document.createElement('header');
   header.className = 'site-header';
   header.innerHTML = `
-    <a href="./" class="brand" aria-label="Bunker West">${brandMark}<span>BUNKER WEST<small>BERLIN · ROOM 5</small></span></a>
+    <a href="./" class="brand brand-logo" aria-label="Bunker West"><i class="wordmark" aria-hidden="true"></i><small>BERLIN · ROOM 5</small></a>
     <nav class="nav" aria-label="${t('ui.mainnav')}">
       ${NAV.map((n) => `<a class="nav-link ${n.key === page || (n.key === 'room5' && page === 'buchen') ? 'is-active' : ''}" href="${n.href}">${n.label}</a>`).join('')}
     </nav>
     <div class="nav-actions">
       ${toggles()}
       <a href="login.html" class="icon-btn auth-btn" data-auth-link aria-label="${t('nav.login')}"><i data-lucide="user-round"></i></a>
-      <a href="kontakt.html" class="btn btn-primary btn-sm" data-cta>${t('slogan')} <i data-lucide="arrow-right"></i></a>
+      <a href="kontakt.html?typ=event" class="btn btn-primary btn-sm" data-cta>${t('slogan')} <i data-lucide="arrow-right"></i></a>
       <button class="icon-btn menu-toggle" aria-label="${t('ui.menu')}" aria-expanded="false"><i data-lucide="menu"></i></button>
     </div>`;
   document.body.prepend(header);
@@ -82,7 +82,7 @@ function shell() {
   menu.className = 'menu-panel';
   menu.innerHTML = `${NAV.map((n, i) => `<a href="${n.href}"><span>0${i + 1}</span>${n.label}</a>`).join('')}
     <a href="login.html" data-auth-link><span>0${NAV.length + 1}</span>${t('nav.login')}</a>
-    <a href="kontakt.html" class="btn btn-primary menu-cta" data-cta>${t('slogan')} <i data-lucide="arrow-right"></i></a>
+    <a href="kontakt.html?typ=event" class="btn btn-primary menu-cta" data-cta>${t('slogan')} <i data-lucide="arrow-right"></i></a>
     <div class="menu-toggles">${toggles()}</div>
     <div class="menu-foot"><a href="mailto:${STUDIO.email}">${STUDIO.email}</a><span>${STUDIO.house} · ${STUDIO.name}</span></div>`;
   document.body.append(menu);
@@ -93,9 +93,9 @@ function shell() {
     <div class="wrap">
       <div class="footer-grid">
         <div>
-          <a href="./" class="brand">${brandMark}<span>BUNKER WEST<small>BERLIN · ROOM 5</small></span></a>
+          <a href="./" class="brand brand-logo" aria-label="Bunker West"><i class="wordmark" aria-hidden="true"></i><small>BERLIN · ROOM 5</small></a>
           <p class="muted" style="max-width:34ch;margin-top:22px">${t('footer.claim')}</p>
-          <a href="kontakt.html" class="link-arrow" style="margin-top:10px">${t('slogan')} <i data-lucide="arrow-up-right"></i></a>
+          <a href="kontakt.html?typ=event" class="link-arrow" style="margin-top:10px">${t('slogan')} <i data-lucide="arrow-up-right"></i></a>
         </div>
         <div><h5>Bunker West</h5><ul>
           <li><a href="./#raeume">${t('footer.rooms')}</a></li><li><a href="room5.html">Room 5</a></li><li><a href="buchen.html">${t('footer.prices')}</a></li><li><a href="events.html">${t('nav.events')}</a></li><li><a href="ueber-uns.html">${t('nav.about')}</a></li>

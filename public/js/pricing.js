@@ -1,12 +1,18 @@
 // Gemeinsame Buchungs- und Preislogik (Browser, Demo-Modus, lokaler Server, Cloudflare)
-// Modell: pro Tag Day (12:00–18:00) und Night (18:30–00:30). Beide zusammen = Paketpreis.
-// Artist-Member: 30 % auf Sessions (nach Paket-Nachlass). Add-ons ohne Rabatt.
-import { SLOTS, PRICES, ADDONS, MEMBERSHIP } from './config.js';
+// Modell: pro Tag Day (12:00–18:00) und Night (18:30–00:30), buchbar stundenweise.
+// Preis je Session: 1 h 50 €, 3 h 140 €, 6 h 250 € (dazwischen 3 h + Einzelstunden).
+// Artist-Member: 30 % auf die Raummiete. Add-ons ohne Rabatt.
+import { SLOTS, HOURS, BLOCKS, PRICES, ADDONS, MEMBERSHIP } from './config.js';
 
 export const pad = (n) => String(n).padStart(2, '0');
 export const ymd = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
 export const parseYmd = (s) => { const [y, m, d] = s.split('-').map(Number); return new Date(y, m - 1, d); };
-export const SLOT_IDS = Object.keys(SLOTS);
+export const SLOT_IDS = HOURS.map((h) => h.id);
+export const SESSION_IDS = Object.keys(SLOTS);
+const HOUR = Object.fromEntries(HOURS.map((h) => [h.id, h]));
+export const hoursOf = (session) => HOURS.filter((h) => h.session === session).map((h) => h.id);
+/** Alte Buchungen mit 'day'/'night' auf Stunden umrechnen */
+const expand = (ids = []) => ids.flatMap((id) => (SLOTS[id] ? hoursOf(id) : [id]));
 
 let LOCALE = 'de-DE';
 export const setLocale = (l) => { LOCALE = l; };
@@ -24,21 +30,37 @@ export function daysAhead(dateStr, today = new Date()) {
 export function startedSlots(dateStr, now = new Date()) {
   if (daysAhead(dateStr, now) !== 0) return [];
   const mins = now.getHours() * 60 + now.getMinutes();
-  return SLOT_IDS.filter((id) => SLOTS[id].from <= mins);
+  return SLOT_IDS.filter((id) => HOUR[id].from <= mins);
 }
 
-export const sessionSlots = (s) => SLOT_IDS.filter((id) => s.slots?.includes(id));
+/** Gebuchte Stunden-IDs einer Session (sortiert, inkl. Umrechnung alter Day/Night-Buchungen) */
+export const sessionSlots = (s) => { const set = new Set(expand(s?.slots)); return SLOT_IDS.filter((id) => set.has(id)); };
 export function sessionRange(s) {
   const sl = sessionSlots(s);
   if (!sl.length) return [0, 0];
-  return [SLOTS[sl[0]].from, SLOTS[sl[sl.length - 1]].to];
+  return [HOUR[sl[0]].from, HOUR[sl[sl.length - 1]].to];
 }
-/** Gebuchte Stunden (ohne die Pause zwischen den Sessions) */
-export const sessionHours = (s) => sessionSlots(s).reduce((h, id) => h + (SLOTS[id].to - SLOTS[id].from) / 60, 0);
+export const sessionHours = (s) => sessionSlots(s).length;
+/** Zusammenhängende Zeitfenster, z. B. [[720, 900], [1110, 1290]] */
+export function sessionWindows(s) {
+  const out = [];
+  for (const id of sessionSlots(s)) { const h = HOUR[id]; const last = out[out.length - 1]; if (last && last[1] === h.from) last[1] = h.to; else out.push([h.from, h.to]); }
+  return out;
+}
+export const windowsLabel = (s) => sessionWindows(s).map(([a, z]) => `${timeLabel(a)}–${timeLabel(z)}`).join(', ');
+/** Stunden je Session, z. B. { day: 3, night: 6 } */
+export const perSession = (s) => { const sl = sessionSlots(s); return Object.fromEntries(SESSION_IDS.map((id) => [id, sl.filter((x) => HOUR[x].session === id).length]).filter(([, n]) => n)); };
 export function sessionLabel(s, lang = 'de') {
-  const sl = sessionSlots(s);
-  if (sl.length === 2) return 'Day + Night';
-  return sl.length ? SLOTS[sl[0]].label[lang] : '–';
+  const ps = perSession(s); const ids = Object.keys(ps);
+  if (!ids.length) return '–';
+  if (ids.length === 2 && ps.day === 6 && ps.night === 6) return 'Day + Night';
+  return ids.map((id) => (ps[id] === 6 ? SLOTS[id].label[lang] : `${SLOTS[id].label[lang].split(' ')[0]} · ${ps[id]} h`)).join(' + ');
+}
+/** Raummiete für n Stunden innerhalb einer Session */
+export function hoursPrice(n, early = false) {
+  if (n >= 6) return PRICES.session;
+  if (n >= 3) return (early && PRICES.earlyBlock ? PRICES.earlyBlock : PRICES.block) + (n - 3) * PRICES.hour;
+  return n * PRICES.hour;
 }
 
 /** Prüft eine Session. booked = schon belegte Session-IDs des Tages. Gibt Fehler-Code oder null zurück. */
@@ -54,10 +76,10 @@ export function validateSession(s, { booked = [], today = new Date() } = {}) {
   return null;
 }
 
-/** Normalpreis der Sessions (inkl. Paket-Nachlass) */
+/** Normalpreis der Raummiete */
 export function roomPrice(s) {
-  const n = sessionSlots(s).length;
-  return n === 2 ? PRICES.bundle : n * PRICES.slot;
+  const ps = perSession(s); const sl = sessionSlots(s);
+  return Object.entries(ps).reduce((sum, [id, n]) => sum + hoursPrice(n, id === 'day' && BLOCKS[0].hours.every((h) => sl.includes(h)) && n === 3), 0);
 }
 
 /** Preis einer Session. isArtist = Artist-Member-Konditionen. */
@@ -67,8 +89,10 @@ export function priceSession(s, isArtist = false, lang = 'de') {
   const room = roomPrice(s);
   const discount = isArtist ? round2(room * MEMBERSHIP.artistDiscount) : 0;
   const lines = [];
-  if (sl.length === 2) lines.push({ key: 'bundle', label: 'Day + Night', amount: PRICES.bundle, note: PRICES.slot * 2 });
-  else sl.forEach((id) => lines.push({ key: id, label: SLOTS[id].label[lang], amount: PRICES.slot }));
+  for (const [id, n] of Object.entries(perSession(s))) {
+    const win = sessionWindows({ slots: sl.filter((x) => HOUR[x].session === id) }).map(([a, z]) => `${timeLabel(a)}–${timeLabel(z)}`).join(', ');
+    lines.push({ key: id, label: `${SLOTS[id].label[lang]} · ${n} h · ${win}`, amount: roomPrice({ slots: sl.filter((x) => HOUR[x].session === id) }), note: n > 1 && hoursPrice(n) < n * PRICES.hour ? n * PRICES.hour : null });
+  }
   let extras = 0;
   for (const a of ADDONS) {
     const raw = Number(s.addons?.[a.id] || 0);
@@ -95,7 +119,7 @@ export const artistSavings = (sessions) => round2(priceCart(sessions, false).tot
 /** Bereinigt Eingaben (gegen Manipulation). */
 export function cleanSession(s) {
   const out = { date: String(s?.date || '').slice(0, 10) };
-  out.slots = SLOT_IDS.filter((id) => Array.isArray(s?.slots) && s.slots.includes(id));
+  out.slots = Array.isArray(s?.slots) ? sessionSlots({ slots: s.slots }) : [];
   out.addons = {};
   for (const a of ADDONS) out.addons[a.id] = Math.max(0, Math.min(a.kind === 'hourly' ? 12 : 20, Number(s?.addons?.[a.id]) | 0));
   return out;

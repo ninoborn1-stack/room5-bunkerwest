@@ -2,7 +2,7 @@
 import { $, $$, icons, esc, toast, userReady, t, L, lang, verifiedBadge, isArtist, formError, publicConfig } from './app.js';
 import { REQUEST_TYPES, MEMBERSHIP } from './config.js';
 import { api } from './api.js';
-import { parseYmd, sessionRange, sessionLabel, timeLabel, euro, ymd } from './pricing.js';
+import { parseYmd, windowsLabel, sessionRange, sessionLabel, timeLabel, euro, ymd } from './pricing.js';
 import { locale, setLang } from './i18n.js';
 import { renderWeekPlan, renderEventCards, bindNotify, mondayOf } from './weekplan.js';
 
@@ -94,7 +94,7 @@ function renderBookings() {
   const today = ymd(new Date());
   box.innerHTML = items.map((x) => {
     const type = x.kind === 'booking' ? t('acc.typeBooking') : L(REQUEST_TYPES.find((r) => r.id === x.type)?.label) || x.type;
-    const sessions = (x.sessions || []).map((s) => { const [a, z] = sessionRange(s); return `<div style="margin-top:8px"><b>${fmt(s.date)}</b> <span class="mono muted" style="font-size:13px">· ${timeLabel(a)}–${timeLabel(z)} · ${sessionLabel(s, lang)}</span></div>`; }).join('');
+    const sessions = (x.sessions || []).map((s) => { return `<div style="margin-top:8px"><b>${fmt(s.date)}</b> <span class="mono muted" style="font-size:13px">· ${windowsLabel(s)} · ${sessionLabel(s, lang)}</span></div>`; }).join('');
     const canCancel = x.kind === 'booking' && x.sessions.some((s) => s.date >= today) && x.status === 'confirmed';
     return `<div class="booking-row"><div>
         <div class="row" style="gap:10px"><span class="mono muted" style="font-size:12px">${esc(x.id)}</span><span class="tag-soft">${esc(type)}</span><span class="status ${x.status}">${t(`status.${x.status}`)}</span></div>
