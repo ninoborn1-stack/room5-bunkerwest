@@ -973,3 +973,36 @@ html[data-theme="light"] { --k-yoga: #c2457a; --k-cowork: #4b7a12; --k-setup: #3
 .demo-login small { font-family: var(--font-mono); font-size: 11px; color: var(--muted); }
 .demo-login > svg:last-child { width: 16px; height: 16px; color: var(--muted); }
 .demo-login > svg.lucide:first-child { width: 20px; height: 20px; color: var(--accent); }
+
+/* ---------- Wochenplan-Baustein ---------- */
+.wp-head { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-bottom: 16px; }
+.wp-nav { display: flex; align-items: center; gap: 14px; }
+.wp-nav > div { display: grid; min-width: 150px; }
+.wp-nav b { font-family: var(--font-display); font-size: 18px; letter-spacing: -0.02em; }
+.wp-body { position: relative; }
+.wk-head small { display: block; font-size: 11px; color: var(--dim); letter-spacing: 0; }
+.wk-head { height: 44px; line-height: 1.2; }
+.wk-times { margin-top: 44px; }
+.wk-day.is-today .wk-head { color: var(--accent); }
+.wk-day.is-today .wk-col { box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--accent) 45%, transparent); }
+.wk-day.is-past { opacity: .45; }
+a.wb { text-decoration: none; color: inherit; transition: transform .25s var(--ease), border-color .25s; z-index: 1; }
+a.wb:hover { transform: scale(1.03); border-color: var(--k-event); z-index: 2; }
+.wb.is-event b::after { content: '→'; margin-left: auto; opacity: .6; }
+.wb.is-generic { border-style: dashed; }
+.wb-tag { font-style: normal; font-family: var(--font-mono); font-size: 10px; color: var(--ok); margin-top: 2px; }
+a.wl { text-decoration: none; color: inherit; }
+.week-list details.is-past { opacity: .5; }
+.wp-body.is-teaser .week-grid .wk-day:nth-child(n+4), .wp-body.is-teaser .week-list details:nth-child(n+3) { filter: blur(5px); opacity: .5; pointer-events: none; user-select: none; }
+.wp-lock { position: absolute; top: 44px; right: 0; bottom: 0; left: calc(34px + (100% - 34px) * 2 / 7 + 6px); display: grid; place-items: center; padding: 20px; }
+.wp-lock-card { max-width: 360px; text-align: center; display: grid; justify-items: center; gap: 10px; padding: 26px; border-radius: var(--radius); background: color-mix(in srgb, var(--surface) 94%, transparent); border: 1px solid var(--line-2); box-shadow: 0 20px 50px rgba(0,0,0,.35); }
+.wp-lock-card > svg { width: 28px; height: 28px; color: var(--accent); }
+.wp-lock-card b { font-family: var(--font-display); font-size: 20px; letter-spacing: -0.02em; }
+.wp-lock-card p { margin: 0; color: var(--muted); font-size: 15px; }
+@media (max-width: 800px) { .wp-lock { left: 0; top: 30%; align-items: start; } }
+.more-events { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding: 18px 20px; border: 1px dashed var(--line-2); border-radius: var(--radius); color: var(--muted); }
+.more-events > svg { width: 22px; height: 22px; color: var(--accent); }
+.more-events span { flex: 1; min-width: 200px; }
+.logged-bar { margin: 4px 0 18px; flex-wrap: wrap; align-items: center; }
+.logged-bar span { flex: 1; min-width: 180px; }
+.logged-bar a, .logged-bar button { text-decoration: underline; text-underline-offset: 3px; font-size: 14px; }

@@ -13,7 +13,7 @@ function done() {
   icons(box);
 }
 
-if (q.get('demo') === '1') {
+if (q.get('test') === '1') {
   // Testzahlung: nur lokal / Demo-Modus, solange Stripe nicht verbunden ist
   box.innerHTML = `<span class="lock-badge"><i data-lucide="flask-conical"></i>${t('pay.testBadge')}</span>
     <h1 class="display h3" style="margin:22px 0 12px">${t('pay.testTitle')}</h1>

@@ -10,8 +10,17 @@ const SITE = new URL('.', location.href).href.replace(/\/$/, '');
 const DB_KEY = 'r5.demo.db.v3';
 const TOKEN_KEY = 'r5.demo.token';
 
+// ?demo=1 erzwingt den Demo-Modus (zum Testen lokal), ?demo=0 hebt das wieder auf
+try {
+  const q = new URLSearchParams(location.search).get('demo');
+  if (q === '1') sessionStorage.setItem('r5-force-demo', '1');
+  if (q === '0') sessionStorage.removeItem('r5-force-demo');
+} catch {}
+const forceDemo = (() => { try { return sessionStorage.getItem('r5-force-demo') === '1'; } catch { return false; } })();
+
 let modePromise;
 export function backendMode() {
+  if (forceDemo) return (modePromise ||= Promise.resolve('demo'));
   modePromise ||= fetch('/api/health', { cache: 'no-store' })
     .then((r) => (r.ok ? r.json() : Promise.reject()))
     .then((j) => (j.mode === 'server' ? 'server' : 'demo'))
@@ -32,12 +41,12 @@ async function remote(method, path, body) {
 }
 
 // ---------- Demo (Backend im Browser)
-let demoBackend;
+let demoBackend, demoStore;
 async function demo() {
   if (demoBackend) return demoBackend;
   let data = {};
   try { data = JSON.parse(localStorage.getItem(DB_KEY)) || {}; } catch {}
-  const store = createObjectStore(data, (d) => { try { localStorage.setItem(DB_KEY, JSON.stringify(d)); } catch {} });
+  const store = demoStore = createObjectStore(data, (d) => { try { localStorage.setItem(DB_KEY, JSON.stringify(d)); } catch {} });
   const seed = await fetch('data-seed.json').then((r) => r.json()).catch(() => ({ users: [] }));
   if (await seedIfEmpty(store, seed, { iterations: 20000 })) await store.flush();
   demoBackend = createBackend({ store, env: { PBKDF2_ITER: 20000 } });
@@ -48,6 +57,7 @@ async function local(method, path, body) {
   let token = null; try { token = localStorage.getItem(TOKEN_KEY); } catch {}
   const [p, qs] = path.split('?');
   const out = await be.handle({ method, path: p, query: Object.fromEntries(new URLSearchParams(qs || '')), body: body || {}, token, lang: LANG, site: SITE, mode: 'demo' });
+  if (method !== 'GET') await demoStore.flush(); // sofort speichern – oft folgt direkt ein Seitenwechsel
   try {
     if (out.setToken) localStorage.setItem(TOKEN_KEY, out.setToken);
     if (out.clearToken) localStorage.removeItem(TOKEN_KEY);

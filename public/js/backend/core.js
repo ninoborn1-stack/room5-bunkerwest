@@ -178,7 +178,7 @@ export function createBackend({ store, env = {}, now: nowFn = () => Date.now() }
     return j;
   }
   async function checkoutUrl({ kind, ref, user, amount, label, site, recurring }) {
-    if (!stripeOn) return `${site}/zahlung.html?demo=1&kind=${kind}&ref=${encodeURIComponent(ref)}`;
+    if (!stripeOn) return `${site}/zahlung.html?test=1&kind=${kind}&ref=${encodeURIComponent(ref)}`;
     const session = await stripe('checkout/sessions', {
       mode: recurring ? 'subscription' : 'payment',
       customer_email: user.email,

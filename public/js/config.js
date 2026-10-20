@@ -60,7 +60,7 @@ export const REQUEST_TYPES = [
 ];
 
 // Wochenplan Bunker (aus der Skizze vom 14.10.). Zeiten in Minuten.
-// kind: yoga | cowork (nur Artist-Member) | setup | event
+// kind: yoga | cowork (nur Artist-Member) | setup ("Backstage": Bunker wird vorbereitet) | event
 export const WEEK = [
   /* Mo */ [{ kind: 'yoga', from: 420, to: 540 }, { kind: 'cowork', from: 540, to: 1020 }, { kind: 'setup', from: 1020, to: 1140 }, { kind: 'event', from: 1140, to: 1440, title: { de: 'Kino', en: 'Cinema' }, note: { de: 'Artist-Member frei + 1 Begleitung', en: 'Artist members free + 1 guest' } }],
   /* Di */ [{ kind: 'yoga', from: 420, to: 540 }, { kind: 'cowork', from: 540, to: 1020 }, { kind: 'setup', from: 1020, to: 1140 }, { kind: 'event', from: 1140, to: 1440, title: { de: 'Comedy, Yoga & Talks', en: 'Comedy, yoga & talks' } }],

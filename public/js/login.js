@@ -8,7 +8,15 @@ const safeNext = next && /^[a-z0-9-]+\.html$/.test(next) ? next : null;
 const target = (u) => safeNext || (u.role === 'admin' ? 'admin.html' : 'konto.html');
 const resetToken = params.get('reset');
 
-userReady.then((u) => { if (u && !resetToken) location.replace(target(u)); });
+// Eingeloggt: nicht mehr automatisch weiterleiten – Status zeigen, Wechsel (z. B. Demo-Zugänge) bleibt möglich
+userReady.then((u) => {
+  if (!u || resetToken) return;
+  const bar = document.createElement('div');
+  bar.className = 'alert ok logged-bar';
+  bar.innerHTML = `<i data-lucide="user-round-check"></i><span>${t('auth.loggedAs', { name: u.name, email: u.email })}</span><a href="${target(u)}">${t('auth.toProfile')}</a><button type="button" data-logout-here>${t('acc.logout')}</button>`;
+  $('[data-auth-title]').after(bar); icons(bar);
+  bar.querySelector('[data-logout-here]').addEventListener('click', async () => { await api.logout(); location.reload(); });
+});
 
 const TITLES = { login: 'auth.login', register: 'auth.register', forgot: 'auth.forgotTitle', reset: 'auth.resetTitle' };
 function show(tab) {

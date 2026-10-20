@@ -3,6 +3,7 @@ import { MEMBERSHIP, SLOTS, REQUEST_TYPES } from './config.js';
 import { api } from './api.js';
 import { parseYmd, sessionRange, sessionLabel, timeLabel, euro, ymd } from './pricing.js';
 import { locale, setLang } from './i18n.js';
+import { renderWeekPlan, renderEventCards, bindNotify } from './weekplan.js';
 
 const fmt = (d) => parseYmd(d).toLocaleDateString(locale, { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
 const user0 = await userReady;
@@ -26,7 +27,19 @@ async function load() {
   renderMembership(u, data);
   renderBookings(data);
   renderTickets(data);
+  await renderWeek(u);
   icons();
+}
+
+// Wochenplan + alle Events (Artists: Coworking freigeschaltet, Free-Tickets)
+let week = null; let notifyBound = false;
+async function renderWeek(u) {
+  const { events } = await api.events();
+  if (week) week.redraw(events);
+  else week = renderWeekPlan($('[data-week]'), { user: u, events, eventHref: (e) => `#ev-${e.id}` });
+  renderEventCards($('[data-events]'), events, u, { onChange: load });
+  if (!notifyBound) { bindNotify($('[data-notify-toggle]'), u); notifyBound = true; }
+  if (location.hash === '#wochenplan') setTimeout(() => document.getElementById('wochenplan')?.scrollIntoView(), 300);
 }
 
 function renderMembership(u, data) {
