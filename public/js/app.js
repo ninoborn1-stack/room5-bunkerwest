@@ -149,14 +149,8 @@ function shell() {
     if (open) gsap.fromTo(menu.querySelectorAll(':scope > a'), { y: 60, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.06, duration: 0.9, ease: 'expo.out', delay: 0.15 });
   });
 
-  // Header ein-/ausblenden
-  let last = 0;
-  const onScroll = (y) => {
-    header.classList.toggle('is-solid', y > 40);
-    const hide = y > last && y > 300 && !menu.classList.contains('is-open');
-    header.classList.toggle('is-hidden', hide); document.documentElement.classList.toggle('header-hidden', hide);
-    last = y;
-  };
+  // Header bleibt immer sichtbar – ab etwas Scrollen mit dunklem Hintergrund
+  const onScroll = (y) => header.classList.toggle('is-solid', y > 40);
   window.addEventListener('scroll', () => onScroll(window.scrollY), { passive: true });
 }
 
