@@ -1486,14 +1486,17 @@ html:not(.header-hidden) .profile-nav { top: var(--header-h); }
 .hero-tap::before { content: ''; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #e2c06a; margin-right: 10px; vertical-align: 1px; box-shadow: 0 0 12px #e2c06a; animation: blink 2s infinite; }
 body[data-page="home"] .hero { cursor: pointer; }
 body[data-page="home"] .hero-media img { filter: brightness(1.18) contrast(1.02); transition: filter 1.6s var(--ease); }
-body[data-page="home"] .hero-media::after { background: linear-gradient(90deg, rgba(0,0,0,.62) 0%, rgba(0,0,0,.28) 50%, rgba(0,0,0,.06) 100%), linear-gradient(0deg, var(--bg) 0%, transparent 32%); transition: opacity 1.6s var(--ease); }
+body[data-page="home"] .hero-media::after { background: linear-gradient(90deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.22) 50%, rgba(0,0,0,.04) 100%); transition: opacity 1.6s var(--ease); }
+/* Weicher Übergang nach unten – bleibt auch im Gold-Licht bestehen */
+body[data-page="home"] .hero::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 55%; z-index: -1; pointer-events: none;
+  background: linear-gradient(0deg, var(--bg) 0%, rgba(0,0,0,.72) 22%, rgba(0,0,0,.28) 55%, transparent 100%); }
 body[data-page="home"] .hero-media::before { content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none; opacity: 0; transition: opacity 1.6s var(--ease);
   background: radial-gradient(ellipse at 60% 40%, rgba(255, 196, 92, .38), rgba(214, 150, 50, .18) 45%, transparent 75%); mix-blend-mode: screen; }
 .hero.is-lit .hero-media img { filter: sepia(.9) saturate(2.6) hue-rotate(-14deg) brightness(1.42) contrast(1.08); }
 .hero.is-lit .hero-media::before { opacity: 1; }
 .hero.is-lit .hero-media::after { opacity: .55; }
 .hero.is-lit .hero-tap { color: rgba(255, 220, 150, .85); }
-@media (max-width: 600px) { .hero-slogan { font-size: 17vw; } .hero-tap { left: var(--gutter); right: auto; bottom: auto; top: calc(var(--header-h) + 24px); } }
+
 
 /* Menü-Knopf: Plus, dreht sich beim Öffnen zum Kreuz */
 .menu-toggle .plus { position: relative; display: block; width: 18px; height: 18px; transition: transform .55s var(--ease); }
@@ -1524,3 +1527,12 @@ body[data-page="home"] .hero-media::before { content: ''; position: absolute; in
 .dp-grid .day { border-color: transparent; background: transparent; }
 .dp-grid .day:hover:not(:disabled) { border-color: var(--line-2); transform: none; }
 @media (max-width: 600px) { .hero-tap { position: static; display: block; margin-top: 22px; } }
+
+/* Slogan immer einzeilig, passend zur Breite */
+.hero-slogan { white-space: nowrap; max-width: none; font-size: min(calc((100vw - 2 * var(--gutter)) / 10.4), 92px); line-height: 1; }
+.hero-slogan .hl { display: inline; }
+/* Handy: Bild weniger beschnitten (niedrigerer Hero, kein Zoom) */
+@media (max-width: 700px) {
+  body[data-page="home"] .hero { min-height: 0; height: 78svh; }
+  body[data-page="home"] .hero-media img { object-position: 42% 50%; }
+}

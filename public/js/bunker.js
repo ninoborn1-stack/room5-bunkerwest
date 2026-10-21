@@ -2,13 +2,11 @@
 import { gsap, ScrollTrigger, $, $$, icons, reduced, splitWords, t, userReady } from './app.js';
 import { STUDIO } from './config.js';
 import { api } from './api.js';
-import { mountDatePick } from './datepick.js';
 import { FEATURES } from './config.js';
 import { renderEventCards } from './weekplan.js';
 
 // Grundriss-System ist vorerst versteckt; Kalender übernimmt den Wunschtermin in die Anfrage
 if (FEATURES.spacePlan) import('./floorplan.js').then(({ mountFloorplan }) => { const tpl = $('#tpl-raeume'); tpl.replaceWith(tpl.content); mountFloorplan($('[data-plan-app]')); });
-mountDatePick($('[data-date-pick]'));
 
 // ---------- Hero: Tippen/Klicken taucht das Bild in goldenes Licht ----------
 const hero = $('.hero');
@@ -73,10 +71,10 @@ if (reduced) {
   manifest.querySelectorAll('.word').forEach((w) => (w.style.opacity = 1));
 } else {
   const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-  tl.fromTo('.hero-media img', { scale: 1.1, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.8 })
-    .fromTo('.hero-slogan .hl', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1.4, stagger: 0.12 }, 0.25)
+  tl.fromTo('.hero-media img', { scale: matchMedia('(max-width: 700px)').matches ? 1 : 1.1, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.8 })
     .fromTo('[data-hero-fade]', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.1 }, 0.5);
-  gsap.to('.hero-media img', { yPercent: 12, scale: 1.06, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
+  const small = matchMedia('(max-width: 700px)').matches; // Handy: kein Zoom, damit mehr vom Raum sichtbar bleibt
+  gsap.to('.hero-media img', { yPercent: small ? 0 : 12, scale: small ? 1 : 1.06, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
   gsap.to('.hero-inner', { y: -80, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: '30% top', end: 'bottom top', scrub: true } });
   gsap.to(manifest.querySelectorAll('.word'), { opacity: 1, stagger: 0.1, ease: 'none', scrollTrigger: { trigger: manifest, start: 'top 80%', end: 'bottom 50%', scrub: true } });
   $$('[data-cta-row]').forEach((r) => {

@@ -66,7 +66,7 @@ function shell() {
   const header = document.createElement('header');
   header.className = 'site-header';
   header.innerHTML = `
-    <a href="./" class="brand brand-logo" aria-label="Bunker West"><i class="wordmark" aria-hidden="true"></i><small>${t('slogan')}</small></a>
+    <a href="./" class="brand brand-logo" aria-label="Bunker West"><i class="wordmark" aria-hidden="true"></i></a>
     <nav class="nav" aria-label="${t('ui.mainnav')}">
       ${NAV.map((n) => `<a class="nav-link ${n.key === page || (n.key === 'room5' && page === 'buchen') ? 'is-active' : ''}" href="${n.href}">${n.label}</a>`).join('')}
     </nav>
@@ -93,7 +93,7 @@ function shell() {
     <div class="wrap">
       <div class="footer-grid">
         <div>
-          <a href="./" class="brand brand-logo" aria-label="Bunker West"><i class="wordmark" aria-hidden="true"></i><small>${t('slogan')}</small></a>
+          <a href="./" class="brand brand-logo" aria-label="Bunker West"><i class="wordmark" aria-hidden="true"></i></a>
           <p class="muted" style="max-width:34ch;margin-top:22px">${t('footer.claim')}</p>
           <a href="kontakt.html?typ=event" class="link-arrow" style="margin-top:10px">${t('slogan')} <i data-lucide="arrow-up-right"></i></a>
         </div>
