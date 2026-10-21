@@ -1473,3 +1473,5 @@ html { font-optical-sizing: none; font-variation-settings: "opsz" 11; }
 /* Profil-Navigation dockt unter dem Header an, solange der sichtbar ist */
 .profile-nav { transition: top .45s var(--ease); }
 html:not(.header-hidden) .profile-nav { top: var(--header-h); }
+.brand-logo small { text-transform: uppercase; white-space: nowrap; letter-spacing: .135em; font-size: 9.5px; }
+@media (max-width: 600px) { .brand-logo small { font-size: 8px; letter-spacing: .07em; } }
