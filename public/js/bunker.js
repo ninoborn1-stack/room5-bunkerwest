@@ -2,10 +2,17 @@
 import { gsap, ScrollTrigger, $, $$, icons, reduced, splitWords, t, userReady } from './app.js';
 import { STUDIO } from './config.js';
 import { api } from './api.js';
-import { mountFloorplan } from './floorplan.js';
+import { mountDatePick } from './datepick.js';
+import { FEATURES } from './config.js';
 import { renderEventCards } from './weekplan.js';
 
-mountFloorplan($('[data-plan-app]'));
+// Grundriss-System ist vorerst versteckt; Kalender übernimmt den Wunschtermin in die Anfrage
+if (FEATURES.spacePlan) import('./floorplan.js').then(({ mountFloorplan }) => { const tpl = $('#tpl-raeume'); tpl.replaceWith(tpl.content); mountFloorplan($('[data-plan-app]')); });
+mountDatePick($('[data-date-pick]'));
+
+// ---------- Hero: Tippen/Klicken taucht das Bild in goldenes Licht ----------
+const hero = $('.hero');
+hero.addEventListener('click', (e) => { if (e.target.closest('a, button')) return; hero.classList.toggle('is-lit'); });
 
 // ---------- Anfahrt & Kontakt ----------
 $('[data-visit-street]').innerHTML = `${STUDIO.street}<br><span class="outline">${STUDIO.city}</span>`;
@@ -67,7 +74,7 @@ if (reduced) {
 } else {
   const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
   tl.fromTo('.hero-media img', { scale: 1.1, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.8 })
-    .fromTo('.hero-wordmark .wordmark', { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.8, ease: 'expo.inOut' }, 0.3)
+    .fromTo('.hero-slogan .hl', { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1.4, stagger: 0.12 }, 0.25)
     .fromTo('[data-hero-fade]', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.1 }, 0.5);
   gsap.to('.hero-media img', { yPercent: 12, scale: 1.06, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
   gsap.to('.hero-inner', { y: -80, opacity: 0, ease: 'none', scrollTrigger: { trigger: '.hero', start: '30% top', end: 'bottom top', scrub: true } });

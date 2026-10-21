@@ -344,4 +344,12 @@ export const DE = {
   "mem.pwHint": "Mind. 8 Zeichen. Damit legen wir gleich dein Community-Profil an.",
   "mem.motivationPh": "Woran arbeitest du gerade? Was suchst du im Club?",
   "contact.messagePh": "Erzähl uns mehr …",
+  "contact.date.title": "Wunschtermin",
+  "contact.date.sub": "Optional – ein Tag oder ein Zeitraum.",
+  "bw.cal.eyebrow": "Verfügbarkeit",
+  "bw.cal.none": "Noch kein Termin gewählt",
+  "bw.hero.cta2": "Jetzt anfragen",
+  "bw.hero.tap": "Tippen für Licht",
+  "nav.home": "Startseite",
+  "footer.home": "Startseite",
 };

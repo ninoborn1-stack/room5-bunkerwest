@@ -310,3 +310,8 @@ Phase 1 kann sofort starten. Phasen 2–6 bauen aufeinander auf. Vor Phase 7 bra
 - Schrift & Farbe aus „Bunker West initial Identity“: Bunki Green #CFF097, Abyss Black, Ivory Whisper #F1EBE5, Warm Parchment #D7CEBF, Faded Archive #A29585, Urban Steel #595959, Concrete Haze #C4BDDA. Primärschrift Selino (Lizenz fehlt → vorerst Bodoni Moda), Sekundär Courier New (→ Courier Prime, frei). Offizielle Wortmarke als Logo.
 - Studio-Preise neu (Kunde): 1 h 50 €, 3 h 140 €, 6 h (ganze Session) 250 € je Day/Night; 4 h = 190 €, 5 h = 240 €; Day+Night = 500 €. Artist −30 % auf die Raummiete. Frühschicht-Rabatt (12–15 z. B. 120 €) vorbereitet über `PRICES.earlyBlock`, aktuell aus.
 - Artist-Bewerbung läuft jetzt über das Kontaktformular (Thema Membership → Artist), technisch weiter über /applications.
+
+## 18. Minimal-Startseite (22.10.2026)
+- Hero: nur „Create your own space“ + CTA zum Kontakt; Bild heller, Klick/Tippen färbt es golden.
+- Grundriss-System versteckt (`FEATURES.spacePlan = false`, Markup in `<template id="tpl-raeume">`). Stattdessen schlichter Kalender: Termin wählen → landet als „Wunschtermin“ in der Anfrage.
+- Navigation: „Startseite“ statt „Räume“, Menü-Knopf als Plus, das sich zum Kreuz dreht. Navbar bleibt immer sichtbar.

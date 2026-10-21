@@ -1,5 +1,5 @@
 import { gsap, $, $$, icons, formError, esc, successSvg, reduced, userReady, t, L, captcha } from './app.js';
-import { STUDIO, REQUEST_TYPES, SPACES, SPACE_EXTRAS, SPACE_REQUEST_TYPES } from './config.js';
+import { STUDIO, REQUEST_TYPES, SPACES, SPACE_EXTRAS, SPACE_REQUEST_TYPES, FEATURES } from './config.js';
 import { api } from './api.js';
 
 $('[data-contact-info]').innerHTML = [
@@ -75,6 +75,14 @@ function renderSpaces(type) {
   const box = $('[data-spaces-block]');
   const on = SPACE_REQUEST_TYPES.includes(type);
   box.hidden = !on; if (!on) { box.innerHTML = ''; return; }
+  if (!FEATURES.spacePlan) {
+    box.innerHTML = `<div class="sb-head"><div><span class="label">${t('contact.date.title')}</span><small class="muted">${t('contact.date.sub')}</small></div></div>
+      <div class="form-grid">
+        <div class="field"><label for="s-from">${t('contact.spaces.from')}</label><input id="s-from" type="date" data-sfrom min="${todayYmd}" value="${esc(pick.from)}"></div>
+        <div class="field"><label for="s-to">${t('contact.spaces.to')}</label><input id="s-to" type="date" data-sto min="${todayYmd}" value="${esc(pick.to)}"></div>
+      </div>`;
+    return;
+  }
   box.innerHTML = `<div class="sb-head"><div><span class="label">${t('contact.spaces.title')}</span><small class="muted">${t('contact.spaces.sub')}</small></div><a href="./#raeume" class="link-arrow">${t('contact.spaces.plan')} <i data-lucide="layout-dashboard"></i></a></div>
     <div class="chips">${SPACES.filter((x) => !x.own).map((x) => `<label class="chip"><input type="checkbox" data-space value="${x.id}" ${pick.spaces.has(x.id) ? 'checked' : ''}><span>${esc(L(x.name))} <small class="mono">${x.area} m²</small></span></label>`).join('')}</div>
     <div class="form-grid">
@@ -140,6 +148,7 @@ form.addEventListener('submit', async (e) => {
   if (withSpaces && !pick.from) return formError($('[data-contact-error]'), t('contact.spaces.needDate'));
   const fields = {};
   for (const [k, v] of Object.entries(d)) if (k.startsWith('x_') && v) fields[k.slice(2)] = v;
+  if (!withSpaces && SPACE_REQUEST_TYPES.includes(d.type) && pick.from) fields.wunschtermin = pick.to && pick.to !== pick.from ? `${pick.from} – ${pick.to}` : pick.from;
   const btn = form.querySelector('[type=submit]'); btn.disabled = true;
   try {
     await api.request({ type: d.type, name: d.name, email: d.email, phone: d.phone, company: d.company, message: d.message, fields, captcha: getCaptcha(),

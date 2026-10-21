@@ -61,6 +61,7 @@ export const ADDONS = [
 
 // Versteckt laut Meeting (Code bleibt, nur ausgeschaltet)
 export const FEATURES = {
+  spacePlan: false,            // Grundriss mit Raumwahl auf der Startseite (vorerst versteckt)
   extensionAfterMidnight: false,
   premiumEquipment: false,
   weeklyRepeat: false,

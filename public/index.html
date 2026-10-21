@@ -24,17 +24,9 @@
   <section class="hero" aria-label="Bunker West" data-theme="dark">
     <div class="hero-media"><img src="img/bunker/hero-main.jpg" alt="Blick durch die Hallen des Bunker West" data-i18n-attr="alt:bw.hero.alt" fetchpriority="high"></div>
     <div class="wrap hero-inner">
-      <div class="eyebrow" data-hero-fade data-i18n="bw.hero.eyebrow">Eventlocation Berlin · Hohenzollerndamm 120</div>
-      <h1 class="hero-wordmark" data-hero-fade><span class="sr-only">Bunker West</span><i class="wordmark" aria-hidden="true"></i></h1>
-      <div class="hero-bottom">
-        <div data-hero-fade>
-          <p class="hero-sub" data-i18n="bw.hero.sub">600 m² unter Beton – Bühne, Bar und Galerie. Für Events, Ausstellungen, Shootings und alles, was noch keinen Namen hat.</p>
-          <div class="row">
-            <a href="#raeume" class="btn btn-primary" data-magnetic><span data-i18n="bw.hero.cta">Raum wählen</span> <i data-lucide="arrow-down"></i></a>
-            <a href="kontakt.html?typ=event" class="btn btn-ghost" data-cta-static>Create your own space</a>
-          </div>
-        </div>
-      </div>
+      <h1 class="hero-slogan" data-hero-fade><span class="hl">Create</span> <span class="hl">your <em>own</em></span> <span class="hl">space</span></h1>
+      <div class="row" data-hero-fade style="margin-top:34px"><a href="kontakt.html?typ=event" class="btn btn-primary" data-magnetic data-cta-static><span data-i18n="bw.hero.cta2">Jetzt anfragen</span> <i data-lucide="arrow-right"></i></a></div>
+      <span class="hero-tap mono" aria-hidden="true" data-i18n="bw.hero.tap">Tippen für Licht</span>
     </div>
   </section>
 
@@ -70,7 +62,7 @@
         <a class="feature" href="kontakt.html?typ=event">
           <div class="f-img"><img src="img/bunker/dinner-sm.jpg" alt="" loading="lazy"></div>
           <div class="f-body"><span class="ico"><i data-lucide="party-popper"></i></span><span class="num">01</span></div>
-          <h3 class="h4" data-i18n="bw.u1.title">Events & Feiern</h3><p data-i18n="bw.u1.text">Firmenevents, private Feiern, Dinner und Release-Partys – mit Bar, Bühne und Technik.</p>
+          <h3 class="h4">Events</h3><p data-i18n="bw.u1.text">Firmenevents, private Feiern, Dinner und Release-Partys – mit Bar, Bühne und Technik.</p>
         </a>
         <a class="feature" href="kontakt.html?typ=event">
           <div class="f-img"><img src="img/bunker/exhibition-sm.jpg" alt="" loading="lazy"></div>
@@ -91,6 +83,25 @@
     </div>
   </section>
 
+  <!-- ============ KALENDER (Wunschtermin -> Anfrage) ============ -->
+  <section class="section" id="termin" style="padding-top:0">
+    <div class="wrap date-pick">
+      <div>
+        <div class="eyebrow" data-reveal data-i18n="bw.cal.eyebrow">Verfügbarkeit</div>
+        <h2 class="display h2" style="margin:24px 0 18px" data-split data-i18n-html="bw.cal.title">Wann<br><span class="outline">brauchst du uns?</span></h2>
+        <p class="lead muted" data-reveal style="max-width:36ch" data-i18n="bw.cal.lead">Tag antippen – oder zwei Tage für einen Zeitraum. Wir übernehmen den Termin direkt in deine Anfrage.</p>
+        <div class="dp-legend mono" data-reveal><span><i class="lg-free"></i><span data-i18n="bw.cal.free">Frei</span></span><span><i class="lg-held"></i><span data-i18n="bw.cal.some">Teilweise belegt</span></span><span><i class="lg-booked"></i><span data-i18n="bw.st.booked">Gebucht</span></span></div>
+      </div>
+      <div class="card card-pad" data-reveal data-date-pick>
+        <div class="cal-head"><h3 class="h4" data-dp-month></h3><div class="cal-nav"><button class="icon-btn" data-dp-nav="-1" aria-label="Zurück" data-i18n-attr="aria-label:book.prev"><i data-lucide="arrow-left"></i></button><button class="icon-btn" data-dp-nav="1" aria-label="Weiter" data-i18n-attr="aria-label:book.next"><i data-lucide="arrow-right"></i></button></div></div>
+        <div class="cal-grid dp-grid" data-dp-grid></div>
+        <div class="dp-foot"><span class="mono" data-dp-label></span><a href="kontakt.html?typ=event" class="btn btn-primary" data-dp-send><span data-i18n="bw.cal.send">Termin anfragen</span> <i data-lucide="arrow-right"></i></a></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Grundriss-System: vorerst versteckt (FEATURES.spacePlan). Zum Aktivieren Template-Inhalt wieder einsetzen. -->
+  <template id="tpl-raeume">
   <!-- ============ GRUNDRISS & VERFÜGBARKEIT ============ -->
   <section class="section plan-section" id="raeume" style="padding-top:0">
     <div class="wrap">
@@ -145,6 +156,7 @@
       </div>
     </div>
   </section>
+  </template>
 
   <!-- ============ ROOM 5 ============ -->
   <section class="section" style="padding-top:0">
@@ -218,7 +230,7 @@
   <section class="big-cta">
     <div class="row-h huge" data-cta-row="-1"><span>Create&nbsp;</span><span class="o">your</span></div>
     <div class="row-h huge" data-cta-row="1"><span class="o">own&nbsp;</span><span>space</span></div>
-    <div style="margin-top:50px"><a href="#raeume" class="btn btn-primary" data-magnetic style="--h:64px;padding:0 36px;font-size:16px"><span data-i18n="bw.cta">Zum Grundriss</span> <i data-lucide="layout-dashboard"></i></a></div>
+    <div style="margin-top:50px"><a href="kontakt.html?typ=event" class="btn btn-primary" data-magnetic style="--h:64px;padding:0 36px;font-size:16px"><span data-i18n="bw.hero.cta2">Jetzt anfragen</span> <i data-lucide="arrow-right"></i></a></div>
   </section>
 </main>
 </body>

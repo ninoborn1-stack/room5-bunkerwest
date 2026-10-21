@@ -41,7 +41,7 @@ export function verifiedBadge(role, size = 18) {
 }
 
 const NAV = [
-  { href: './#raeume', label: t('nav.rooms'), key: 'home' },
+  { href: './', label: t('nav.home'), key: 'home' },
   { href: 'room5.html', label: 'Room 5', key: 'room5' },
   { href: 'events.html', label: t('nav.events'), key: 'events' },
   { href: 'membership.html', label: t('nav.membership'), key: 'membership' },
@@ -74,7 +74,7 @@ function shell() {
       ${toggles()}
       <a href="login.html" class="icon-btn auth-btn" data-auth-link aria-label="${t('nav.login')}"><i data-lucide="user-round"></i></a>
       <a href="kontakt.html?typ=event" class="btn btn-primary btn-sm" data-cta>${t('slogan')} <i data-lucide="arrow-right"></i></a>
-      <button class="icon-btn menu-toggle" aria-label="${t('ui.menu')}" aria-expanded="false"><i data-lucide="menu"></i></button>
+      <button class="icon-btn menu-toggle" aria-label="${t('ui.menu')}" aria-expanded="false"><span class="plus" aria-hidden="true"></span></button>
     </div>`;
   document.body.prepend(header);
 
@@ -98,7 +98,7 @@ function shell() {
           <a href="kontakt.html?typ=event" class="link-arrow" style="margin-top:10px">${t('slogan')} <i data-lucide="arrow-up-right"></i></a>
         </div>
         <div><h5>Bunker West</h5><ul>
-          <li><a href="./#raeume">${t('footer.rooms')}</a></li><li><a href="room5.html">Room 5</a></li><li><a href="buchen.html">${t('footer.prices')}</a></li><li><a href="events.html">${t('nav.events')}</a></li><li><a href="ueber-uns.html">${t('nav.about')}</a></li>
+          <li><a href="./">${t('footer.home')}</a></li><li><a href="room5.html">Room 5</a></li><li><a href="buchen.html">${t('footer.prices')}</a></li><li><a href="events.html">${t('nav.events')}</a></li><li><a href="ueber-uns.html">${t('nav.about')}</a></li>
         </ul></div>
         <div><h5>${t('nav.contact')}</h5><ul>
           <li><a href="kontakt.html">${t('footer.form')}</a></li><li><a href="kontakt.html?typ=kooperation">${t('footer.coop')}</a></li><li><a href="mailto:${STUDIO.email}">${STUDIO.email}</a></li><li><a href="${STUDIO.instagram}" target="_blank" rel="noopener">Instagram</a></li>
@@ -143,8 +143,6 @@ function shell() {
     const open = !menu.classList.contains('is-open');
     menu.classList.toggle('is-open', open);
     toggle.setAttribute('aria-expanded', open);
-    toggle.innerHTML = `<i data-lucide="${open ? 'x' : 'menu'}"></i>`;
-    icons(toggle);
     document.documentElement.style.overflow = open ? 'hidden' : '';
     if (open) gsap.fromTo(menu.querySelectorAll(':scope > a'), { y: 60, opacity: 0 }, { y: 0, opacity: 1, stagger: 0.06, duration: 0.9, ease: 'expo.out', delay: 0.15 });
   });
