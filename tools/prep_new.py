@@ -25,9 +25,9 @@ def tone(img, seed):
 
 for i, (src, name) in enumerate(NAMES.items()):
     im = ImageOps.exif_transpose(Image.open(os.path.join(SRC, src))).convert('RGB')
-    big = 2400 if name == 'hero-main' else 1600
+    big = 2600 if name == 'hero-main' else 1600  # Hero: hell & scharf, ohne Abdunkeln
     im.thumbnail((big, big), Image.LANCZOS)
-    g = tone(im, i).filter(ImageFilter.UnsharpMask(radius=1.1, percent=30, threshold=2))
+    g = (im if name == 'hero-main' else tone(im, i)).filter(ImageFilter.UnsharpMask(radius=1.1, percent=30, threshold=2))
     g.save(os.path.join(OUT, f'{name}.jpg'), quality=82 if name != 'hero-main' else 80, optimize=True, progressive=True)
     t = g.copy(); t.thumbnail((720, 720), Image.LANCZOS)
     t.save(os.path.join(OUT, f'{name}-sm.jpg'), quality=78, optimize=True, progressive=True)
