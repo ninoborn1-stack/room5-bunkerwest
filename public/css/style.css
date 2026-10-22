@@ -1622,19 +1622,13 @@ body[data-page="home"] .hero-media::after { background: linear-gradient(180deg, 
 .uses .feature .f-img + h3 { margin-top: 20px; }
 
 /* ==========================================================
-   Startseite (Desktop): Navbar im Hero-Zustand
+   Startseite (Desktop): Navbar im Hero-Zustand – Bewegung steuert bunker.js (scroll-geführt)
    ========================================================== */
 @media (min-width: 1181px) {
-  body[data-page="home"] .site-header .brand,
-  body[data-page="home"] .site-header .nav,
-  body[data-page="home"] .site-header .nav-actions { transition: transform .9s var(--ease), opacity .55s var(--ease); }
-  body[data-page="home"] .site-header { transition: background .5s var(--ease), border-color .5s var(--ease); }
+  body[data-page="home"] .site-header .brand { transform-origin: 50% 50%; will-change: transform; }
+  body[data-page="home"] .site-header .nav, body[data-page="home"] .site-header .nav-actions { will-change: transform, opacity; }
+  body[data-page="home"] .site-header .nav { transform-origin: 100% 50%; }
+  body[data-page="home"] .site-header { transition: background .8s var(--ease), border-color .8s var(--ease); }
   html.nav-hero .site-header { background: transparent; border-bottom-color: transparent; }
-  html.nav-hero .site-header .brand { transform: translate(calc(50vw - var(--gutter) - 75px), 74px) scale(2.1); }
-  html.nav-hero .site-header .nav { transform: translateX(var(--act-w, 0px)); }
-  html.nav-hero .site-header .nav-actions { opacity: 0; transform: translateY(-14px); pointer-events: none; }
-  html.nav-instant .site-header *, html.nav-instant .site-header { transition: none !important; }
-  /* Hero-CTA verschwindet, sobald er oben in der Navbar sitzt */
-  body[data-page="home"] [data-hero-cta] { transition: opacity .45s var(--ease), transform .45s var(--ease); }
-  html:not(.nav-hero) body[data-page="home"] [data-hero-cta] { opacity: 0; transform: translateY(-10px); pointer-events: none; }
+  body[data-page="home"] [data-hero-cta] { will-change: transform, opacity; position: relative; z-index: 90; }
 }

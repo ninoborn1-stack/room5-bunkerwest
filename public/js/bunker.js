@@ -8,38 +8,83 @@ import { renderEventCards } from './weekplan.js';
 // Grundriss-System ist vorerst versteckt; Kalender übernimmt den Wunschtermin in die Anfrage
 if (FEATURES.spacePlan) import('./floorplan.js').then(({ mountFloorplan }) => { const tpl = $('#tpl-raeume'); tpl.replaceWith(tpl.content); mountFloorplan($('[data-plan-app]')); });
 
-// ---------- Navbar im Hero (Desktop): Logo groß mittig, Navigation rechts.
-// Beim Scrollen gleitet das Logo nach links, Profil/DE-EN/CTA erscheinen, der Hero-CTA fliegt in die Navbar.
+// ---------- Navbar im Hero (Desktop): großes Logo auf Navbar-Höhe, Navigation rechts daneben.
+// Der Übergang folgt dem Scrollen (weich nachgezogen, gestaffelt): Logo & Navigation gleiten an ihren Platz,
+// dann erscheinen Profil/DE-EN, zum Schluss landet der Hero-CTA "Contact us" oben rechts.
 (function heroNav() {
   const root = document.documentElement;
   const mq = matchMedia('(min-width: 1181px)');
+  const header = $('.site-header');
+  const brand = $('.site-header .brand');
+  const nav = $('.site-header .nav');
   const actions = $('.site-header .nav-actions');
   const headCta = $('.site-header .nav-actions [data-cta]');
   const heroCta = $('[data-hero-cta]');
-  const measure = () => root.style.setProperty('--act-w', `${actions.offsetWidth}px`);
-  let mode = null;
-  const update = () => {
-    const hero = mq.matches && scrollY < 40;
-    if (hero === mode) return;
-    const leaving = mode === true && !hero;
-    if (hero) measure();
-    let from = null;
-    if (leaving && heroCta && headCta && !reduced) from = heroCta.getBoundingClientRect();
-    root.classList.toggle('nav-hero', hero);
-    if (from) {
-      const to = headCta.getBoundingClientRect();
-      headCta.animate([
-        { transform: `translate(${from.left - to.left}px, ${from.top - to.top}px)`, opacity: 1 },
-        { transform: 'translate(0, 0)', opacity: 1 },
-      ], { duration: 900, easing: 'cubic-bezier(.16, 1, .3, 1)' });
+  const DIST = 320;                       // Scrollweg für den kompletten Übergang
+  const clamp = (v) => Math.min(1, Math.max(0, v));
+  const ease = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const seg = (t, a, b) => clamp((t - a) / (b - a));
+  let L = null, cur = null, raf = 0, ctaShift = [0, 0];
+
+  function layout() {
+    const gutter = parseFloat(getComputedStyle(header).paddingLeft);
+    const bw = brand.offsetWidth, vw = innerWidth, nw = nav.offsetWidth, cx0 = vw / 2;
+    const home = gutter + bw / 2;
+    // Navigation im Hero etwas kleiner (min. 80 %), damit das Logo echt mittig groß stehen kann
+    const need = cx0 + (bw * 1.5) / 2 + 48;                   // so weit rechts darf die Navigation frühestens beginnen
+    const ns = Math.max(0.8, Math.min(1, (vw - gutter - need) / nw));
+    let navStart = vw - gutter - nw * ns, cx = cx0, half = Math.min(cx0 - gutter, navStart - 48 - cx0);
+    let navScale = ns;
+    if (half * 2 < bw * 1.5) { navScale = 1; navStart = vw - gutter - nw; cx = (gutter + navStart - 48) / 2; half = (navStart - 48 - gutter) / 2; }  // zu eng: mittig im freien Bereich
+    L = { dx: cx - home, s: Math.max(1, Math.min(1.9, (half * 2) / bw)), ns: navScale, right: vw - gutter };
+  }
+  function clear() {
+    [brand, nav, actions, headCta, heroCta].forEach((el) => el && el.removeAttribute('style'));
+    root.classList.remove('nav-hero');
+  }
+  function render(p) {
+    const e1 = ease(seg(p, 0, 0.75));                        // Logo & Navigation
+    const e2 = ease(seg(p, 0.45, 0.9));                      // Profil, DE/EN
+    const e3 = ease(seg(p, 0.15, 1));                        // CTA-Flug
+    brand.style.transform = `translate3d(${L.dx * (1 - e1)}px,0,0) scale(${1 + (L.s - 1) * (1 - e1)})`;
+    const tx = L.right - (nav.offsetLeft + nav.offsetWidth);       // live: Navigation im Hero bündig rechts
+    nav.style.transform = `translate3d(${tx * (1 - e1)}px,0,0) scale(${1 - (1 - L.ns) * (1 - e1)})`;
+    actions.style.opacity = e2;
+    actions.style.transform = `translate3d(0,${-10 * (1 - e2)}px,0)`;
+    actions.style.pointerEvents = e2 > 0.9 ? '' : 'none';
+    if (headCta) headCta.style.opacity = seg(p, 0.86, 1);
+    if (heroCta && headCta) {
+      if (p < 0.02) ctaShift = [0, 0];
+      const hr = heroCta.getBoundingClientRect(), tr = headCta.getBoundingClientRect();
+      const baseX = hr.left - ctaShift[0], baseY = hr.top - ctaShift[1];
+      ctaShift = [(tr.left - baseX) * e3, (tr.top - baseY) * e3];
+      heroCta.style.transform = `translate3d(${ctaShift[0]}px,${ctaShift[1]}px,0)`;
+      heroCta.style.opacity = 1 - seg(p, 0.86, 1);
+      heroCta.style.pointerEvents = p > 0.5 ? 'none' : '';
     }
-    mode = hero;
-  };
-  root.classList.add('nav-instant');
-  update();
-  requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('nav-instant')));
-  addEventListener('scroll', update, { passive: true });
-  addEventListener('resize', () => { mode = null; update(); });
+    root.classList.toggle('nav-hero', p < 0.97);
+  }
+  function tick() {
+    const target = clamp(scrollY / DIST);
+    cur = cur === null || reduced ? target : cur + (target - cur) * 0.085;
+    if (Math.abs(target - cur) < 0.001) cur = target;
+    render(cur);
+    raf = cur === target ? 0 : requestAnimationFrame(tick);
+  }
+  const kick = () => { if (!mq.matches) return; if (!raf) raf = requestAnimationFrame(tick); };
+  function setup() {
+    cancelAnimationFrame(raf); raf = 0;
+    if (!mq.matches) return clear();
+    clear(); layout(); cur = null; tick();
+  }
+  addEventListener('scroll', kick, { passive: true });
+  addEventListener('resize', setup);
+  document.fonts?.ready.then(setup);
+  document.fonts?.addEventListener?.('loadingdone', setup);
+  addEventListener('load', setup);
+  // CTA-Text (z. B. 'Jetzt buchen' für Artists) ändert die Breite rechts -> neu ausrichten
+  if ('ResizeObserver' in window) new ResizeObserver(() => { if (mq.matches && L && cur !== null) render(cur); }).observe(actions);
+  setup();
 })();
 
 // ---------- Hero: Tippen/Klicken taucht das Bild in goldenes Licht ----------
