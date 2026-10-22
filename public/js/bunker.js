@@ -71,7 +71,7 @@ if (reduced) {
   manifest.querySelectorAll('.word').forEach((w) => (w.style.opacity = 1));
 } else {
   const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-  tl.fromTo('.hero-media img', { scale: matchMedia('(max-width: 700px)').matches ? 1 : 1.1, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.8 })
+  tl.fromTo('.hero-media .hero-bw', { scale: matchMedia('(max-width: 700px)').matches ? 1 : 1.1, opacity: 0 }, { scale: 1, opacity: 1, duration: 1.8 })
     .fromTo('[data-hero-fade]', { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.1 }, 0.5);
   const small = matchMedia('(max-width: 700px)').matches; // Handy: kein Zoom, damit mehr vom Raum sichtbar bleibt
   gsap.to('.hero-media img', { yPercent: small ? 0 : -8, scale: 1, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
