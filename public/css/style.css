@@ -1578,3 +1578,5 @@ body[data-page="home"] .hero-media::before { background: radial-gradient(ellipse
 body[data-page="home"] .hero-media::after { background: linear-gradient(180deg, rgba(0,0,0,.38) 0%, transparent 16%), linear-gradient(20deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,.12) 38%, transparent 62%); }
 .hero.is-lit .hero-media::after { opacity: 1; }
 body[data-page="home"] .hero-media::after { background: linear-gradient(180deg, rgba(0,0,0,.5) 0%, rgba(0,0,0,.18) 9%, transparent 18%), linear-gradient(20deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,.12) 38%, transparent 62%); }
+/* Hero-Ausschnitt: oben verankert, unten Boden abschneiden -> Decke/Boden ~50/50 (eher mehr Decke) */
+body[data-page="home"] .hero-media img { height: 122%; object-position: 50% 0; transform-origin: 50% 0; }
