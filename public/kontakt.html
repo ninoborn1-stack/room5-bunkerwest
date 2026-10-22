@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kontakt · Bunker West</title>
   <meta name="description" content="Kontakt zu Room 5 im Bunkerwest – Fragen, Kooperationen, Presse und Booking-Anfragen.">
-  <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
-  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t=s('r5-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
+  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t='dark';h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lucide.min.js" defer></script>
@@ -45,7 +44,7 @@
         <div class="contact-info" data-contact-info data-stagger></div>
         <div class="card card-pad" style="margin-top:30px" data-reveal>
           <i data-lucide="message-square-heart" style="color:var(--accent);width:26px;height:26px"></i>
-          <h3 class="h4" style="margin:16px 0 8px" data-i18n="contact.oneTitle">Ein Formular für alles</h3>
+          <h3 class="h4" style="margin:16px 0 8px" data-i18n="contact.oneTitle">Ein Formular – alle Themen</h3>
           <p class="muted" style="font-size:15px;margin:0" data-i18n="contact.oneText">Studio, Membership, eigenes Event, Kooperation, Booking oder Presse – wähle einfach, worum es geht. Wir leiten es intern an die richtige Person weiter.</p>
         </div>
       </div>

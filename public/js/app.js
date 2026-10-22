@@ -49,13 +49,8 @@ const NAV = [
   { href: 'kontakt.html', label: t('nav.contact'), key: 'kontakt' },
 ];
 
-function toggles() {
-  const theme = document.documentElement.getAttribute('data-theme');
-  return `<div class="toggle-group" role="group" aria-label="${t('ui.theme')}">
-      <button type="button" data-set-theme="light" aria-pressed="${theme === 'light'}" aria-label="${t('ui.light')}"><i data-lucide="sun"></i></button>
-      <button type="button" data-set-theme="dark" aria-pressed="${theme === 'dark'}" aria-label="${t('ui.dark')}"><i data-lucide="moon"></i></button>
-    </div>
-    <div class="toggle-group" role="group" aria-label="${t('ui.language')}">
+function langToggle(cls = '') {
+  return `<div class="toggle-group ${cls}" role="group" aria-label="${t('ui.language')}">
       <button type="button" data-set-lang="de" aria-pressed="${lang === 'de'}">DE</button>
       <button type="button" data-set-lang="en" aria-pressed="${lang === 'en'}">EN</button>
     </div>`;
@@ -67,11 +62,12 @@ function shell() {
   header.className = 'site-header';
   header.innerHTML = `
     <a href="./" class="brand brand-logo" aria-label="Bunker West"><i class="wordmark" aria-hidden="true"></i></a>
+    ${langToggle('lang-top')}
     <nav class="nav" aria-label="${t('ui.mainnav')}">
       ${NAV.map((n) => `<a class="nav-link ${n.key === page || (n.key === 'room5' && page === 'buchen') ? 'is-active' : ''}" href="${n.href}">${n.label}</a>`).join('')}
     </nav>
     <div class="nav-actions">
-      ${toggles()}
+      ${langToggle('lang-desk')}
       <a href="login.html" class="icon-btn auth-btn" data-auth-link aria-label="${t('nav.login')}"><i data-lucide="user-round"></i></a>
       <a href="kontakt.html?typ=event" class="btn btn-primary btn-sm" data-cta>${t('slogan')} <i data-lucide="arrow-right"></i></a>
       <button class="icon-btn menu-toggle" aria-label="${t('ui.menu')}" aria-expanded="false"><span class="plus" aria-hidden="true"></span></button>
@@ -83,7 +79,6 @@ function shell() {
   menu.innerHTML = `${NAV.map((n) => `<a href="${n.href}">${n.label}</a>`).join('')}
     <a href="login.html" data-auth-link>${t('nav.login')}</a>
     <a href="kontakt.html?typ=event" class="btn btn-primary menu-cta" data-cta>${t('slogan')} <i data-lucide="arrow-right"></i></a>
-    <div class="menu-toggles">${toggles()}</div>
     <div class="menu-foot"><a href="mailto:${STUDIO.email}">${STUDIO.email}</a><span>${STUDIO.house} · ${STUDIO.name}</span></div>`;
   document.body.append(menu);
 

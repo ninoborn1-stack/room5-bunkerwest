@@ -1,6 +1,6 @@
 // English texts. Keys match data-i18n attributes in the HTML and t('…') calls in JavaScript.
 export const EN = {
-  'nav.studio': 'Studio', 'nav.book': 'Book', 'nav.events': 'Events', 'nav.membership': 'Membership', 'nav.about': 'About', 'nav.contact': 'Contact',
+  'nav.studio': 'Studio', 'nav.book': 'Book', 'nav.events': 'Events', 'nav.membership': 'Membership', 'nav.about': 'Collective', 'nav.contact': 'Contact',
   'nav.login': 'Login', 'nav.request': 'Request', 'nav.bookNow': 'Book now',
   'ui.theme': 'Appearance', 'ui.light': 'Light', 'ui.dark': 'Dark', 'ui.language': 'Language', 'ui.mainnav': 'Main navigation', 'ui.menu': 'Menu',
   'ui.modeServer': 'Server connected', 'ui.modeDemo': 'Demo mode · data stored in your browser',
@@ -398,7 +398,6 @@ export const EN = {
   "ev.weekNote": "Evening events from 7 pm, usually up to about 100 guests. Sunday is quiet – retreats & yoga until 8 pm.",
   "ev.upcoming": "Upcoming<br>events",
   "ev.host": "Request your own event",
-  "nav.about": "About",
   "about.title": "Beneath concrete,<br>there is <span class=\"outline\">noise.</span>",
   "about.lead": "Room 5 is one of the rooms at Bunker West – a place for music, culture and people who make things themselves.",
   "about.story": "The story",
@@ -650,7 +649,7 @@ export const EN = {
   "ab.team1": "Spaces, events, production.",
   "ab.team2": "Sessions, recording, mixing.",
   "ab.team3": "Members, artists, collaborations.",
-  "meta.title.about": "About · Bunker West",
+  "meta.title.about": "Collective · Bunker West",
   "meta.desc.about": "Bunker West is a collective promoting art and culture in Berlin – from fashion week to business events.",
   "book.fullSession": "Full session",
   "book.pickHours": "Pick hours",

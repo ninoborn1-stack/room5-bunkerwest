@@ -5,11 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Membership · Bunker West Community</title>
   <meta name="description" content="Bunker West Community: kostenlos als Community-Member oder per Bewerbung Artist-Member – direkt buchen, 30 % auf Sessions, Creative Coworking.">
-  <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
-  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t=s('r5-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
+  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t='dark';h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lucide.min.js" defer></script>
@@ -87,13 +86,13 @@
       <div class="split" style="align-items:start">
         <div>
           <div class="eyebrow" data-i18n="mem.form.eyebrow">Artist-Bewerbung</div>
-          <h2 class="display h2" style="margin:24px 0" data-split data-i18n-html="mem.form.title">Klopf<br>an die Tür.</h2>
+          <h2 class="display h2" style="margin:24px 0" data-split data-i18n-html="mem.form.title">Klopf<br>einfach an.</h2>
           <p class="muted" style="max-width:40ch" data-i18n="mem.form.lead">Wir prüfen jede Bewerbung persönlich. Ohne Profil legen wir mit deiner Bewerbung gleich ein kostenloses Community-Profil für dich an.</p>
         </div>
 
         <div class="card card-pad apply-cta" data-reveal>
           <span class="lock-badge"><i data-lucide="badge-check"></i><span data-i18n="mem.cta.badge">Bewerbung in 2 Minuten</span></span>
-          <h3 class="display h3" style="margin:22px 0 12px" data-i18n-html="mem.cta.title">Erzähl uns<br><span class="outline">von dir.</span></h3>
+          <h3 class="display h3" style="margin:22px 0 12px" data-i18n-html="mem.cta.title">Stell dich<br><span class="outline">vor.</span></h3>
           <p class="muted" data-i18n="mem.cta.text">Die Bewerbung läuft über unser Kontaktformular: Thema „Membership“ ist schon ausgewählt. Links zu deiner Musik, ein paar Sätze zu dir – wir melden uns meist innerhalb einer Woche.</p>
           <ul class="apply-steps mono">
             <li><b>01</b><span data-i18n="mem.s1">Bewerben</span></li><li><b>02</b><span data-i18n="mem.s2">Kennenlernen</span></li><li><b>03</b><span data-i18n="mem.s3">Willkommen</span></li>

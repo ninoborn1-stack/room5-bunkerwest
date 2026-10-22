@@ -1599,7 +1599,22 @@ body[data-page="home"] .hero-media img { height: 122%; object-position: 50% 0; t
 /* Menü: kleinere Einträge, keine Nummern */
 .menu-panel > a { font-size: clamp(22px, 6.4vw, 40px); line-height: 1.25; text-transform: none; letter-spacing: -0.005em; }
 .menu-panel > a span { display: none; }
-@media (max-width: 900px) { .site-header .auth-btn { position: absolute; left: var(--gutter); top: 50%; transform: translateY(-50%); } }
 /* Kein Fade mehr am Hero – das neue Bild trägt sich selbst */
 body[data-page="home"] .hero::after { display: none; }
 body[data-page="home"] .hero-media::after { background: linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,.12) 8%, transparent 15%); }
+
+/* Sprachumschalter: Desktop rechts bei den Aktionen, ab Burger-Ansicht oben neben dem Logo */
+.lang-top { display: none; }
+@media (max-width: 1180px) {
+  .lang-desk { display: none !important; }
+  .lang-top { display: inline-flex; margin-right: auto; margin-left: 18px; }
+  .lang-top button { height: 32px; min-width: 32px; padding: 0 8px; font-size: 12px; }
+}
+@media (max-width: 900px) {
+  .lang-top { margin-left: 0; }
+  .site-header .nav-actions { gap: 6px; }
+  .site-header .icon-btn { width: 40px; height: 40px; }
+  .site-header .brand .wordmark { width: 156px; }
+}
+@media (max-width: 380px) { .site-header .brand .wordmark { width: 140px; } .lang-top button { min-width: 28px; padding: 0 6px; } }
+@media (max-width: 340px) { .site-header .brand .wordmark { width: 112px; } }

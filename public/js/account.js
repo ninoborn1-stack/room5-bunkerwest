@@ -142,12 +142,10 @@ async function renderMembership(u, artist) {
 function renderSettings(u) {
   const f = $('[data-settings]');
   f.elements.name.value = u.name; f.elements.email.value = u.email; f.elements.lang.value = u.lang || lang;
-  f.elements.theme.value = document.documentElement.dataset.theme || 'dark';
   f.elements.newsletter.checked = u.newsletter; f.elements.notifyEvents.checked = u.notifyEvents;
   $('[data-danger]').hidden = u.role === 'admin';
 }
 $('[data-settings]').addEventListener('change', (e) => {
-  if (e.target.name === 'theme') { document.documentElement.setAttribute('data-theme', e.target.value); try { localStorage.setItem('r5-theme', e.target.value); } catch {} }
 });
 $('[data-settings]').addEventListener('submit', async (e) => {
   e.preventDefault();

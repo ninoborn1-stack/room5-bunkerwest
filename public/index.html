@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bunker West · Eventlocation Berlin – Create your own space</title>
   <meta name="description" content="Bunker West: historische Bunkeranlage in Berlin-Wilmersdorf. 600 m², acht Räume, Bühne, Bar und Galerie – für Events, Ausstellungen, Shootings und Studio. Räume im Grundriss wählen und anfragen.">
-  <meta name="theme-color" content="#070706" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#f1eee7" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#000000">
   <link rel="icon" href="img/favicon.svg" type="image/svg+xml">
   <link rel="preload" href="vendor/fonts/unbounded-900.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/style.css">
-  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t=s('r5-theme')||(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
+  <script>(function(d){var h=d.documentElement,s=function(k){try{return localStorage.getItem(k)}catch(e){return null}};var t='dark';h.setAttribute('data-theme',t);var l=s('r5-lang')||((navigator.language||'de').slice(0,2)==='de'?'de':'en');h.lang=l;if(l!=='de')h.classList.add('i18n-pending');h.classList.add('js');setTimeout(function(){if(!window.__r5)h.classList.remove('js','i18n-pending')},4000);try{if(sessionStorage.getItem('r5-transition')){h.classList.add('is-entering');sessionStorage.removeItem('r5-transition')}}catch(e){}})(document)</script>
   <script src="vendor/gsap.min.js" defer></script>
   <script src="vendor/ScrollTrigger.min.js" defer></script>
   <script src="vendor/lucide.min.js" defer></script>
@@ -34,7 +33,7 @@
     <div class="wrap">
       <div class="eyebrow" data-reveal data-i18n="bw.intro.eyebrow">Der Bunker</div>
       <p class="manifest" style="margin-top:40px" data-manifest data-i18n-html="bw.intro.text">
-        Eine historische Bunkeranlage, die heute <span class="script">Raum</span> gibt: roher Beton, warmes Licht und acht Räume, die sich jedem Vorhaben anpassen – vom Dinner bis zum <span class="script">Konzert.</span>
+        Eine historische Bunkeranlage, die heute <span class="script">Raum</span> gibt: roher Beton, warmes Licht und acht Bereiche, die sich jedem Vorhaben anpassen – vom Dinner bis zum <span class="script">Konzert.</span>
       </p>
       <div class="manifest-aside bw-facts" data-stagger>
         <div><b>600 m<span class="sq">²</span></b><span data-i18n="bw.fact1">Fläche unter Beton</span></div>
@@ -166,7 +165,7 @@
       <div class="row" style="justify-content:space-between;align-items:flex-end;margin-bottom:40px;gap:30px">
         <div>
           <div class="eyebrow" data-reveal data-i18n="bw.ev.eyebrow">What's next?</div>
-          <h2 class="display h2" style="margin-top:24px" data-split data-i18n-html="bw.ev.title">Nächste<br><span class="outline">Events.</span></h2>
+          <h2 class="display h2" style="margin-top:24px" data-split data-i18n-html="bw.ev.title">Kommende<br><span class="outline">Events.</span></h2>
         </div>
         <a href="events.html" class="link-arrow" data-reveal><span data-i18n="bw.ev.all">Alle Events & Wochenplan</span> <i data-lucide="arrow-up-right"></i></a>
       </div>
