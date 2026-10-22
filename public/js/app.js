@@ -80,8 +80,8 @@ function shell() {
 
   const menu = document.createElement('div');
   menu.className = 'menu-panel';
-  menu.innerHTML = `${NAV.map((n, i) => `<a href="${n.href}"><span>0${i + 1}</span>${n.label}</a>`).join('')}
-    <a href="login.html" data-auth-link><span>0${NAV.length + 1}</span>${t('nav.login')}</a>
+  menu.innerHTML = `${NAV.map((n) => `<a href="${n.href}">${n.label}</a>`).join('')}
+    <a href="login.html" data-auth-link>${t('nav.login')}</a>
     <a href="kontakt.html?typ=event" class="btn btn-primary menu-cta" data-cta>${t('slogan')} <i data-lucide="arrow-right"></i></a>
     <div class="menu-toggles">${toggles()}</div>
     <div class="menu-foot"><a href="mailto:${STUDIO.email}">${STUDIO.email}</a><span>${STUDIO.house} · ${STUDIO.name}</span></div>`;
@@ -163,7 +163,7 @@ async function authUi() {
     a.href = u.role === 'admin' ? 'admin.html' : 'konto.html';
     a.setAttribute('aria-label', t('footer.profile'));
     if (a.classList.contains('icon-btn')) a.innerHTML = `<i data-lucide="user-round-check"></i>${verifiedBadge(u.role, 16)}`;
-    else a.innerHTML = `<span>0${NAV.length + 1}</span>${t('footer.profile')}`;
+    else a.textContent = t('footer.profile');
   });
   // Artist-Member sehen "Jetzt buchen", alle anderen "Anfragen"
   if (isArtist(u)) $$('[data-cta]').forEach((b) => { b.href = 'buchen.html'; b.innerHTML = `${t('nav.bookNow')} <i data-lucide="arrow-right"></i>`; });

@@ -12,8 +12,8 @@
 @font-face { font-family: 'JetBrains Mono'; src: url('../vendor/fonts/jetbrains-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'JetBrains Mono'; src: url('../vendor/fonts/jetbrains-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
 
-@font-face { font-family: 'Selino'; src: url('../fonts/selino-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
-@font-face { font-family: 'Selino'; src: url('../fonts/selino-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
+@font-face { font-family: 'Selino'; src: url('../fonts/selino-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; unicode-range: U+0020, U+0030-0039, U+0041-005A, U+0061-007A; }
+@font-face { font-family: 'Selino'; src: url('../fonts/selino-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; unicode-range: U+0020, U+0030-0039, U+0041-005A, U+0061-007A; }
 @font-face { font-family: 'Bodoni Moda'; src: url('../vendor/fonts/bodoni-moda.woff2') format('woff2'); font-weight: 400 900; font-display: swap; }
 @font-face { font-family: 'Bodoni Moda'; src: url('../vendor/fonts/bodoni-moda-italic.woff2') format('woff2'); font-weight: 400 900; font-style: italic; font-display: swap; }
 @font-face { font-family: 'Courier Prime'; src: url('../vendor/fonts/courier-prime-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
@@ -1540,7 +1540,9 @@ body[data-page="home"] .hero-media::before { content: ''; position: absolute; in
 }
 .hero-slogan { text-shadow: 0 2px 28px rgba(0, 0, 0, .45); }
 
-/* Selino (Primärschrift laut Identity) – nur Regular & Italic vorhanden: nie künstlich fett rechnen */
+/* Selino (Primärschrift laut Identity) – nur Regular & Italic vorhanden: nie künstlich fett rechnen.
+   Die gelieferte Datei enthält nur A–Z, a–z, 0–9 (Umlaute, ß, Satzzeichen leer) -> unicode-range,
+   alle übrigen Zeichen kommen aus Bodoni Moda. Mit der Vollversion unicode-range einfach entfernen. */
 h1, h2, h3, h4, .display, .h4, .hero-slogan, .manifest { font-synthesis: none; }
 /* Selino hat höhere Ober-/Unterlängen: Überschriftenzeilen nicht abschneiden */
 .display { line-height: 1.04; }
@@ -1586,3 +1588,18 @@ body[data-page="home"] .hero-media img { height: 122%; object-position: 50% 0; t
 .hero.is-lit .hero-media .hero-color { opacity: 1; }
 .hero.is-lit .hero-media img { filter: none; }
 .hero.is-lit .hero-media::before { opacity: 0; }
+
+/* Handy: Hero bildschirmhoch (Bild bis ganz unten), Logo größer */
+@media (max-width: 700px) {
+  body[data-page="home"] .hero { height: 100svh; min-height: 560px; }
+}
+@media (max-width: 900px) { .site-header .brand .wordmark { width: 168px; } }
+@media (max-width: 360px) { .site-header .brand .wordmark { width: 140px; } }
+
+/* Menü: kleinere Einträge, keine Nummern */
+.menu-panel > a { font-size: clamp(22px, 6.4vw, 40px); line-height: 1.25; text-transform: none; letter-spacing: -0.005em; }
+.menu-panel > a span { display: none; }
+@media (max-width: 900px) { .site-header .auth-btn { position: absolute; left: var(--gutter); top: 50%; transform: translateY(-50%); } }
+/* Kein Fade mehr am Hero – das neue Bild trägt sich selbst */
+body[data-page="home"] .hero::after { display: none; }
+body[data-page="home"] .hero-media::after { background: linear-gradient(180deg, rgba(0,0,0,.42) 0%, rgba(0,0,0,.12) 8%, transparent 15%); }
