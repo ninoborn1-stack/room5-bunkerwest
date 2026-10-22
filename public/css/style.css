@@ -217,7 +217,8 @@ html.is-leaving .curtain-label { animation: fadeIn .25s .4s forwards; }
   html.js [data-reveal], html.js [data-stagger] > *, html.js [data-hero-fade] { opacity: 0; }
   html.js [data-split] { visibility: hidden; }
   html.js .hero-title .line > span { transform: translateY(105%); }
-  html.js .hero-media img:not(.hero-color) { opacity: 0; transform: scale(1.1); }
+  html.js .hero-media img:not(.hero-color) { opacity: 0; }
+  html.js body:not([data-page="home"]) .hero-media img { transform: scale(1.1); }
 }
 .split-line { display: inline-block; vertical-align: top; overflow: hidden; padding-bottom: .06em; margin-bottom: -.06em; }
 .split-line > span { display: inline-block; will-change: transform; }
