@@ -1546,3 +1546,23 @@ h1, h2, h3, h4, .display, .h4, .hero-slogan, .manifest { font-synthesis: none; }
 .display { line-height: 1.04; }
 .split-line { padding: .1em 0 .14em; margin: -.1em 0 -.14em; }
 .hero-title .line { padding: .08em 0 .1em; }
+
+/* ==========================================================
+   Eckige Buttons überall
+   ========================================================== */
+.btn, .btn::before, .icon-btn, .toggle-group, .toggle-group button, .chip span, .booking-steps button,
+.stepper, .stepper button, .admin-tabs button, .admin-filter button, .auth-tabs, .auth-tabs button,
+.sp-quick button, .sp-hours button, .combo, .space-pill, .legal-tabs a, .sc-thumbs button, .slider-nav button,
+.menu-cta, .demo-pill, .demo-pill button, .profile-nav button, .wp-nav .icon-btn, .ticket-cta .btn { border-radius: 0 !important; }
+
+/* Hero-CTA: nur Outline */
+.hero .btn-primary { background: transparent; color: #f1ebe5; border: 1px solid rgba(241, 235, 229, .75); }
+.hero .btn-primary::before { background: #f1ebe5; }
+.hero .btn-primary:hover { color: #000; border-color: #f1ebe5; }
+
+/* Handy: Logo mittig im Header */
+@media (max-width: 900px) {
+  .site-header .brand { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); }
+  .site-header .nav-actions { margin-left: auto; }
+}
+.price-card .btn { white-space: normal; height: auto; min-height: var(--h); padding: 12px 18px; text-align: center; line-height: 1.3; }
