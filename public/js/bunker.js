@@ -8,6 +8,40 @@ import { renderEventCards } from './weekplan.js';
 // Grundriss-System ist vorerst versteckt; Kalender übernimmt den Wunschtermin in die Anfrage
 if (FEATURES.spacePlan) import('./floorplan.js').then(({ mountFloorplan }) => { const tpl = $('#tpl-raeume'); tpl.replaceWith(tpl.content); mountFloorplan($('[data-plan-app]')); });
 
+// ---------- Navbar im Hero (Desktop): Logo groß mittig, Navigation rechts.
+// Beim Scrollen gleitet das Logo nach links, Profil/DE-EN/CTA erscheinen, der Hero-CTA fliegt in die Navbar.
+(function heroNav() {
+  const root = document.documentElement;
+  const mq = matchMedia('(min-width: 1181px)');
+  const actions = $('.site-header .nav-actions');
+  const headCta = $('.site-header .nav-actions [data-cta]');
+  const heroCta = $('[data-hero-cta]');
+  const measure = () => root.style.setProperty('--act-w', `${actions.offsetWidth}px`);
+  let mode = null;
+  const update = () => {
+    const hero = mq.matches && scrollY < 40;
+    if (hero === mode) return;
+    const leaving = mode === true && !hero;
+    if (hero) measure();
+    let from = null;
+    if (leaving && heroCta && headCta && !reduced) from = heroCta.getBoundingClientRect();
+    root.classList.toggle('nav-hero', hero);
+    if (from) {
+      const to = headCta.getBoundingClientRect();
+      headCta.animate([
+        { transform: `translate(${from.left - to.left}px, ${from.top - to.top}px)`, opacity: 1 },
+        { transform: 'translate(0, 0)', opacity: 1 },
+      ], { duration: 900, easing: 'cubic-bezier(.16, 1, .3, 1)' });
+    }
+    mode = hero;
+  };
+  root.classList.add('nav-instant');
+  update();
+  requestAnimationFrame(() => requestAnimationFrame(() => root.classList.remove('nav-instant')));
+  addEventListener('scroll', update, { passive: true });
+  addEventListener('resize', () => { mode = null; update(); });
+})();
+
 // ---------- Hero: Tippen/Klicken taucht das Bild in goldenes Licht ----------
 const hero = $('.hero');
 hero.addEventListener('click', (e) => { if (e.target.closest('a, button')) return; hero.classList.toggle('is-lit'); });
