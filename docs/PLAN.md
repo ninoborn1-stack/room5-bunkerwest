@@ -315,3 +315,5 @@ Phase 1 kann sofort starten. Phasen 2–6 bauen aufeinander auf. Vor Phase 7 bra
 - Hero: nur „Create your own space“ + CTA zum Kontakt; Bild heller, Klick/Tippen färbt es golden.
 - Grundriss-System versteckt (`FEATURES.spacePlan = false`, Markup in `<template id="tpl-raeume">`). Stattdessen schlichter Kalender: Termin wählen → landet als „Wunschtermin“ in der Anfrage.
 - Navigation: „Startseite“ statt „Räume“, Menü-Knopf als Plus, das sich zum Kreuz dreht. Navbar bleibt immer sichtbar.
+
+- 22.10.: Selino ist da und eingebunden (public/fonts, aus originals/selino). Nur Regular + Italic – Überschriften laufen in Normalgewicht.

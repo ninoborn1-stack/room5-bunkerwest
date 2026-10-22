@@ -12,6 +12,8 @@
 @font-face { font-family: 'JetBrains Mono'; src: url('../vendor/fonts/jetbrains-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'JetBrains Mono'; src: url('../vendor/fonts/jetbrains-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
 
+@font-face { font-family: 'Selino'; src: url('../fonts/selino-regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'Selino'; src: url('../fonts/selino-italic.woff2') format('woff2'); font-weight: 400; font-style: italic; font-display: swap; }
 @font-face { font-family: 'Bodoni Moda'; src: url('../vendor/fonts/bodoni-moda.woff2') format('woff2'); font-weight: 400 900; font-display: swap; }
 @font-face { font-family: 'Bodoni Moda'; src: url('../vendor/fonts/bodoni-moda-italic.woff2') format('woff2'); font-weight: 400 900; font-style: italic; font-display: swap; }
 @font-face { font-family: 'Courier Prime'; src: url('../vendor/fonts/courier-prime-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
@@ -1298,9 +1300,8 @@ html[lang="en"] .lang-de, html:not([lang="en"]) .lang-en { display: none; }
 
 /* ==========================================================
    BRAND · Bunker West Identity (Dez.) – Farben & Schrift
-   Primärschrift laut Identity: Selino (Reyrey Blue, kommerzielle Lizenz nötig).
-   Bis zur Lizenz: Bodoni Moda (frei, ähnlicher Kontrast). Selino-woff2 nach
-   vendor/fonts legen und 'Selino' vorne in --font-display eintragen – fertig.
+   Primärschrift laut Identity: Selino (Reyrey Blue, lizenziert) – public/fonts/selino-*.woff2
+   (Quelle: originals/selino). Bodoni Moda bleibt nur als Fallback beim Laden.
    Sekundärschrift laut Identity: Courier New -> Courier Prime (frei, selbst gehostet).
    ========================================================== */
 :root, [data-theme="dark"] {
@@ -1337,10 +1338,10 @@ html[data-theme="light"] {
   --img-shade: 241, 235, 229;
 }
 :root {
-  --font-display: 'Bodoni Moda', 'Didot', 'Bodoni 72', Georgia, serif;
+  --font-display: 'Selino', 'Bodoni Moda', 'Didot', Georgia, serif;
   --font-body: 'Courier Prime', 'Courier New', Courier, monospace;
   --font-mono: 'Courier Prime', 'Courier New', Courier, monospace;
-  --font-script: 'Bodoni Moda', Georgia, serif;
+  --font-script: 'Selino', 'Bodoni Moda', Georgia, serif;
 }
 body { font-size: 16px; line-height: 1.6; letter-spacing: -0.005em; }
 
@@ -1350,13 +1351,13 @@ html { font-optical-sizing: none; font-variation-settings: "opsz" 11; }
 .h4, .brand, .marquee-track span, .manifest, .stat b, .panel figcaption b, .price-card .amount, .day .d, .slot-card b,
 .block-opt b, .editor-foot .sum, .cart-total .grand b, .tl-item b.year, .mobile-cartbar b, .member-price b,
 .week-list summary, .ev-date b, .wp-nav b, .wp-lock-card b, .avatar span, .ph-stat b, .bw-facts b {
-  font-weight: 500; letter-spacing: -0.01em;
+  font-weight: 400; letter-spacing: -0.01em; font-synthesis: none;
 }
 .display { line-height: .95; letter-spacing: -0.015em; }
-.h4 { font-weight: 500; font-size: 22px; letter-spacing: 0; }
-.hero-title { font-weight: 500; letter-spacing: -0.02em; line-height: .9; }
+.h4 { font-weight: 400; font-size: 22px; letter-spacing: 0; }
+.hero-title { font-weight: 400; letter-spacing: -0.02em; line-height: .9; }
 .big-cta .huge, .footer-word { letter-spacing: -0.02em; line-height: .9; }
-.manifest { font-weight: 500; line-height: 1.12; letter-spacing: -0.015em; }
+.manifest { font-weight: 400; line-height: 1.12; letter-spacing: -0.015em; }
 .price-card .amount { letter-spacing: -0.02em; }
 /* "Outline"-Wörter werden zur Selino-Italic-Geste der Identity */
 .outline, .big-cta .huge .o, .hero-title .outline-hero { -webkit-text-stroke: 0 !important; color: var(--accent) !important; font-style: italic; paint-order: normal; }
@@ -1421,7 +1422,7 @@ html { font-optical-sizing: none; font-variation-settings: "opsz" 11; }
 .sess-panel.is-on { border-color: color-mix(in srgb, var(--accent) 55%, transparent); }
 .sp-head { display: grid; grid-template-columns: auto 1fr auto; gap: 12px; align-items: center; }
 .sp-head > svg { width: 22px; height: 22px; color: var(--accent); }
-.sp-head b { display: block; font-family: var(--font-display); font-weight: 500; font-size: 22px; line-height: 1.1; }
+.sp-head b { display: block; font-family: var(--font-display); font-weight: 400; font-size: 22px; line-height: 1.1; }
 .sp-head .mono { font-size: 12px; }
 .sp-sum { font-size: 14px; text-align: right; }
 .sp-quick { display: grid; gap: 6px; }
@@ -1479,7 +1480,7 @@ html:not(.header-hidden) .profile-nav { top: var(--header-h); }
 /* ==========================================================
    Minimal-Hero: Slogan + CTA, helleres Bild, Klick = goldenes Licht
    ========================================================== */
-.hero-slogan { font-family: var(--font-display); font-weight: 500; font-size: clamp(56px, 10.5vw, 176px); line-height: .92; letter-spacing: -0.025em; margin: 0; max-width: 11ch; color: #f1ebe5; }
+.hero-slogan { font-family: var(--font-display); font-weight: 400; font-size: clamp(56px, 10.5vw, 176px); line-height: .92; letter-spacing: -0.025em; margin: 0; max-width: 11ch; color: #f1ebe5; }
 .hero-slogan .hl { display: inline-block; }
 .hero-slogan em { font-style: italic; color: var(--accent); }
 .hero-tap { position: absolute; right: var(--gutter); bottom: clamp(40px, 7vh, 80px); font-size: 11px; letter-spacing: .22em; text-transform: uppercase; color: rgba(241, 235, 229, .55); }
@@ -1530,7 +1531,7 @@ body[data-page="home"] .hero-media::before { content: ''; position: absolute; in
 @media (max-width: 600px) { .hero-tap { position: static; display: block; margin-top: 22px; } }
 
 /* Slogan immer einzeilig, passend zur Breite */
-.hero-slogan { white-space: nowrap; max-width: none; font-size: min(calc((100vw - 2 * var(--gutter)) / 10.4), 92px); line-height: 1; }
+.hero-slogan { white-space: nowrap; max-width: none; font-size: min(calc((100vw - 2 * var(--gutter)) / 11.5), 88px); line-height: 1.05; }
 .hero-slogan .hl { display: inline; }
 /* Handy: Bild weniger beschnitten (niedrigerer Hero, kein Zoom) */
 @media (max-width: 700px) {
@@ -1538,3 +1539,10 @@ body[data-page="home"] .hero-media::before { content: ''; position: absolute; in
   body[data-page="home"] .hero-media img { object-position: 42% 50%; }
 }
 .hero-slogan { text-shadow: 0 2px 28px rgba(0, 0, 0, .45); }
+
+/* Selino (Primärschrift laut Identity) – nur Regular & Italic vorhanden: nie künstlich fett rechnen */
+h1, h2, h3, h4, .display, .h4, .hero-slogan, .manifest { font-synthesis: none; }
+/* Selino hat höhere Ober-/Unterlängen: Überschriftenzeilen nicht abschneiden */
+.display { line-height: 1.04; }
+.split-line { padding: .1em 0 .14em; margin: -.1em 0 -.14em; }
+.hero-title .line { padding: .08em 0 .1em; }
