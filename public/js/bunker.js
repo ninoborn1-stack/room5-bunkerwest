@@ -31,10 +31,6 @@ $('[data-visit-info]').innerHTML = [
   ScrollTrigger.refresh();
 })();
 
-// ---------- Laufband ----------
-const track = $('[data-marquee]');
-track.innerHTML += track.innerHTML; icons(track);
-
 // ---------- Galerie: Pfeile, Wischen (nur horizontal), automatischer Durchlauf ----------
 (function slider() {
   const root = $('[data-slider]'); if (!root) return;
